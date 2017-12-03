@@ -50,7 +50,13 @@ public class TrylmaServer {
         }
 
         public void run() {
+            try {
+                while (input.readLine() != "bye") {
+                    output.println("doszło cos");
+                }
+            } catch (IOException e) {
 
+            }
         }
     }
 }
