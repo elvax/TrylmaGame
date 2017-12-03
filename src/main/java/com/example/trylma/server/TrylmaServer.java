@@ -1,5 +1,7 @@
 package com.example.trylma.server;
 
+import com.example.trylma.model.Game;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,11 +16,15 @@ public class TrylmaServer {
     private List<PlayerThread> clietnsThreadsList = new ArrayList<PlayerThread>();
 
 
-    public static void main(String[] args) throws Exception {
+    public void main(String[] args) throws Exception {
         ServerSocket listener = new ServerSocket(portNumber);
         System.out.println("Trylma server is running");
         try {
-
+            while (true) {
+                Game game = new Game();
+                clietnsThreadsList.add(new PlayerThread(listener.accept()));
+                // start all threads from the list
+            }
         } finally {
             listener.close();
         }
