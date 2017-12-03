@@ -1,6 +1,9 @@
 package com.example.trylma.server;
 
+import java.io.BufferedReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
+import java.net.Socket;
 
 public class TrylmaServer {
     public static final int portNumber = 5555;
@@ -15,4 +18,10 @@ public class TrylmaServer {
             listener.close();
         }
     }
+
+
+    private class PlayerThread extends Thread{
+
+    }
 }
+
