@@ -1,9 +1,14 @@
 package com.example.trylma.client;
 
+import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
+import java.awt.event.KeyEvent;
+import javax.swing.Box;
 import javax.swing.JFrame;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 class Frame extends JFrame {
@@ -28,10 +33,13 @@ class Frame extends JFrame {
 		setResizable(false);
 		
 		/**
-		 * Creating the "New Game" button, which gives an opportunity 
+		 * Creating the "New Game" item, which gives an opportunity 
 		 * to choose the number of players.
 		 */
-		JButton newGameButton = new JButton("New Game");
+		JMenuBar menubar = new JMenuBar();
+		JMenuItem newGameButton = new JMenuItem("New Game");
+		newGameButton.setBackground(new Color(204, 204, 204));
+		newGameButton.setMnemonic(KeyEvent.VK_E);
 		newGameButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Object[] possibilities = {"2", "3", "4", "6"};
@@ -49,14 +57,16 @@ class Frame extends JFrame {
 				}
 			}
 		});
-		newGameButton.setBounds(0, 0, 100, 30);
-		add(newGameButton);
+		menubar.add(newGameButton);
 		
 		/**
-		 * Creating the "Help" button, which gives users basic information 
+		 * Creating the "Help" item, which gives users basic information 
 		 * about the application
 		 */
-		JButton helpGameButton = new JButton("Help");
+		 
+		JMenuItem helpGameButton = new JMenuItem("Help");
+		helpGameButton.setMnemonic(KeyEvent.VK_E);
+		helpGameButton.setBackground(new Color(204, 204, 204));
 		helpGameButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Chinese checkers is a strategy board game of German origin,\n"
@@ -66,8 +76,12 @@ class Frame extends JFrame {
 						+ " or moves that jump over other pieces.\n", "Help", JOptionPane.INFORMATION_MESSAGE);	
 			}
 		});
-		helpGameButton.setBounds(100, 0, 100, 30);
-		add(helpGameButton);
+		menubar.add(helpGameButton);
+		menubar.add(Box.createHorizontalGlue());
+        menubar.add(Box.createHorizontalGlue());
+        menubar.add(Box.createHorizontalGlue());
+        menubar.add(Box.createHorizontalGlue());
+        setJMenuBar(menubar);
 		
 		Panel panel = new Panel();
 		add(panel);
