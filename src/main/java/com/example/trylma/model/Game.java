@@ -1,7 +1,5 @@
 package com.example.trylma.model;
 
-import com.example.trylma.client.Player;
-
 public class Game {
     /**
      * A board has 61 fields
@@ -13,7 +11,7 @@ public class Game {
     /**
      * The current player
      */
-    private Player currentPlayer;
+
 
     /**
      * Returns whether the current state of the board is such that one of the players is a winner

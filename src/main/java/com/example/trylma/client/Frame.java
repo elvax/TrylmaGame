@@ -72,7 +72,7 @@ class Frame extends JFrame {
 				JOptionPane.showMessageDialog(null, "Chinese checkers is a strategy board game of German origin,\n"
 						+"which can be played by two, three, four, or six people.\n"
 						+"The objective is to be first to race all of one's pieces across the hexagram-shaped board\n"
-						+ "into the corner of the star opposite one's starting corner—using single-step moves\n"
+						+ "into the corner of the star opposite one's starting cornerï¿½using single-step moves\n"
 						+ " or moves that jump over other pieces.\n", "Help", JOptionPane.INFORMATION_MESSAGE);	
 			}
 		});
@@ -85,6 +85,10 @@ class Frame extends JFrame {
 		
 		Panel panel = new Panel();
 		add(panel);
+	}
+
+	public static void main(String[] args) {
+		new Frame().setVisible(true);
 	}
 }
 
