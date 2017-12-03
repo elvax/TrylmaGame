@@ -6,9 +6,12 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TrylmaServer {
     public static final int portNumber = 5555;
+    private List<PlayerThread> clietnsThreadsList = new ArrayList<PlayerThread>();
 
 
     public static void main(String[] args) throws Exception {
@@ -22,7 +25,7 @@ public class TrylmaServer {
     }
 
 
-    private class PlayerThread extends Thread{
+    private class PlayerThread extends Thread {
         String name;
         Socket socket;
         BufferedReader input;
