@@ -12,52 +12,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TrylmaServer {
+    ServerSocket serverSocket;
     public static final int portNumber = 5555;
     private List<PlayerThread> clietnsThreadsList = new ArrayList<PlayerThread>();
 
-
-    public void main(String[] args) throws Exception {
-        ServerSocket listener = new ServerSocket(portNumber);
-        System.out.println("Trylma server is running");
+    public TrylmaServer() {
         try {
-            while (true) {
-                Game game = new Game();
-                clietnsThreadsList.add(new PlayerThread(listener.accept()));
-                // start all threads from the list
-            }
-        } finally {
-            listener.close();
+            serverSocket = new ServerSocket(portNumber);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    private void waitForClients() throws IOException{
+        System.out.println("Server is waiting for clients");
+        while (true) {
+            clietnsThreadsList.add(new PlayerThread(serverSocket.accept()));
         }
     }
 
-
-    private class PlayerThread extends Thread {
-        String name;
-        Socket socket;
-        BufferedReader input;
-        PrintWriter output;
-
-        public PlayerThread(Socket socket) {
-            this.socket = socket;
-            try {
-                input = new BufferedReader(
-                        new InputStreamReader(socket.getInputStream()));
-                output = new PrintWriter(socket.getOutputStream(), true);
-                output.println("WELCOME playerThread");
-            } catch (IOException e) {
-                System.err.println(e);
-            }
-        }
-
-        public void run() {
-            try {
-                while (input.readLine() != "bye") {
-                    output.println("doszło cos");
-                }
-            } catch (IOException e) {
-
-            }
-        }
+    public static void main(String[] args) throws Exception {
+        TrylmaServer server = new TrylmaServer();
+        server.waitForClients();
     }
 }
 
