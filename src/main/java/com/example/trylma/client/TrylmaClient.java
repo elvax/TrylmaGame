@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.Buffer;
 
 /**
  *
@@ -15,6 +16,9 @@ public class TrylmaClient {
     private Socket socket;
     BufferedReader input;
     PrintWriter output;
+    String fromServer;
+    String fromUser;
+    BufferedReader StdIn;
 
 
 
@@ -30,11 +34,16 @@ public class TrylmaClient {
         output = new PrintWriter(socket.getOutputStream(), true);
         input = new BufferedReader(
                 new InputStreamReader(socket.getInputStream()));
+        StdIn = new BufferedReader(new InputStreamReader(System.in));
 
         // Process all messages from server
-        while (true) {
-            String line = input.readLine();
-            System.out.println(line);
+        while (!(fromServer = input.readLine()).equals("koniec")) {
+            System.out.println(fromServer);
+            fromUser = StdIn.readLine();
+            if (fromUser != null) {
+                System.out.println("From user: " + fromUser);
+                output.println(fromUser);
+            }
         }
 
     }
