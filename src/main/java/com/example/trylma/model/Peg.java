@@ -11,5 +11,6 @@ public class Peg {
     int xDraw;
     int yDraw;
     Image image;
-    String owner;
+    int ownerID;
+
 }
