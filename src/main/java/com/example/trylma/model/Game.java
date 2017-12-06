@@ -1,6 +1,9 @@
 package com.example.trylma.model;
 
 public class Game {
+    private final int I_BOARD_SIZE = 17;
+    private final int J_BOARD_SIZE = 13;
+
     /**
      * A board has 61 fields
      */
@@ -22,7 +25,7 @@ public class Game {
     }
 
     public void initalizeBoard() {
-        board = new Peg[17][13];
+        board = new Peg[I_BOARD_SIZE][J_BOARD_SIZE];
 
         int i = 0;
         for(int j=0; j<6; j++) { board[i][j]=new Peg(i,j,-1); }
