@@ -23,4 +23,12 @@ public class Peg {
         xDraw = x;
         yDraw = y;
     }
+
+    public int getxDraw() {
+        return xDraw;
+    }
+
+    public int getyDraw() {
+        return yDraw;
+    }
 }
