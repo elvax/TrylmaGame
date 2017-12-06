@@ -11,5 +11,11 @@ public class Peg {
     int xDraw;
     int yDraw;
     Image image;
-    String owner;
+    int ownerID;
+
+    public Peg(int i, int j, int ownerID) {
+        this.i = i;
+        this.j = j;
+        this.ownerID = ownerID;
+    }
 }
