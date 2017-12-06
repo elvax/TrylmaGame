@@ -18,4 +18,9 @@ public class Peg {
         this.j = j;
         this.ownerID = ownerID;
     }
+
+    public void setXY(int x, int y) {
+        xDraw = x;
+        yDraw = y;
+    }
 }
