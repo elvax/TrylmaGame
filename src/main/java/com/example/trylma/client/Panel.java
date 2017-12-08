@@ -1,5 +1,8 @@
 package com.example.trylma.client;
 
+import com.example.trylma.model.Game;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -10,6 +13,9 @@ import javax.swing.JLabel;
 public class Panel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+
+	//TODO usunac
+	Game board = new Game();
 
 	/**
 	 * Create a JPanel.
@@ -56,5 +62,11 @@ public class Panel extends JPanel {
 		label4.setIcon(icon4);
 		add(label4);
 
+	}
+
+
+	public void paint(Graphics graphics) {
+		super.paint(graphics);
+		board.doDraw(graphics);
 	}
 }
