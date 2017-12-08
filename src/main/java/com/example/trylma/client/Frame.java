@@ -30,7 +30,7 @@ class Frame extends JFrame {
 	private void initialize() {
 		setBounds(100, 100, 700, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
+		setResizable(true);
 		
 		/**
 		 * Creating the "New Game" item, which gives an opportunity 
