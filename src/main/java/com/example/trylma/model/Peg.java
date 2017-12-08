@@ -31,4 +31,8 @@ public class Peg {
     public int getyDraw() {
         return yDraw;
     }
+
+    public int getOwnerID() {
+        return ownerID;
+    }
 }
