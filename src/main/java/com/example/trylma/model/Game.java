@@ -1,5 +1,8 @@
 package com.example.trylma.model;
 
+import java.awt.*;
+import java.util.GregorianCalendar;
+
 public class Game {
     private final int I_BOARD_SIZE = 17;
     private final int J_BOARD_SIZE = 13;
@@ -10,6 +13,11 @@ public class Game {
     // TODO 1.ogarnac sposob na przechowanie lista czy 1- czy 2- wymiarowa tablica
     // 2. czy kazde pole ma byc zainicjalizowanie Peg czy Peg tylko tam gdzie gracze maja pionki a reszta to null
     private Peg[][] board;
+
+    public Game() {
+        initalizeBoard();
+        setXYDraws();
+    }
 
     /**
      * The current player
@@ -30,88 +38,142 @@ public class Game {
         int i = 0;
         for(int j=0; j<6; j++) { board[i][j]=new Peg(i,j,-1); }
         board[i][6] = new Peg(i, 6, 0);
-        for(int j=0; j<6; j++) { board[i][j]=new Peg(i,j,-1); }
+        for(int j=7; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
 
-        ++i;
+        i=1;
         for(int j=0; j<6; j++) { board[i][j]=new Peg(i,j,-1); }
         for(int j=6; j<8; j++) { board[i][j]=new Peg(i,j,0); }
         for(int j=8; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
 
-        ++i;
+        i=2;
         for(int j=0; j<5; j++) { board[i][j]=new Peg(i,j,-1); }
         for(int j=5; j<8; j++) { board[i][j]=new Peg(i,j,0); }
         for(int j=8; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
 
-        ++i;
+        i=3;
         for(int j=0; j<5; j++) { board[i][j]=new Peg(i,j,-1); }
         for(int j=5; j<9; j++) { board[i][j]=new Peg(i,j,0); }
         for(int j=9; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
 
-        ++i;
+        i=4;
        // for(int j=0; j<5; j++) { board[i][j]=new Peg(i,j,-1); }
         for(int j=0; j<13; j++) { board[i][j]=new Peg(i,j,0); }
        // for(int j=9; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
 
-        ++i;
-       // for(int j=0; j<5; j++) { board[i][j]=new Peg(i,j,-1); }
-        for(int j=5; j<12; j++) { board[i][j]=new Peg(i,j,0); }
-        for(int j=12; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
-
-        ++i;
-        for(int j=0; j<1; j++) { board[i][j]=new Peg(i,j,-1); }
-        for(int j=1; j<12; j++) { board[i][j]=new Peg(i,j,0); }
-        for(int j=12; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
-
-        ++i;
-        for(int j=0; j<1; j++) { board[i][j]=new Peg(i,j,-1); }
-        for(int j=1; j<11; j++) { board[i][j]=new Peg(i,j,0); }
-        for(int j=11; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
-
-        ++i;
-        for(int j=0; j<2; j++) { board[i][j]=new Peg(i,j,-1); }
-        for(int j=2; j<11; j++) { board[i][j]=new Peg(i,j,0); }
-        for(int j=11; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
-
-        ++i;
-        for(int j=0; j<2; j++) { board[i][j]=new Peg(i,j,-1); }
-        for(int j=2; j<12; j++) { board[i][j]=new Peg(i,j,0); }
-        for(int j=12; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
-
-        ++i;
-        for(int j=0; j<1; j++) { board[i][j]=new Peg(i,j,-1); }
-        for(int j=1; j<12; j++) { board[i][j]=new Peg(i,j,0); }
-        for(int j=12; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
-
-        ++i;
+        i=5;
         for(int j=0; j<1; j++) { board[i][j]=new Peg(i,j,-1); }
         for(int j=1; j<13; j++) { board[i][j]=new Peg(i,j,0); }
        // for(int j=12; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
 
-        ++i;
+        i=6;
+        for(int j=0; j<1; j++) { board[i][j]=new Peg(i,j,-1); }
+        for(int j=1; j<12; j++) { board[i][j]=new Peg(i,j,0); }
+        for(int j=12; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
+
+        i=7;
+        for(int j=0; j<2; j++) { board[i][j]=new Peg(i,j,-1); }
+        for(int j=2; j<12; j++) { board[i][j]=new Peg(i,j,0); }
+        for(int j=12; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
+
+        i=8;
+        for(int j=0; j<2; j++) { board[i][j]=new Peg(i,j,-1); }
+        for(int j=2; j<11; j++) { board[i][j]=new Peg(i,j,0); }
+        for(int j=11; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
+
+        i=9;
+        for(int j=0; j<2; j++) { board[i][j]=new Peg(i,j,-1); }
+        for(int j=2; j<12; j++) { board[i][j]=new Peg(i,j,0); }
+        for(int j=12; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
+
+        i=10;
+        for(int j=0; j<1; j++) { board[i][j]=new Peg(i,j,-1); }
+        for(int j=1; j<12; j++) { board[i][j]=new Peg(i,j,0); }
+        for(int j=12; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
+
+        i=11;
+        for(int j=0; j<1; j++) { board[i][j]=new Peg(i,j,-1); }
+        for(int j=1; j<13; j++) { board[i][j]=new Peg(i,j,0); }
+       // for(int j=12; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
+
+        i=12;
       //  for(int j=0; j<1; j++) { board[i][j]=new Peg(i,j,-1); }
         for(int j=0; j<13; j++) { board[i][j]=new Peg(i,j,0); }
         // for(int j=12; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
 
-        ++i;
+        i=13;
         for(int j=0; j<5; j++) { board[i][j]=new Peg(i,j,-1); }
         for(int j=5; j<9; j++) { board[i][j]=new Peg(i,j,0); }
         for(int j=9; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
 
-        ++i;
+        i=14;
         for(int j=0; j<5; j++) { board[i][j]=new Peg(i,j,-1); }
         for(int j=5; j<8; j++) { board[i][j]=new Peg(i,j,0); }
         for(int j=8; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
 
-        ++i;
+        i=15;
         for(int j=0; j<6; j++) { board[i][j]=new Peg(i,j,-1); }
         for(int j=6; j<8; j++) { board[i][j]=new Peg(i,j,0); }
         for(int j=8; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
 
-        ++i;
+        i=16;
         for(int j=0; j<6; j++) { board[i][j]=new Peg(i,j,-1); }
         board[i][6] = new Peg(i, 6, 0);
-        for(int j=0; j<6; j++) { board[i][j]=new Peg(i,j,-1); }
+        for(int j=7; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
+    }
+
+    private void setXYDraws() {
+        for(int i=0; i<I_BOARD_SIZE; i++) {
+            for(int j=0; j<J_BOARD_SIZE; j++) {
+                if (i % 2 == 0) {
+                    board[i][j].setXY((j * 40) - 5, (i * 40) - 5);
+                } else {
+                    board[i][j].setXY((j * 40) - 40/2 - 5, (i * 40) - 5);
+                }
+            }
+        }
+    }
+
+    public void doDraw(Graphics g) {
+
+        for(int i=0; i<I_BOARD_SIZE; i++) {
+            for(int j=0; j<J_BOARD_SIZE; j++) {
+                if ( board[i][j].getOwnerID() == 0) {
+                    g.setColor(Color.MAGENTA);
+                    g.fillOval(board[i][j].getxDraw(), board[i][j].getyDraw(), 30, 30);
+                }
+            }
+        }
+//        for(int i=0; i<I_BOARD_SIZE; i++) {
+//            for(int j=0; j<J_BOARD_SIZE; j++) {
+//                if (board[2][j].getOwnerID() == 0) {
+//                    g.setColor(Color.MAGENTA);
+//                    g.fillOval(board[i][j].getxDraw(), board[i][j].getyDraw(), 30, 30);   //board[2][j].getxDraw()
+//                }
+//            }
+//        }
+
+    }
+
+    public void printBoard() {
+        for(int i=0; i<I_BOARD_SIZE; i++) {
+            for (int j = 0; j < J_BOARD_SIZE; j++) {
+                if(board[i][j].getOwnerID() == -1){
+                    System.out.print("+");}
+                else{
+                    System.out.print("0");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        Game game = new Game();
+        game.printBoard();
     }
 
 
 }
+
+
+
