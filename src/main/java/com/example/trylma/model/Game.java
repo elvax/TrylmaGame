@@ -32,6 +32,30 @@ public class Game {
         return false;
     }
 
+
+    /**
+     * Fills board with Peg instances
+     *  ++++++0++++++
+     *  ++++++00+++++
+     *  +++++000+++++
+     *  +++++0000++++
+     *  0000000000000
+     *  +000000000000
+     *  +00000000000+
+     *  ++0000000000+
+     *  ++000000000++
+     *  ++0000000000+
+     *  +00000000000+
+     *  +000000000000
+     *  0000000000000
+     *  +++++0000++++
+     *  +++++000+++++
+     *  ++++++00+++++
+     *  ++++++0++++++
+     * Where 0 means "0" was passed to ownerId
+     * and + means "-1" wass passed to ownerID
+     * in constructor
+     */
     public void initalizeBoard() {
         board = new Peg[I_BOARD_SIZE][J_BOARD_SIZE];
 
