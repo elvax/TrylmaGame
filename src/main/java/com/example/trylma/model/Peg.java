@@ -19,10 +19,14 @@ public class Peg {
     final int size = 30;
 
     public Peg(int i, int j, int ownerID) {
-        this.i = i;
-        this.j = j;
-        this.ownerID = ownerID;
-        setImage();
+        try {
+            this.i = i;
+            this.j = j;
+            this.ownerID = ownerID;
+            setImage();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setXY(int x, int y) {
@@ -42,18 +46,18 @@ public class Peg {
         return ownerID;
     }
 
-    private void setImage() {
-        try {
+    private void setImage() throws IOException{
+        if (ownerID == -1) {
+            image = null;
+        } else if (ownerID == 0) {
             image = ImageIO.read(new File("src/main/resources/white.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
     public void doDraw(Graphics g) {
-        Graphics g2 = g.create();
-        g2.drawImage(image, xDraw, yDraw, size, size, null);
-        g2.dispose();
+            Graphics g2 = g.create();
+            g2.drawImage(image, xDraw, yDraw, size, size, null);
+            g2.dispose();
     }
 
 
