@@ -88,9 +88,5 @@ class Frame extends JFrame {
 		Panel panel = new Panel();
 		add(panel);
 	}
-
-	/*public static void main(String[] args) {
-		new Frame().setVisible(true);
-	}*/
 }
 

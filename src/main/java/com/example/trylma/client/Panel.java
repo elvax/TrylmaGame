@@ -46,8 +46,15 @@ public class Panel extends JPanel {
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println(e.getX());
-				System.out.println(e.getY());
+				whenMouseClicked(e);
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				whenMousePressed(e);
+			}
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				whenMouseReleased(e);
 			}
 		});
 	}
@@ -57,4 +64,13 @@ public class Panel extends JPanel {
 		super.paint(graphics);
 		board.doDraw(graphics);
 	}
+
+	private void whenMouseClicked(MouseEvent e){
+		System.out.println(e.getX());
+		System.out.println(e.getY());
+	}
+
+	private void whenMouseReleased(MouseEvent e){ }
+
+	private void whenMousePressed(MouseEvent e){ }
 }
