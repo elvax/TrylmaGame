@@ -19,11 +19,11 @@ public class TrylmaClient {
     String fromServer;
     String fromUser;
     BufferedReader StdIn;
-
+    Frame frame;
 
 
     public TrylmaClient() {
-        //TODO odpalic GUI
+        frame = new Frame();
     }
 
     private void run() throws IOException {
@@ -50,6 +50,7 @@ public class TrylmaClient {
 
     public static void main(String[] args) throws Exception{
         TrylmaClient client = new TrylmaClient();
+        client.frame.setVisible(true);
         client.run();
     }
 
