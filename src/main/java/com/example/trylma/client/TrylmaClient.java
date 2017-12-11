@@ -26,7 +26,6 @@ public class TrylmaClient {
 
     public TrylmaClient() {
         frame = new Frame();
-        frame.setVisible(true);
     }
 
     private void run() throws IOException {
@@ -58,6 +57,8 @@ public class TrylmaClient {
         } catch (Exception e) {
             System.err.println(e);
         }
+
+        client.frame.setVisible(true);
 
     }
 
