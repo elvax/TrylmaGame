@@ -51,9 +51,14 @@ public class TrylmaClient {
 
     }
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args){
         TrylmaClient client = new TrylmaClient();
-        client.run();
+        try {
+            client.run();
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+
     }
 
 }
