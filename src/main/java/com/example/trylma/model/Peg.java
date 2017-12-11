@@ -50,7 +50,7 @@ public class Peg {
         if (ownerID == -1) {
             image = null;
         } else if (ownerID == 0) {
-            image = ImageIO.read(new File("src/main/resources/white.png"));
+            image = ImageIO.read(new File("src/main/resources/transparent.png"));
         }
     }
 
