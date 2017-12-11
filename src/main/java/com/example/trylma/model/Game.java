@@ -137,9 +137,7 @@ public class Game {
 
         for(int i=0; i<I_BOARD_SIZE; i++) {
             for(int j=0; j<J_BOARD_SIZE; j++) {
-                if ( board[i][j].getOwnerID() == 0) {
                     board[i][j].doDraw(g);
-                }
             }
         }
 
@@ -149,8 +147,8 @@ public class Game {
         for(int i=0; i<I_BOARD_SIZE; i++) {
             for (int j = 0; j < J_BOARD_SIZE; j++) {
                 if(board[i][j].getOwnerID() == -1){
-                    System.out.print("+");}
-                else{
+                    System.out.print("+");
+                } else{
                     System.out.print("0");
                 }
             }
