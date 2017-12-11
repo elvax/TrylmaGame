@@ -28,7 +28,7 @@ class Frame extends JFrame {
 	 * two menu buttons and panel with EndTrun's button
 	 */
 	private void initialize() {
-		setBounds(100, 100, 700, 600);
+		setSize(700, 700);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
 		
