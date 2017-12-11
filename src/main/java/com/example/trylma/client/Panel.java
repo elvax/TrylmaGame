@@ -30,6 +30,7 @@ public class Panel extends JPanel {
 	 */
 	private void initialize() {
 		setLayout(null);
+		setBackground(Color.LIGHT_GRAY);
 		
 		JButton endTurnButton = new JButton("End Turn");
 		endTurnButton.addActionListener(new ActionListener() {
@@ -40,27 +41,6 @@ public class Panel extends JPanel {
 		endTurnButton.setBounds(500, 30, 100, 30);
 		add(endTurnButton);
 
-		//do wyrzucenia w przyszlosci obrazuje jedynie przezroczystosc ikon :D 
-		ImageIcon icon = new ImageIcon("src/main/resources/r.png");
-		JLabel label = new JLabel();
-		label.setBounds(200, 20, 35, 35);
-		label.setIcon(icon);
-		add(label);
-		ImageIcon icon2 = new ImageIcon("src/main/resources/y.png");
-		JLabel label2 = new JLabel();
-		label2.setBounds(200+35, 20, 35, 35);
-		label2.setIcon(icon2);
-		add(label2);
-		ImageIcon icon3 = new ImageIcon("src/main/resources/g.png");
-		JLabel label3 = new JLabel();
-		label3.setBounds(200+70, 20, 35, 35);
-		label3.setIcon(icon3);
-		add(label3);
-		ImageIcon icon4 = new ImageIcon("src/main/resources/p.png");
-		JLabel label4 = new JLabel();
-		label4.setBounds(200+105, 20, 35, 35);
-		label4.setIcon(icon4);
-		add(label4);
 
 	}
 
