@@ -14,6 +14,8 @@ import javax.swing.JOptionPane;
 class Frame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	private final int X_SIZE = 700;
+	private final int Y_SIZE = 700;
 
 	/**
 	 * Create the application.
@@ -28,7 +30,7 @@ class Frame extends JFrame {
 	 * two menu buttons and panel with EndTrun's button
 	 */
 	private void initialize() {
-		setSize(700, 700);
+		setSize(X_SIZE, Y_SIZE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
 		
