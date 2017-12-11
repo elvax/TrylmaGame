@@ -125,9 +125,9 @@ public class Game {
         for(int i=0; i<I_BOARD_SIZE; i++) {
             for(int j=0; j<J_BOARD_SIZE; j++) {
                 if (i % 2 == 0) {
-                    board[i][j].setXY((j * 40) - 5, (i * 40) - 5);
+                    board[i][j].setXY((j * 40) + 2, (i * 40) + 2);
                 } else {
-                    board[i][j].setXY((j * 40) - 40/2 - 5, (i * 40) - 5);
+                    board[i][j].setXY((j * 40) - 40/2 + 2, (i * 40) + 2);
                 }
             }
         }
@@ -138,19 +138,10 @@ public class Game {
         for(int i=0; i<I_BOARD_SIZE; i++) {
             for(int j=0; j<J_BOARD_SIZE; j++) {
                 if ( board[i][j].getOwnerID() == 0) {
-                    g.setColor(Color.MAGENTA);
-                    g.fillOval(board[i][j].getxDraw(), board[i][j].getyDraw(), 30, 30);
+                    board[i][j].doDraw(g);
                 }
             }
         }
-//        for(int i=0; i<I_BOARD_SIZE; i++) {
-//            for(int j=0; j<J_BOARD_SIZE; j++) {
-//                if (board[2][j].getOwnerID() == 0) {
-//                    g.setColor(Color.MAGENTA);
-//                    g.fillOval(board[i][j].getxDraw(), board[i][j].getyDraw(), 30, 30);   //board[2][j].getxDraw()
-//                }
-//            }
-//        }
 
     }
 
