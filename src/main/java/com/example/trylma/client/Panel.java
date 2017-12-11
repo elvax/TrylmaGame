@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Panel extends JPanel {
 
@@ -26,7 +28,7 @@ public class Panel extends JPanel {
 	
 	/**
 	 * Initialize the contents of the frame, which includes 
-	 * EndTrun's button and the board.
+	 * EndTrun's button and the board and MouseListener.
 	 */
 	private void initialize() {
 		setLayout(null);
@@ -41,7 +43,13 @@ public class Panel extends JPanel {
 		endTurnButton.setBounds(500, 30, 100, 30);
 		add(endTurnButton);
 
-
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println(e.getX());
+				System.out.println(e.getY());
+			}
+		});
 	}
 
 
