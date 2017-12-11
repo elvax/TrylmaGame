@@ -19,18 +19,21 @@ public class TrylmaClient {
     String fromServer;
     String fromUser;
     BufferedReader StdIn;
+    String hostName = "localhost";
+    Frame frame;
 
 
 
     public TrylmaClient() {
-        //TODO odpalic GUI
+        frame = new Frame();
+        frame.setVisible(true);
     }
 
     private void run() throws IOException {
         //TODO zrobic jakies gettery na paramtery do tworzenia socketu
 
         // Make connection and initialize streams
-        Socket socket = new Socket("localhost", TrylmaServer.portNumber);
+        Socket socket = new Socket(hostName, TrylmaServer.portNumber);
         output = new PrintWriter(socket.getOutputStream(), true);
         input = new BufferedReader(
                 new InputStreamReader(socket.getInputStream()));
