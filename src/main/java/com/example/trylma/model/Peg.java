@@ -1,6 +1,10 @@
 package com.example.trylma.model;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 /*
  * Every peg has his owner and imformations needed to draw itself
@@ -10,13 +14,15 @@ public class Peg {
     int j;
     int xDraw;
     int yDraw;
-    Image image;
+    private BufferedImage image;
     int ownerID;
+    final int size = 30;
 
     public Peg(int i, int j, int ownerID) {
         this.i = i;
         this.j = j;
         this.ownerID = ownerID;
+        setImage();
     }
 
     public void setXY(int x, int y) {
@@ -35,4 +41,20 @@ public class Peg {
     public int getOwnerID() {
         return ownerID;
     }
+
+    private void setImage() {
+        try {
+            image = ImageIO.read(new File("src/main/resources/white.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void doDraw(Graphics g) {
+        Graphics g2 = g.create();
+        g2.drawImage(image, xDraw, yDraw, size, size, null);
+        g2.dispose();
+    }
+
+
 }
