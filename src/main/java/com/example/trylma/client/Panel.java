@@ -1,6 +1,7 @@
 package com.example.trylma.client;
 
 import com.example.trylma.model.Game;
+import com.example.trylma.model.Peg;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -66,6 +67,14 @@ public class Panel extends JPanel {
 	}
 
 	private void whenMouseClicked(MouseEvent e){
+		/*for(int i=0; i<17; i++) {
+			for(int j=0; j<13; j++) {
+				Peg p = board.getPeg(i,j);
+				if(p.isClicked(e.getX(),e.getY()) == true){
+					System.out.println(i + " " + j + "kilikety" );
+				}
+			}
+		}*/
 		System.out.println(e.getX());
 		System.out.println(e.getY());
 	}
