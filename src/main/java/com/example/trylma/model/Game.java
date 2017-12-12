@@ -180,6 +180,11 @@ public class Game {
         }
     }
 
+    //trzeba poprawic zeby wyrzucal exception
+    public Peg getPeg(int i, int j){
+        return board[i][j];
+    }
+
     public static void main(String[] args) {
         Game game = new Game();
         game.printBoard();
