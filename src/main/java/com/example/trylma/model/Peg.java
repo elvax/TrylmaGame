@@ -17,6 +17,7 @@ public class Peg {
     private BufferedImage image;
     int ownerID;
     final int size = 30;
+    final int radius = 15;
 
     public Peg(int i, int j, int ownerID) {
         try {
@@ -63,7 +64,7 @@ public class Peg {
     public boolean isClicked(int x, int y){
         int x_c = this.xDraw + 15;
         int y_c = this.yDraw + 15;
-        int sqrt_radius = 15*15;
+        int sqrt_radius = this.radius*this.radius;
         int result = (x - x_c)*(x - x_c) + (y - y_c)*(y - y_c);
         if( result <= sqrt_radius ){
             return true;
