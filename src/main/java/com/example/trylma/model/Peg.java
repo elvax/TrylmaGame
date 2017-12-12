@@ -60,5 +60,18 @@ public class Peg {
             g2.dispose();
     }
 
+    public boolean isClicked(int x, int y){
+        int x_c = this.xDraw + 15;
+        int y_c = this.yDraw + 15;
+        int sqrt_radius = 15*15;
+        int result = (x - x_c)*(x - x_c) + (y - y_c)*(y - y_c);
+        if( result <= sqrt_radius ){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
 
 }
