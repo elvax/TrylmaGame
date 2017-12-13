@@ -41,7 +41,7 @@ public class Panel extends JPanel {
 				
 			}
 		});
-		endTurnButton.setBounds(500, 30, 100, 30);
+		endTurnButton.setBounds(320, 20, 100, 30);
 		add(endTurnButton);
 
 		addMouseListener(new MouseAdapter() {
