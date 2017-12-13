@@ -7,12 +7,13 @@ public class Game {
     private final int I_BOARD_SIZE = 17;
     private final int J_BOARD_SIZE = 13;
     private final int DISTANCE_FROM_EDGES = 10;
+    // TODO metoda do znalezienia wszystkich sąsiadów(przyjmuje obiekt Peg wybrany przez klieneta)
+    // TODO rekurencyjnie wywołuje w/w metode i zwraca wszystkie mozliwe ruchy w liscie
+    // TODO metoda move do ruszenia pegiem(przyjmuje obiekt Peg wybrany przez klieneta)
 
     /**
      * A board has 61 fields
      */
-    // TODO 1.ogarnac sposob na przechowanie lista czy 1- czy 2- wymiarowa tablica
-    // 2. czy kazde pole ma byc zainicjalizowanie Peg czy Peg tylko tam gdzie gracze maja pionki a reszta to null
     private Peg[][] board;
 
     public Game() {
