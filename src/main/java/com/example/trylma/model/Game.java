@@ -10,6 +10,7 @@ public class Game {
     // TODO metoda do znalezienia wszystkich sąsiadów(przyjmuje obiekt Peg wybrany przez klieneta)
     // TODO rekurencyjnie wywołuje w/w metode i zwraca wszystkie mozliwe ruchy w liscie
     // TODO metoda move do ruszenia pegiem(przyjmuje obiekt Peg wybrany przez klieneta)
+    // TODO 6 metod do wypelniani sektorow
 
     /**
      * A board has 61 fields
