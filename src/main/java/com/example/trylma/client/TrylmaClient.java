@@ -49,13 +49,10 @@ public class TrylmaClient {
         StdIn = new BufferedReader(new InputStreamReader(System.in));
 
         // Process all messages from server
-        while (!(fromServer = input.readLine()).equals("koniec")) {
+        while (true) {
+            fromServer = input.readLine();
             System.out.println(fromServer);
-            fromUser = StdIn.readLine();
-            if (fromUser != null) {
-                System.out.println("From user: " + fromUser);
-                output.println(fromUser);
-            }
+
         }
 
     }
