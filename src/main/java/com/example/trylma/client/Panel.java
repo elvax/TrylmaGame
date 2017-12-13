@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 public class Panel extends JPanel {
 
@@ -71,10 +72,20 @@ public class Panel extends JPanel {
 			for(int j=0; j<13; j++) {
 				Peg p = board.getPeg(i,j);
 				if(p.isClicked(e.getX(),e.getY()) == true){
-					System.out.println(i + " " + j + "kilikety" );
+                    System.out.println(i + " " + j + "klikniety");
+				    List<Peg> list = board.findNeighbors(p);
+				    for(int y=0; y<list.size(); y++) {
+                        System.out.println(list.get(y).geti() + " " + list.get(y).getj() + "sasiad");
+                    }
 				}
 			}
 		}*/
+		/*board.fillSectorOne();
+		board.fillSectorTwo();
+		board.fillSectorThree();
+		board.fillSectorFour();
+		board.fillSectorFive();
+		board.fillSectorSix();*/
 		System.out.println(e.getX());
 		System.out.println(e.getY());
 	}
