@@ -180,8 +180,10 @@ public class Game {
         }
     }
 
-    //trzeba poprawic zeby wyrzucal exception
-    public Peg getPeg(int i, int j){
+    public Peg getPeg(int i, int j) throws IllegalArgumentException{
+        if ( i<0 || i>I_BOARD_SIZE-1
+                || j<0 || j>J_BOARD_SIZE-1 )
+            throw new IllegalArgumentException();
         return board[i][j];
     }
 
