@@ -2,6 +2,7 @@ package com.example.trylma.client;
 
 import com.example.trylma.server.TrylmaServer;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -25,7 +26,16 @@ public class TrylmaClient {
 
 
     public TrylmaClient() {
-        frame = new Frame();
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                     frame = new Frame();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void run() throws IOException {
@@ -58,7 +68,7 @@ public class TrylmaClient {
             System.err.println(e);
         }
 
-        client.frame.setVisible(true);
+
 
     }
 
