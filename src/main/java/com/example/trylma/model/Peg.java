@@ -43,6 +43,12 @@ public class Peg {
         return yDraw;
     }
 
+    public int geti() {
+        return i;
+    }
+
+    public int getj() { return j; }
+
     public int getOwnerID() {
         return ownerID;
     }
@@ -52,6 +58,18 @@ public class Peg {
             image = null;
         } else if (ownerID == 0) {
             image = ImageIO.read(new File("src/main/resources/transparent.png"));
+        } else if (ownerID == 1) {
+            image = ImageIO.read(new File("src/main/resources/red.png"));
+        } else if (ownerID == 2) {
+            image = ImageIO.read(new File("src/main/resources/blue.png"));
+        } else if (ownerID == 3) {
+            image = ImageIO.read(new File("src/main/resources/pink.png"));
+        } else if (ownerID == 4) {
+            image = ImageIO.read(new File("src/main/resources/yellow.png"));
+        } else if (ownerID == 5) {
+            image = ImageIO.read(new File("src/main/resources/orange.png"));
+        } else if (ownerID == 6) {
+            image = ImageIO.read(new File("src/main/resources/green.png"));
         }
     }
 
