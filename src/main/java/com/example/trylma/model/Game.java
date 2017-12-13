@@ -6,6 +6,7 @@ import java.util.GregorianCalendar;
 public class Game {
     private final int I_BOARD_SIZE = 17;
     private final int J_BOARD_SIZE = 13;
+    private final int DISTANCE_FROM_EDGES = 10;
 
     /**
      * A board has 61 fields
@@ -149,9 +150,9 @@ public class Game {
         for(int i=0; i<I_BOARD_SIZE; i++) {
             for(int j=0; j<J_BOARD_SIZE; j++) {
                 if (i % 2 == 0) {
-                    board[i][j].setXY((j * 40) + 2, (i * 40) + 2);
+                    board[i][j].setXY((j * 35) + DISTANCE_FROM_EDGES, (i * 35) + DISTANCE_FROM_EDGES);
                 } else {
-                    board[i][j].setXY((j * 40) - 40/2 + 2, (i * 40) + 2);
+                    board[i][j].setXY((j * 35) - 40/2 + DISTANCE_FROM_EDGES, (i * 35) + DISTANCE_FROM_EDGES);
                 }
             }
         }
