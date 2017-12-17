@@ -1,4 +1,4 @@
-package com.example.trylma.com.example.trylma.model;
+package com.example.trylma.model;
 
 import com.example.trylma.model.Game;
 import com.example.trylma.model.Peg;
