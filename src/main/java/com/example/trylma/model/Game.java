@@ -4,9 +4,11 @@ import java.awt.*;
 import java.util.GregorianCalendar;
 
 public class Game {
-    private final int I_BOARD_SIZE = 17;
-    private final int J_BOARD_SIZE = 13;
+    public static final int I_BOARD_SIZE = 17;
+    public static final int J_BOARD_SIZE = 13;
     private final int DISTANCE_FROM_EDGES = 10;
+
+
     // TODO metoda do znalezienia wszystkich sąsiadów(przyjmuje obiekt Peg wybrany przez klieneta)
     // TODO rekurencyjnie wywołuje w/w metode i zwraca wszystkie mozliwe ruchy w liscie
     // TODO metoda move do ruszenia pegiem(przyjmuje obiekt Peg wybrany przez klieneta)
@@ -15,7 +17,7 @@ public class Game {
     /**
      * A board has 61 fields
      */
-    private Peg[][] board;
+    private AbstractPeg[][] board;
 
     public Game() {
         initalizeBoard();
@@ -183,11 +185,41 @@ public class Game {
         }
     }
 
-    public Peg getPeg(int i, int j) throws IllegalArgumentException{
+    public AbstractPeg getPeg(int i, int j) throws IllegalArgumentException{
         if ( i<0 || i>I_BOARD_SIZE-1
                 || j<0 || j>J_BOARD_SIZE-1 )
             throw new IllegalArgumentException();
         return board[i][j];
+    }
+
+    public AbstractPeg[][] getBoard() {
+        return board;
+    }
+
+    public void setPegsForOnePlayer() {
+        int i;
+        i=13;
+        for(int j=5; j<9; j++) { board[i][j].changeOwnerID(1); }
+
+        i=14;
+        for(int j=5; j<8; j++) { board[i][j].changeOwnerID(1); }
+
+        i=15;
+        for(int j=6; j<8; j++) { board[i][j].changeOwnerID(1); }
+
+        i=16;
+        board[i][6].changeOwnerID(1);
+
+    }
+
+    public boolean isClicked(int x, int y) {
+        for(int i=0; i<I_BOARD_SIZE; i++) {
+            for (int j = 0; j < J_BOARD_SIZE; j++) {
+                if (board[i][j].isClicked(x,y))
+                    return true;
+            }
+        }
+        return false;
     }
 
     public static void main(String[] args) {
