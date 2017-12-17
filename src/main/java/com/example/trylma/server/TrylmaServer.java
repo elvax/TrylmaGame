@@ -1,6 +1,8 @@
 package com.example.trylma.server;
 
+import com.example.trylma.controller.TrylmaStringProtocol;
 import com.example.trylma.model.Game;
+import com.example.trylma.model.TestPegToSend;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -17,8 +19,12 @@ public class TrylmaServer {
     BufferedReader inputLineFromStdIn = new BufferedReader(new InputStreamReader(System.in));
     String fromUser;
 
+    Game currentGame;
+
     private List<PlayerThread> clietnsThreadsList = new ArrayList<PlayerThread>();
     private HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
+    private HashSet<BufferedReader> readers = new HashSet<BufferedReader>();
+    private HashSet<ObjectOutputStream> objectOutput = new HashSet<ObjectOutputStream>();
 
     public TrylmaServer() {
         try {
@@ -31,10 +37,11 @@ public class TrylmaServer {
     private void waitForClients() throws IOException{
         System.out.println("Server is waiting for clients");
 
-        while (clietnsThreadsList.size() != 2) {
+        int numberOfPlayers = 1;
+        while (clietnsThreadsList.size() != numberOfPlayers) {
             clietnsThreadsList.add(new PlayerThread(serverSocket.accept()));
         }
-        System.out.println("2 clients connected");
+        System.out.println(numberOfPlayers + " clients connected");
 
         for (PlayerThread pt : clietnsThreadsList) {
             pt.start();
@@ -42,14 +49,34 @@ public class TrylmaServer {
         }
         System.out.println("cilents are running");
 
+        currentGame = new Game();
+        currentGame.setPegsForOnePlayer();
+
+        TrylmaStringProtocol protocol = new TrylmaStringProtocol();
 
 
-        while ((fromUser = inputLineFromStdIn.readLine()) != null) {
-            for (PrintWriter pw : writers) {
-                pw.println(fromUser);
+        while (true) {
+//            fromUser = inputLineFromStdIn.readLine();
+//            for (PrintWriter pw : writers) {
+//                pw.println(fromUser);
+//            }
+//            if(fromUser.equals("koniec"))
+//                break;
+            for (ObjectOutputStream oos : objectOutput) {
+//                oos.writeObject(testPegToSend);
+                oos.writeObject(currentGame.getBoard());
             }
-            if(fromUser.equals("koniec"))
-                break;
+
+            for (BufferedReader bf : readers) {
+                String fromClient = bf.readLine();
+                System.out.println(fromClient);
+                if (fromClient.startsWith("PRESSED")) {
+                    if(currentGame.isClicked(protocol.getXmousePressed(fromClient),
+                            protocol.getYmousePressed(fromClient)))
+                        System.out.println("true");
+                }
+            }
+
         }
 
     }
@@ -65,6 +92,8 @@ public class TrylmaServer {
         Socket socket;
         BufferedReader input;
         PrintWriter output;
+        ObjectInputStream objectInputStream;
+        ObjectOutputStream objectOutputStream;
 
         public PlayerThread(Socket socket) {
             this.socket = socket;
@@ -75,8 +104,12 @@ public class TrylmaServer {
                 //Initalize streams
                 input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 output = new PrintWriter(socket.getOutputStream(), true);
+                objectInputStream = new ObjectInputStream(socket.getInputStream());
+                objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 
                 writers.add(output);
+                readers.add(input);
+                objectOutput.add(objectOutputStream);
 //                while (true) {
 //                    String line = input.readLine();
 //                }
