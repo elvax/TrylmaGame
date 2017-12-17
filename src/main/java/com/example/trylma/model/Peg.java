@@ -5,16 +5,18 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 
 /*
  * Every peg has his owner and imformations needed to draw itself
  */
-public class Peg {
+public class Peg extends AbstractPeg implements Serializable{
     int i;
     int j;
     int xDraw;
     int yDraw;
-    private BufferedImage image;
+//    private Image image;
+    boolean isDraw;
     int ownerID;
     final int size = 30;
     final int radius = 15;
@@ -24,7 +26,9 @@ public class Peg {
             this.i = i;
             this.j = j;
             this.ownerID = ownerID;
-            setImage();
+
+            setImage(ownerID);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -47,21 +51,35 @@ public class Peg {
         return ownerID;
     }
 
-    private void setImage() throws IOException{
+    public void setImage(int ownerID) throws IOException{
         if (ownerID == -1) {
-            image = null;
+//            image = null;
+            isDraw = false;
         } else if (ownerID == 0) {
-            image = ImageIO.read(new File("src/main/resources/transparent.png"));
+//            image = ImageIO.read(new File("src/main/resources/transparent.png"));
+            isDraw = true;
+        } else if (ownerID == 1) {
+            isDraw = true;
         }
     }
 
     public void doDraw(Graphics g) {
+        if (isDraw) {
             Graphics g2 = g.create();
-            g2.drawImage(image, xDraw, yDraw, size, size, null);
+            g2.drawOval(xDraw, yDraw, size, size);
+
+            if (ownerID == 1) {
+                g2.setColor(Color.RED);
+                g2.fillOval(xDraw, yDraw, size, size);
+            }
             g2.dispose();
+        }
+
     }
 
     public boolean isClicked(int x, int y){
+        if (ownerID < 1)
+            return false;
         int x_c = this.xDraw + 15;
         int y_c = this.yDraw + 15;
         int sqrt_radius = this.radius*this.radius;
@@ -72,6 +90,14 @@ public class Peg {
         else{
             return false;
         }
+    }
+
+    public void changeOwnerID(int newOwnerID) {
+        ownerID = newOwnerID;
+    }
+
+    public String toString() {
+        return "i=" + i + "j+" + j;
     }
 
 
