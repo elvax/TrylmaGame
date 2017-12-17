@@ -1,4 +1,4 @@
-package com.example.trylma.com.example.trylma.model;
+package com.example.trylma.model;
 
 import com.example.trylma.model.Peg;
 import junit.framework.TestCase;
