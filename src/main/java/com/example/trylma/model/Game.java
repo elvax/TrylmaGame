@@ -383,7 +383,7 @@ public class Game {
         board[9][11].setXY(x,y);
     }
 
-    /*public List<Peg> findNeighbors(Peg peg){
+    public List<Peg> findNeighbours(Peg peg){
         List<Peg> neighbours = new ArrayList<Peg>();
         int i = peg.geti();
         int j = peg.getj();
@@ -398,12 +398,40 @@ public class Game {
         for( int k = bi; k <= ei; k++ ){
             for( int t = bj; t <= ej; t++){
                 if(board[k][t].getOwnerID() != -1) {
-                    neighbours.add(board[k][t]);
+                    if(k==i-1 && t==j-1 && i%2==0 || k==i+1 && i%2==0 && t==j-1 || k==i && t==j){ }
+                    else if(k==i-1 && t==j+1 && i%2!=0 || k==i+1 && i%2!=0 && t==j+1){}
+                    else{
+                        neighbours.add(board[k][t]);
+                        //System.out.println(k + " " + t);
+                    }
                 }
             }
         }
         return neighbours;
-    }*/
+    }
+
+    public void move(Peg p, int i, int j, List<Peg> neighbours){
+        for(int t=0; t<neighbours.size(); t++){
+            Peg temp = neighbours.get(t);
+            if(temp.isClicked(i,j)==true && temp.getOwnerID()==0){
+                int tempi = temp.geti();
+                int tempj = temp.getj();
+                int tempx = temp.getxDraw();
+                int tempy = temp.getyDraw();
+                int OwnerID = p.getOwnerID();
+                int pi= p.geti();
+                int pj=p.getj();
+                int px = p.getxDraw();
+                int py = p.getyDraw();
+                System.out.println(tempi + " " + tempj);
+                board[tempi][tempj]=new Peg(tempi,tempj,OwnerID);
+                board[tempi][tempj].setXY(tempx, tempy);
+                System.out.println(pi + " " + pj);
+                board[pi][pj]=new Peg(pi,pj,0);
+                board[pi][pj].setXY(px,py);
+            }
+        }
+    }
 
 
     public static void main(String[] args) {
