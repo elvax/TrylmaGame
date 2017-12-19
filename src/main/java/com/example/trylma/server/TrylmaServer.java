@@ -2,7 +2,6 @@ package com.example.trylma.server;
 
 import com.example.trylma.controller.TrylmaStringProtocol;
 import com.example.trylma.model.Game;
-import com.example.trylma.model.TestPegToSend;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -13,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public class TrylmaServer {
+
     ServerSocket serverSocket;
     public static final int portNumber = 5555;
 
@@ -21,11 +21,17 @@ public class TrylmaServer {
 
     Game currentGame;
 
+    // List of clients connected to server
     private List<PlayerThread> clietnsThreadsList = new ArrayList<PlayerThread>();
+
+    // TODO new HashSet.. pewnie do konstrukora przenieść
+    // TODO trzeba bedzie przerobic na (KEY, VALUYE) gdzie key to IDclienta
+    // sets of inputs and outputs for every client connected
     private HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
     private HashSet<BufferedReader> readers = new HashSet<BufferedReader>();
     private HashSet<ObjectOutputStream> objectOutput = new HashSet<ObjectOutputStream>();
 
+    // TODO rzucic wyjatek a nie lapac
     public TrylmaServer() {
         try {
             serverSocket = new ServerSocket(portNumber);
@@ -63,7 +69,6 @@ public class TrylmaServer {
 //            if(fromUser.equals("koniec"))
 //                break;
             for (ObjectOutputStream oos : objectOutput) {
-//                oos.writeObject(testPegToSend);
                 oos.writeObject(currentGame.getBoard());
             }
 
@@ -107,12 +112,11 @@ public class TrylmaServer {
                 objectInputStream = new ObjectInputStream(socket.getInputStream());
                 objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 
+                // add stream to sets
                 writers.add(output);
                 readers.add(input);
                 objectOutput.add(objectOutputStream);
-//                while (true) {
-//                    String line = input.readLine();
-//                }
+
             } catch (IOException e) {
 
             }
