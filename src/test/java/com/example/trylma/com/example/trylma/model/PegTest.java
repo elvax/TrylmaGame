@@ -2,6 +2,7 @@ package com.example.trylma.com.example.trylma.model;
 
 import com.example.trylma.model.Peg;
 import junit.framework.TestCase;
+import org.junit.Before;
 
 public class PegTest extends TestCase {
     Peg p = null;
@@ -11,7 +12,8 @@ public class PegTest extends TestCase {
     int yDraw = 35;
     int ownerID = 1;
 
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         p = new Peg(i,j,ownerID);
         p.setXY(xDraw, yDraw);
         assertNotNull(p);

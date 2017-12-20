@@ -1,6 +1,8 @@
 package com.example.trylma.model;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.GregorianCalendar;
 
 public class Game {
@@ -189,6 +191,248 @@ public class Game {
             throw new IllegalArgumentException();
         return board[i][j];
     }
+
+    //red
+    public void fillSectorOne(){
+        Peg p;
+        int x,y;
+        for(int j=5; j<9; j++) {
+            p = board[13][j];
+            x = p.getxDraw();
+            y = p.getyDraw();
+            board[13][j]=new Peg(13,j,1);
+            board[13][j].setXY(x,y);
+        }
+        for(int j=5; j<8; j++){
+            p = board[14][j];
+            x = p.getxDraw();
+            y = p.getyDraw();
+            board[14][j]=new Peg(14,j,1);
+            board[14][j].setXY(x,y);
+        }
+        for(int j=6; j<8; j++){
+            p = board[15][j];
+            x = p.getxDraw();
+            y = p.getyDraw();
+            board[15][j]=new Peg(15,j,1);
+            board[15][j].setXY(x,y);
+        }
+        p = board[16][6];
+        x = p.getxDraw();
+        y = p.getyDraw();
+        board[16][6]=new Peg(16,6,1);
+        board[16][6].setXY(x,y);
+    }
+
+    //blue
+    public void fillSectorTwo(){
+        Peg p;
+        int x,y;
+        for(int j=0; j<4; j++) {
+            p = board[12][j];
+            x = p.getxDraw();
+            y = p.getyDraw();
+            board[12][j]=new Peg(12,j,2);
+            board[12][j].setXY(x,y);
+        }
+        for(int j=1; j<4; j++){
+            p = board[11][j];
+            x = p.getxDraw();
+            y = p.getyDraw();
+            board[11][j]=new Peg(11,j,2);
+            board[11][j].setXY(x,y);
+        }
+        for(int j=1; j<3; j++){
+            p = board[10][j];
+            x = p.getxDraw();
+            y = p.getyDraw();
+            board[10][j]=new Peg(10,j,2);
+            board[10][j].setXY(x,y);
+        }
+        p = board[9][2];
+        x = p.getxDraw();
+        y = p.getyDraw();
+        board[9][2]=new Peg(9,2,2);
+        board[9][2].setXY(x,y);
+    }
+    //pink
+    public void fillSectorThree(){
+        Peg p;
+        int x,y;
+        for(int j=0; j<4; j++) {
+            p = board[4][j];
+            x = p.getxDraw();
+            y = p.getyDraw();
+            board[4][j]=new Peg(4,j,3);
+            board[4][j].setXY(x,y);
+        }
+        for(int j=1; j<4; j++){
+            p = board[5][j];
+            x = p.getxDraw();
+            y = p.getyDraw();
+            board[5][j]=new Peg(5,j,3);
+            board[5][j].setXY(x,y);
+        }
+        for(int j=1; j<3; j++){
+            p = board[6][j];
+            x = p.getxDraw();
+            y = p.getyDraw();
+            board[6][j]=new Peg(6,j,3);
+            board[6][j].setXY(x,y);
+        }
+        p = board[7][2];
+        x = p.getxDraw();
+        y = p.getyDraw();
+        board[7][2]=new Peg(7,2,3);
+        board[7][2].setXY(x,y);
+    }
+
+    //yellow
+    public void fillSectorFour(){
+        Peg p;
+        int x,y;
+        for(int j=5; j<9; j++) {
+            p = board[3][j];
+            x = p.getxDraw();
+            y = p.getyDraw();
+            board[3][j]=new Peg(3,j,4);
+            board[3][j].setXY(x,y);
+        }
+        for(int j=5; j<8; j++){
+            p = board[2][j];
+            x = p.getxDraw();
+            y = p.getyDraw();
+            board[2][j]=new Peg(2,j,4);
+            board[2][j].setXY(x,y);
+        }
+        for(int j=6; j<8; j++){
+            p = board[1][j];
+            x = p.getxDraw();
+            y = p.getyDraw();
+            board[1][j]=new Peg(1,j,4);
+            board[1][j].setXY(x,y);
+        }
+        p = board[0][6];
+        x = p.getxDraw();
+        y = p.getyDraw();
+        board[0][6]=new Peg(0,6,4);
+        board[0][6].setXY(x,y);
+    }
+
+    //orange
+    public void fillSectorFive(){
+        Peg p;
+        int x,y;
+        for(int j=9; j<13; j++) {
+            p = board[4][j];
+            x = p.getxDraw();
+            y = p.getyDraw();
+            board[4][j]=new Peg(4,j,5);
+            board[4][j].setXY(x,y);
+        }
+        for(int j=10; j<13; j++){
+            p = board[5][j];
+            x = p.getxDraw();
+            y = p.getyDraw();
+            board[5][j]=new Peg(5,j,5);
+            board[5][j].setXY(x,y);
+        }
+        for(int j=10; j<12; j++){
+            p = board[6][j];
+            x = p.getxDraw();
+            y = p.getyDraw();
+            board[6][j]=new Peg(6,j,5);
+            board[6][j].setXY(x,y);
+        }
+        p = board[7][11];
+        x = p.getxDraw();
+        y = p.getyDraw();
+        board[7][11]=new Peg(7,11,5);
+        board[7][11].setXY(x,y);
+    }
+
+    //green
+    public void fillSectorSix(){
+        Peg p;
+        int x,y;
+        for(int j=9; j<13; j++) {
+            p = board[12][j];
+            x = p.getxDraw();
+            y = p.getyDraw();
+            board[12][j]=new Peg(12,j,6);
+            board[12][j].setXY(x,y);
+        }
+        for(int j=10; j<13; j++){
+            p = board[11][j];
+            x = p.getxDraw();
+            y = p.getyDraw();
+            board[11][j]=new Peg(11,j,6);
+            board[11][j].setXY(x,y);
+        }
+        for(int j=10; j<12; j++){
+            p = board[10][j];
+            x = p.getxDraw();
+            y = p.getyDraw();
+            board[10][j]=new Peg(10,j,6);
+            board[10][j].setXY(x,y);
+        }
+        p = board[9][11];
+        x = p.getxDraw();
+        y = p.getyDraw();
+        board[9][11]=new Peg(9,2,6);
+        board[9][11].setXY(x,y);
+    }
+
+    public List<Peg> findNeighbours(Peg peg){
+        List<Peg> neighbours = new ArrayList<Peg>();
+        int i = peg.geti();
+        int j = peg.getj();
+        int bi = i-1;
+        int ei = i+1;
+        int bj = j-1;
+        int ej = j+1;
+        if ( i == 0 ){ bi = i; }
+        else if( i == I_BOARD_SIZE - 1){ ei = i; }
+        if( j  == 0 ){ bj = j; }
+        else if( j == J_BOARD_SIZE - 1 ){ bj = j; }
+        for( int k = bi; k <= ei; k++ ){
+            for( int t = bj; t <= ej; t++){
+                if(board[k][t].getOwnerID() != -1) {
+                    if(k==i-1 && t==j-1 && i%2==0 || k==i+1 && i%2==0 && t==j-1 || k==i && t==j){ }
+                    else if(k==i-1 && t==j+1 && i%2!=0 || k==i+1 && i%2!=0 && t==j+1){}
+                    else{
+                        neighbours.add(board[k][t]);
+                        //System.out.println(k + " " + t);
+                    }
+                }
+            }
+        }
+        return neighbours;
+    }
+
+    public void move(Peg p, int i, int j, List<Peg> neighbours){
+        for(int t=0; t<neighbours.size(); t++){
+            Peg temp = neighbours.get(t);
+            if(temp.isClicked(i,j)==true && temp.getOwnerID()==0){
+                int tempi = temp.geti();
+                int tempj = temp.getj();
+                int tempx = temp.getxDraw();
+                int tempy = temp.getyDraw();
+                int OwnerID = p.getOwnerID();
+                int pi= p.geti();
+                int pj=p.getj();
+                int px = p.getxDraw();
+                int py = p.getyDraw();
+                System.out.println(tempi + " " + tempj);
+                board[tempi][tempj]=new Peg(tempi,tempj,OwnerID);
+                board[tempi][tempj].setXY(tempx, tempy);
+                System.out.println(pi + " " + pj);
+                board[pi][pj]=new Peg(pi,pj,0);
+                board[pi][pj].setXY(px,py);
+            }
+        }
+    }
+
 
     public static void main(String[] args) {
         Game game = new Game();
