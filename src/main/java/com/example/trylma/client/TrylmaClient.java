@@ -4,7 +4,6 @@ import com.example.trylma.controller.TrylmaStringProtocol;
 import com.example.trylma.model.AbstractPeg;
 import com.example.trylma.model.Game;
 import com.example.trylma.model.Peg;
-import com.example.trylma.model.TestPegToSend;
 import com.example.trylma.server.TrylmaServer;
 
 import javax.swing.*;
@@ -29,7 +28,6 @@ public class TrylmaClient {
     String hostName = "localhost";
     Frame frame;
     AbstractPeg gameBoard[][];  //dostaje od servera
-    AbstractPeg testPegRecieved;   //dostaje od servera
 
 
 
@@ -180,7 +178,7 @@ public class TrylmaClient {
     }
 }
 
-class Panel extends JPanel {
+    class Panel extends JPanel {
 
     MouseAdapter mouseAdapter;
 
