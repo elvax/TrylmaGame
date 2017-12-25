@@ -93,7 +93,8 @@ public class TrylmaClient {
         try {
             client.run();
         } catch (Exception e) {
-            System.err.println(e);
+            e.printStackTrace();
+            System.out.println("tutaj ");
         }
 
 
