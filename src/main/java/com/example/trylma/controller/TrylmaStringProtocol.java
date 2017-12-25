@@ -16,10 +16,14 @@ public class TrylmaStringProtocol {
         pattern = Pattern.compile(regex);
     }
 
-    public static String mousePressed(int x, int y) {
+    public static String sendMousePressed(int x, int y) {
         xPressed = x;
         yPressed = y;
         return "PRESSED (" + x + "," + y + ")";
+    }
+
+    public static String sendEndTurn() {
+        return "ENDTURN";
     }
 
     public int getXmousePressed(String message) {
