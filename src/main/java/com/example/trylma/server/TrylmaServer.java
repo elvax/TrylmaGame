@@ -7,7 +7,6 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -15,11 +14,13 @@ public class TrylmaServer {
 
     ServerSocket serverSocket;
     public static final int portNumber = 5555;
+    TrylmaStringProtocol protocol;
+    Game currentGame;
 
     BufferedReader inputLineFromStdIn = new BufferedReader(new InputStreamReader(System.in));
     String fromUser;
 
-    Game currentGame;
+
 
     // List of clients connected to server
     private List<PlayerThread> clietnsThreadsList = new ArrayList<PlayerThread>();
@@ -33,6 +34,10 @@ public class TrylmaServer {
 
     // TODO rzucic wyjatek a nie lapac
     public TrylmaServer() {
+        protocol = new TrylmaStringProtocol();
+        currentGame = new Game();
+        currentGame.setPegsForOnePlayer();
+
         try {
             serverSocket = new ServerSocket(portNumber);
         } catch (IOException e) {
@@ -40,68 +45,38 @@ public class TrylmaServer {
         }
 
     }
-    private void waitForClients() throws IOException{
+    private void waitForClients(int numberOfPlayers) throws IOException{
         System.out.println("Server is waiting for clients");
 
-        int numberOfPlayers = 1;
-        while (clietnsThreadsList.size() != numberOfPlayers) {
-            clietnsThreadsList.add(new PlayerThread(serverSocket.accept()));
+        int i=1;
+        while (i <= numberOfPlayers) {
+            clietnsThreadsList.add(new PlayerThread(serverSocket.accept(), i));
+            i++;
         }
         System.out.println(numberOfPlayers + " clients connected");
 
         for (PlayerThread pt : clietnsThreadsList) {
             pt.start();
-            System.out.println("run client");
         }
-        System.out.println("cilents are running");
-
-        currentGame = new Game();
-        currentGame.setPegsForOnePlayer();
-
-        TrylmaStringProtocol protocol = new TrylmaStringProtocol();
-
-
-        while (true) {
-//            fromUser = inputLineFromStdIn.readLine();
-//            for (PrintWriter pw : writers) {
-//                pw.println(fromUser);
-//            }
-//            if(fromUser.equals("koniec"))
-//                break;
-            for (ObjectOutputStream oos : objectOutput) {
-                oos.writeObject(currentGame.getBoard());
-            }
-
-            for (BufferedReader bf : readers) {
-                String fromClient = bf.readLine();
-                System.out.println(fromClient);
-                if (fromClient.startsWith("PRESSED")) {
-                    if(currentGame.isClicked(protocol.getXmousePressed(fromClient),
-                            protocol.getYmousePressed(fromClient)))
-                        System.out.println("true");
-                }
-            }
-
-        }
-
     }
 
     public static void main(String[] args) throws Exception {
         TrylmaServer server = new TrylmaServer();
-        server.waitForClients();
+        server.waitForClients(2);
     }
 
     private class PlayerThread extends Thread {
 
-        String name;
+        int id;
         Socket socket;
         BufferedReader input;
         PrintWriter output;
         ObjectInputStream objectInputStream;
         ObjectOutputStream objectOutputStream;
 
-        public PlayerThread(Socket socket) {
+        public PlayerThread(Socket socket, int id) {
             this.socket = socket;
+            this.id = id;
         }
 
         public void run() {
@@ -116,6 +91,17 @@ public class TrylmaServer {
                 writers.add(output);
                 readers.add(input);
                 objectOutput.add(objectOutputStream);
+
+                //send initial board state to connected client
+                objectOutputStream.writeObject(currentGame.getBoard());
+
+                while (true) {
+                    String fromClient = input.readLine();
+                    if (fromClient == null) {
+                        return;
+                    }
+                    System.out.println("from client " + id + " " + fromClient);
+                }
 
             } catch (IOException e) {
 
