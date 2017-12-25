@@ -1,9 +1,6 @@
 package com.example.trylma.client;
 
-import com.example.trylma.controller.TrylmaStringProtocol;
 import com.example.trylma.model.AbstractPeg;
-import com.example.trylma.model.Game;
-import com.example.trylma.model.Peg;
 import com.example.trylma.server.TrylmaServer;
 
 import javax.swing.*;
@@ -11,6 +8,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.Socket;
+
+import static com.example.trylma.controller.TrylmaStringProtocol.*;
 
 /**
  *
@@ -59,32 +58,7 @@ public class TrylmaClient {
         frame.panel.setBoardToDraw(gameBoard);
         frame.panel.setBoardLoad(true);
         frame.panel.repaint();
-//        testPegRecieved = (AbstractPeg) objectInputStream.readObject();
 
-//        System.out.println(testPegRecieved.toString());
-        System.out.println(gameBoard[7][7].toString());
-
-//        for(int i=0; i<Game.I_BOARD_SIZE; i++) {
-//            for (int j = 0; j < Game.J_BOARD_SIZE; j++) {
-//                if(gameBoard[i][j].getOwnerID() == -1){
-//                    System.out.print("+");
-//                } else{
-//                    System.out.print("0");
-//                }
-//            }
-//            System.out.println();
-//        }
-
-        // Process all messages from server
-        while (true) {
-            String fromClient = stdIn.readLine();
-            output.println(fromClient);
-//            fromServer = input.readLine();
-//            System.out.println(fromServer);
-
-//            frame.getPanel().getMouseAdapter();
-
-        }
 
     }
 
@@ -221,7 +195,7 @@ public class TrylmaClient {
         JButton endTurnButton = new JButton("End Turn");
         endTurnButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+                whenEndTurnClicked();
             }
         });
         endTurnButton.setBounds(320, 20, 100, 30);
@@ -289,12 +263,14 @@ public class TrylmaClient {
 
     private void whenMouseReleased(MouseEvent e){
         output.println("RELEASED (" + e.getX() + "," + e.getY() + ")");
-        System.out.println(e.getX() + "," + e.getY());
     }
 
     private void whenMousePressed(MouseEvent e){
-        output.println(TrylmaStringProtocol.mousePressed(e.getX(),e.getY()));
-//        System.out.println(e.getX() + "," + e.getY());
+        output.println(sendMousePressed(e.getX(),e.getY()));
+    }
+
+    private void whenEndTurnClicked() {
+        output.println(sendEndTurn());
     }
 
     public MouseAdapter getMouseAdapter() {
