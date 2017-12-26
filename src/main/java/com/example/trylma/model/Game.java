@@ -25,7 +25,7 @@ public class Game {
         boardOfTrylma = new Board();
     }
 
-    public Collection setBoardForPlayers(int numberOfPlayers) {
+    public List setBoardForPlayers(int numberOfPlayers) {
         List<Integer> secotrosID =new ArrayList<Integer>();
         if ( numberOfPlayers == 2 ) {
             boardOfTrylma.fillSectorOne();

@@ -7,6 +7,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class TrylmaServer {
     public TrylmaServer() {
         protocol = new TrylmaStringProtocol();
         currentGame = new Game();
-        currentGame.setPegsForOnePlayer();
+
 
         try {
             serverSocket = new ServerSocket(portNumber);
@@ -53,12 +54,12 @@ public class TrylmaServer {
     private void waitForClients(int numberOfPlayers) throws IOException{
         System.out.println("Server is waiting for clients");
         this.numberOfPlayers = numberOfPlayers;
+        List<Integer> sectorsID = currentGame.setBoardForPlayers(numberOfPlayers);
 
-        int i=1;
-        while (i <= numberOfPlayers) {
-            clietnsThreadsList.add(new PlayerThread(serverSocket.accept(), i));
-            i++;
+        for (Integer id : sectorsID) {
+            clietnsThreadsList.add(new PlayerThread(serverSocket.accept(), id));
         }
+
         System.out.println(numberOfPlayers + " clients connected");
 
         for (PlayerThread pt : clietnsThreadsList) {
