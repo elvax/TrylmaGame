@@ -4,6 +4,8 @@ import java.awt.*;
 import java.io.IOException;
 import java.io.Serializable;
 
+import static com.example.trylma.model.Board.DISTANCE_FROM_EDGES;
+
 /*
  * Every peg has his owner and imformations needed to draw itself
  */
@@ -23,6 +25,12 @@ public class Peg extends AbstractPeg implements Serializable{
             this.i = i;
             this.j = j;
             this.sectorID = sectorID;
+
+            if (i % 2 == 0) {
+                setXY((j * 35) + DISTANCE_FROM_EDGES, (i * 35) + DISTANCE_FROM_EDGES);
+            } else {
+                setXY((j * 35) - 40/2 + DISTANCE_FROM_EDGES, (i * 35) + DISTANCE_FROM_EDGES);
+            }
 
             setImage(sectorID);
 
