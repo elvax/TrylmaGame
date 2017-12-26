@@ -1,7 +1,6 @@
 package com.example.trylma.model;
 
 import java.awt.*;
-import java.util.GregorianCalendar;
 
 public class Game {
     public static final int I_BOARD_SIZE = 17;
@@ -60,7 +59,7 @@ public class Game {
      *  ++++++00+++++
      *  ++++++0++++++
      * Where 0 means "0" was passed to ownerId
-     * and + means "-1" wass passed to ownerID
+     * and + means "-1" wass passed to sectorID
      * in constructor
      */
     public void initalizeBoard() {
@@ -176,7 +175,7 @@ public class Game {
     public void printBoard() {
         for(int i=0; i<I_BOARD_SIZE; i++) {
             for (int j = 0; j < J_BOARD_SIZE; j++) {
-                if(board[i][j].getOwnerID() == -1){
+                if(board[i][j].getSectorID() == -1){
                     System.out.print("+");
                 } else{
                     System.out.print("0");

@@ -1,9 +1,6 @@
 package com.example.trylma.model;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -17,17 +14,17 @@ public class Peg extends AbstractPeg implements Serializable{
     int yDraw;
 //    private Image image;
     boolean isDraw;
-    int ownerID;
+    int sectorID;
     final int size = 30;
     final int radius = 15;
 
-    public Peg(int i, int j, int ownerID) {
+    public Peg(int i, int j, int sectorID) {
         try {
             this.i = i;
             this.j = j;
-            this.ownerID = ownerID;
+            this.sectorID = sectorID;
 
-            setImage(ownerID);
+            setImage(sectorID);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -47,8 +44,8 @@ public class Peg extends AbstractPeg implements Serializable{
         return yDraw;
     }
 
-    public int getOwnerID() {
-        return ownerID;
+    public int getSectorID() {
+        return sectorID;
     }
 
     public void setImage(int ownerID) throws IOException{
@@ -68,7 +65,7 @@ public class Peg extends AbstractPeg implements Serializable{
             Graphics g2 = g.create();
             g2.drawOval(xDraw, yDraw, size, size);
 
-            if (ownerID == 1) {
+            if (sectorID == 1) {
                 g2.setColor(Color.RED);
                 g2.fillOval(xDraw, yDraw, size, size);
             }
@@ -78,7 +75,7 @@ public class Peg extends AbstractPeg implements Serializable{
     }
 
     public boolean isClicked(int x, int y){
-        if (ownerID < 1)
+        if (sectorID < 1)
             return false;
         int x_c = this.xDraw + 15;
         int y_c = this.yDraw + 15;
@@ -93,7 +90,7 @@ public class Peg extends AbstractPeg implements Serializable{
     }
 
     public void changeOwnerID(int newOwnerID) {
-        ownerID = newOwnerID;
+        sectorID = newOwnerID;
     }
 
     public String toString() {

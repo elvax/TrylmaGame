@@ -36,7 +36,7 @@ public class Board implements Serializable{
      *  ++++++00+++++
      *  ++++++0++++++
      * Where 0 means "0" was passed to ownerId
-     * and + means "-1" wass passed to ownerID
+     * and + means "-1" wass passed to sectorID
      * in constructor
      */
     private void initalizeBoard() {
