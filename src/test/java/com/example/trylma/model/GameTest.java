@@ -16,8 +16,4 @@ public class GameTest {
         assertNotNull(game);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testGetPeg() {
-        game.getPeg(-1, -1);
-    }
 }
