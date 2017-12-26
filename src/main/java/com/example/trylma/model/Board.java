@@ -1,44 +1,20 @@
 package com.example.trylma.model;
 
 import java.awt.*;
-import java.util.GregorianCalendar;
+import java.io.Serializable;
 
-public class Game {
-    public static final int I_BOARD_SIZE = 17;
-    public static final int J_BOARD_SIZE = 13;
+public class Board implements Serializable{
+    public static int I_BOARD_SIZE = 17;
+    public static int J_BOARD_SIZE = 13;
     private final int DISTANCE_FROM_EDGES = 10;
 
-
-    // TODO metoda do znalezienia wszystkich sąsiadów(przyjmuje obiekt Peg wybrany przez klieneta)
-    // TODO rekurencyjnie wywołuje w/w metode i zwraca wszystkie mozliwe ruchy w liscie
-    // TODO metoda move do ruszenia pegiem(przyjmuje obiekt Peg wybrany przez klieneta)
-    // TODO 6 metod do wypelniani sektorow
-
-    /**
-     * A board has 61 fields
-     */
     private AbstractPeg[][] board;
-    private Board boardOfTrylma;
 
-    public Game() {
+    public Board() {
+        board = new AbstractPeg[I_BOARD_SIZE][J_BOARD_SIZE];
         initalizeBoard();
         setXYDraws();
-        boardOfTrylma = new Board();
     }
-
-    /**
-     * The current player
-     */
-
-
-    /**
-     * Returns whether the current state of the board is such that one of the players is a winner
-     */
-    public boolean hasWinner() {
-        //TODO ma zwrocic true jak jakis gracz zapelni przeciwlegly rog
-        return false;
-    }
-
 
     /**
      * Fills board with Peg instances
@@ -63,7 +39,7 @@ public class Game {
      * and + means "-1" wass passed to ownerID
      * in constructor
      */
-    public void initalizeBoard() {
+    private void initalizeBoard() {
         board = new Peg[I_BOARD_SIZE][J_BOARD_SIZE];
 
         int i = 0;
@@ -87,14 +63,14 @@ public class Game {
         for(int j=9; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
 
         i=4;
-       // for(int j=0; j<5; j++) { board[i][j]=new Peg(i,j,-1); }
+        // for(int j=0; j<5; j++) { board[i][j]=new Peg(i,j,-1); }
         for(int j=0; j<13; j++) { board[i][j]=new Peg(i,j,0); }
-       // for(int j=9; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
+        // for(int j=9; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
 
         i=5;
         for(int j=0; j<1; j++) { board[i][j]=new Peg(i,j,-1); }
         for(int j=1; j<13; j++) { board[i][j]=new Peg(i,j,0); }
-       // for(int j=12; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
+        // for(int j=12; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
 
         i=6;
         for(int j=0; j<1; j++) { board[i][j]=new Peg(i,j,-1); }
@@ -124,10 +100,10 @@ public class Game {
         i=11;
         for(int j=0; j<1; j++) { board[i][j]=new Peg(i,j,-1); }
         for(int j=1; j<13; j++) { board[i][j]=new Peg(i,j,0); }
-       // for(int j=12; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
+        // for(int j=12; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
 
         i=12;
-      //  for(int j=0; j<1; j++) { board[i][j]=new Peg(i,j,-1); }
+        //  for(int j=0; j<1; j++) { board[i][j]=new Peg(i,j,-1); }
         for(int j=0; j<13; j++) { board[i][j]=new Peg(i,j,0); }
         // for(int j=12; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
 
@@ -165,7 +141,6 @@ public class Game {
     }
 
     public void doDrawBoard(Graphics g) {
-
         for(int i=0; i<I_BOARD_SIZE; i++) {
             for(int j=0; j<J_BOARD_SIZE; j++) {
                 board[i][j].doDraw(g);
@@ -173,67 +148,4 @@ public class Game {
         }
     }
 
-    public void printBoard() {
-        for(int i=0; i<I_BOARD_SIZE; i++) {
-            for (int j = 0; j < J_BOARD_SIZE; j++) {
-                if(board[i][j].getOwnerID() == -1){
-                    System.out.print("+");
-                } else{
-                    System.out.print("0");
-                }
-            }
-            System.out.println();
-        }
-    }
-
-    public AbstractPeg getPeg(int i, int j) throws IllegalArgumentException{
-        if ( i<0 || i>I_BOARD_SIZE-1
-                || j<0 || j>J_BOARD_SIZE-1 )
-            throw new IllegalArgumentException();
-        return board[i][j];
-    }
-
-    public AbstractPeg[][] getBoard() {
-        return board;
-    }
-
-    public Board getBoardOfTrylma(){
-        return boardOfTrylma;
-    }
-
-    public void setPegsForOnePlayer() {
-        int i;
-        i=13;
-        for(int j=5; j<9; j++) { board[i][j].changeOwnerID(1); }
-
-        i=14;
-        for(int j=5; j<8; j++) { board[i][j].changeOwnerID(1); }
-
-        i=15;
-        for(int j=6; j<8; j++) { board[i][j].changeOwnerID(1); }
-
-        i=16;
-        board[i][6].changeOwnerID(1);
-
-    }
-
-    public boolean isClicked(int x, int y) {
-        for(int i=0; i<I_BOARD_SIZE; i++) {
-            for (int j = 0; j < J_BOARD_SIZE; j++) {
-                if (board[i][j].isClicked(x,y))
-                    return true;
-            }
-        }
-        return false;
-    }
-
-    public static void main(String[] args) {
-        Game game = new Game();
-        game.printBoard();
-    }
-
-
 }
-
-
-
