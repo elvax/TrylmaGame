@@ -54,9 +54,10 @@ public class TrylmaServer {
     private void waitForClients(int numberOfPlayers) throws IOException{
         System.out.println("Server is waiting for clients");
         this.numberOfPlayers = numberOfPlayers;
-        List<Integer> sectorsID = currentGame.setBoardForPlayers(numberOfPlayers);
+        currentGame.setBoardForPlayers(numberOfPlayers);
 
-        for (Integer id : sectorsID) {
+
+        for (Integer id : currentGame.getActiveSectorsID()) {
             clietnsThreadsList.add(new PlayerThread(serverSocket.accept(), id));
         }
 

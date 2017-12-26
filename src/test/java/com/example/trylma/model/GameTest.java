@@ -5,6 +5,8 @@ import com.example.trylma.model.Peg;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Random;
+
 import static junit.framework.TestCase.assertNotNull;
 
 public class GameTest {
@@ -15,5 +17,4 @@ public class GameTest {
         game = new Game();
         assertNotNull(game);
     }
-
 }

@@ -4,56 +4,59 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Random;
+
+// TODO metoda do znalezienia wszystkich sąsiadów(przyjmuje obiekt Peg wybrany przez klieneta)
+// TODO rekurencyjnie wywołuje w/w metode i zwraca wszystkie mozliwe ruchy w liscie
+// TODO metoda move do ruszenia pegiem(przyjmuje obiekt Peg wybrany przez klieneta)
+// TODO 6 metod do wypelniani sektorow
 
 public class Game {
-    public static final int I_BOARD_SIZE = 17;
-    public static final int J_BOARD_SIZE = 13;
-    private final int DISTANCE_FROM_EDGES = 10;
-
-
-    // TODO metoda do znalezienia wszystkich sąsiadów(przyjmuje obiekt Peg wybrany przez klieneta)
-    // TODO rekurencyjnie wywołuje w/w metode i zwraca wszystkie mozliwe ruchy w liscie
-    // TODO metoda move do ruszenia pegiem(przyjmuje obiekt Peg wybrany przez klieneta)
-    // TODO 6 metod do wypelniani sektorow
+    private Board boardOfTrylma;
+    private int currentID;
+    int index;
+    Random randomGenerator;
+    List<Integer> activeSectorsID;
 
     /**
-     * A board has 61 fields
+     * todo current player id
+     * array of active players'id
+     * random genereator
+     * method next to set next player
      */
-    private Board boardOfTrylma;
 
     public Game() {
         boardOfTrylma = new Board();
+        randomGenerator = new Random();
+        activeSectorsID =new ArrayList<Integer>();
+        index = 0;
     }
 
-    public List setBoardForPlayers(int numberOfPlayers) {
-        List<Integer> secotrosID =new ArrayList<Integer>();
+    public void setBoardForPlayers(int numberOfPlayers) {
         if ( numberOfPlayers == 2 ) {
             boardOfTrylma.fillSectorOne();
             boardOfTrylma.fillSectorFour();
 
-            secotrosID.add(1);
-            secotrosID.add(4);
-            return secotrosID;
+            activeSectorsID.add(1);
+            activeSectorsID.add(4);
         } else if (numberOfPlayers == 3) {
             boardOfTrylma.fillSectorOne();
             boardOfTrylma.fillSectorThree();
             boardOfTrylma.fillSectorFive();
 
-            secotrosID.add(1);
-            secotrosID.add(3);
-            secotrosID.add(5);
-            return secotrosID;
+            activeSectorsID.add(1);
+            activeSectorsID.add(3);
+            activeSectorsID.add(5);
         } else if (numberOfPlayers == 4) {
             boardOfTrylma.fillSectorTwo();
             boardOfTrylma.fillSectorThree();
             boardOfTrylma.fillSectorFive();
             boardOfTrylma.fillSectorSix();
 
-            secotrosID.add(2);
-            secotrosID.add(3);
-            secotrosID.add(5);
-            secotrosID.add(6);
-            return secotrosID;
+            activeSectorsID.add(2);
+            activeSectorsID.add(3);
+            activeSectorsID.add(5);
+            activeSectorsID.add(6);
         } else if (numberOfPlayers == 6) {
             boardOfTrylma.fillSectorOne();
             boardOfTrylma.fillSectorTwo();
@@ -62,37 +65,41 @@ public class Game {
             boardOfTrylma.fillSectorFive();
             boardOfTrylma.fillSectorSix();
 
-            secotrosID.add(1);
-            secotrosID.add(2);
-            secotrosID.add(3);
-            secotrosID.add(4);
-            secotrosID.add(5);
-            secotrosID.add(6);
-            return secotrosID;
+            activeSectorsID.add(1);
+            activeSectorsID.add(2);
+            activeSectorsID.add(3);
+            activeSectorsID.add(4);
+            activeSectorsID.add(5);
+            activeSectorsID.add(6);
         }
-        return null;
     }
 
+    public List<Integer> getActiveSectorsID() {
+        return activeSectorsID;
+    }
+
+    public void setOrderOfMoves() {
+        int firstToMove = randomGenerator.nextInt(activeSectorsID.size());
+        Integer tmp = activeSectorsID.get(firstToMove);
+        activeSectorsID.remove(firstToMove);
+        activeSectorsID.add(0, tmp);
+
+        currentID = activeSectorsID.get(0);
+    }
+
+    public void nextPlayer() {
+        if(++index >= activeSectorsID.size())
+            index = 0;
+        currentID = activeSectorsID.get(index);
+    }
+    public int getCurrentID() {
+        return currentID;
+    }
 
     public Board getBoardOfTrylma(){
         return boardOfTrylma;
     }
 
-//    public void setPegsForOnePlayer() {
-//        int i;
-//        i=13;
-//        for(int j=5; j<9; j++) { board[i][j].changeOwnerID(1); }
-//
-//        i=14;
-//        for(int j=5; j<8; j++) { board[i][j].changeOwnerID(1); }
-//
-//        i=15;
-//        for(int j=6; j<8; j++) { board[i][j].changeOwnerID(1); }
-//
-//        i=16;
-//        board[i][6].changeOwnerID(1);
-//
-//    }
 
 //    public boolean isClicked(int x, int y) {
 //        for(int i=0; i<I_BOARD_SIZE; i++) {
