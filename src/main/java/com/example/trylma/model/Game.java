@@ -87,12 +87,12 @@ public class Game {
         currentID = activeSectorsID.get(0);
     }
 
-    public void nextPlayer() {
+    public synchronized void nextPlayer() {
         if(++index >= activeSectorsID.size())
             index = 0;
         currentID = activeSectorsID.get(index);
     }
-    public int getCurrentID() {
+    public synchronized int getCurrentID() {
         return currentID;
     }
 

@@ -55,6 +55,7 @@ public class TrylmaServer {
         System.out.println("Server is waiting for clients");
         this.numberOfPlayers = numberOfPlayers;
         currentGame.setBoardForPlayers(numberOfPlayers);
+        currentGame.setOrderOfMoves();
 
 
         for (Integer id : currentGame.getActiveSectorsID()) {
@@ -107,13 +108,13 @@ public class TrylmaServer {
 
                 while (true) {
 
-                    String fromClient = input.readLine();
-                    if (fromClient == null) {
-                        return;
-                    }
-                    System.out.println("from client " + id + " " + fromClient);
-                    if (fromClient.equals(sendEndTurn())) {
+                    if (currentGame.getCurrentID() == this.id) {
+                        String fromClient = input.readLine();
 
+                        System.out.println("from client " + id + " " + fromClient);
+                        if (fromClient.equals(sendEndTurn())) {
+                            currentGame.nextPlayer();
+                        }
                     }
 
                 }
