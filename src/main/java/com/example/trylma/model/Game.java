@@ -1,6 +1,9 @@
 package com.example.trylma.model;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class Game {
     public static final int I_BOARD_SIZE = 17;
@@ -22,13 +25,52 @@ public class Game {
         boardOfTrylma = new Board();
     }
 
+    public Collection setBoardForPlayers(int numberOfPlayers) {
+        List<Integer> secotrosID =new ArrayList<Integer>();
+        if ( numberOfPlayers == 2 ) {
+            boardOfTrylma.fillSectorOne();
+            boardOfTrylma.fillSectorFour();
 
-    /**
-     * Returns whether the current state of the board is such that one of the players is a winner
-     */
-    public boolean hasWinner() {
-        //TODO ma zwrocic true jak jakis gracz zapelni przeciwlegly rog
-        return false;
+            secotrosID.add(1);
+            secotrosID.add(4);
+            return secotrosID;
+        } else if (numberOfPlayers == 3) {
+            boardOfTrylma.fillSectorOne();
+            boardOfTrylma.fillSectorThree();
+            boardOfTrylma.fillSectorFive();
+
+            secotrosID.add(1);
+            secotrosID.add(3);
+            secotrosID.add(5);
+            return secotrosID;
+        } else if (numberOfPlayers == 4) {
+            boardOfTrylma.fillSectorTwo();
+            boardOfTrylma.fillSectorThree();
+            boardOfTrylma.fillSectorFive();
+            boardOfTrylma.fillSectorSix();
+
+            secotrosID.add(2);
+            secotrosID.add(3);
+            secotrosID.add(5);
+            secotrosID.add(6);
+            return secotrosID;
+        } else if (numberOfPlayers == 6) {
+            boardOfTrylma.fillSectorOne();
+            boardOfTrylma.fillSectorTwo();
+            boardOfTrylma.fillSectorThree();
+            boardOfTrylma.fillSectorFour();
+            boardOfTrylma.fillSectorFive();
+            boardOfTrylma.fillSectorSix();
+
+            secotrosID.add(1);
+            secotrosID.add(2);
+            secotrosID.add(3);
+            secotrosID.add(4);
+            secotrosID.add(5);
+            secotrosID.add(6);
+            return secotrosID;
+        }
+        return null;
     }
 
 
