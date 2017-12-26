@@ -60,6 +60,7 @@ public class TrylmaClient {
 //        gameBoard = (AbstractPeg[][]) objectInputStream.readObject();
         boardOfTrylma = (Board) objectInputStream.readObject();
 
+        boardOfTrylma.setImage();
         frame.panel.setBoardToDraw(boardOfTrylma);
         frame.panel.setBoardLoad(true);
         frame.panel.repaint();

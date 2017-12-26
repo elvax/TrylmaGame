@@ -1,6 +1,8 @@
 package com.example.trylma.model;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -14,14 +16,13 @@ public class Peg extends AbstractPeg implements Serializable{
     int j;
     int xDraw;
     int yDraw;
-//    private Image image;
+    private Image image;
     boolean isDraw;
     int sectorID;
     final int size = 30;
     final int radius = 15;
 
     public Peg(int i, int j, int sectorID) {
-        try {
             this.i = i;
             this.j = j;
             this.sectorID = sectorID;
@@ -31,12 +32,6 @@ public class Peg extends AbstractPeg implements Serializable{
             } else {
                 setXY((j * 35) - 40/2 + DISTANCE_FROM_EDGES, (i * 35) + DISTANCE_FROM_EDGES);
             }
-
-            setImage(sectorID);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public void setXY(int x, int y) {
@@ -56,27 +51,31 @@ public class Peg extends AbstractPeg implements Serializable{
         return sectorID;
     }
 
-    public void setImage(int ownerID) throws IOException{
-        if (ownerID == -1) {
+    public void setImage() throws IOException{
+        if (sectorID == -1) {
 //            image = null;
-            isDraw = false;
-        } else if (ownerID == 0) {
-//            image = ImageIO.read(new File("src/main/resources/transparent.png"));
-            isDraw = true;
-        } else if (ownerID == 1) {
-            isDraw = true;
+        } else if (sectorID == 0) {
+            image = ImageIO.read(new File("src/main/resources/transparent.png"));
+        } else if (sectorID == 1) {
+            image = ImageIO.read(new File("src/main/resources/red.png"));
+        }else if (sectorID == 2) {
+            image = ImageIO.read(new File("src/main/resources/blue.png"));
+        }else if (sectorID == 3) {
+            image = ImageIO.read(new File("src/main/resources/pink.png"));
+        }else if (sectorID == 4) {
+            image = ImageIO.read(new File("src/main/resources/yellow.png"));
+        }else if (sectorID == 5) {
+            image = ImageIO.read(new File("src/main/resources/orange.png"));
+        }else if (sectorID == 6) {
+            image = ImageIO.read(new File("src/main/resources/green.png"));
         }
     }
 
     public void doDraw(Graphics g) {
-        if (isDraw) {
+        if (sectorID != -1) {
             Graphics g2 = g.create();
-            g2.drawOval(xDraw, yDraw, size, size);
+            g2.drawImage(image, xDraw, yDraw, size, size, null);
 
-            if (sectorID == 1) {
-                g2.setColor(Color.RED);
-                g2.fillOval(xDraw, yDraw, size, size);
-            }
             g2.dispose();
         }
 

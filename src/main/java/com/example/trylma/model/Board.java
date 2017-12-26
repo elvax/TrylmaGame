@@ -1,6 +1,7 @@
 package com.example.trylma.model;
 
 import java.awt.*;
+import java.io.IOException;
 import java.io.Serializable;
 
 public class Board implements Serializable{
@@ -140,6 +141,13 @@ public class Board implements Serializable{
         }
     }
 
+    public void setImage() throws IOException{
+        for(int i=0; i<I_BOARD_SIZE; i++) {
+            for(int j=0; j<J_BOARD_SIZE; j++) {
+                board[i][j].setImage();
+            }
+        }
+    }
     public void doDrawBoard(Graphics g) {
         for(int i=0; i<I_BOARD_SIZE; i++) {
             for(int j=0; j<J_BOARD_SIZE; j++) {
