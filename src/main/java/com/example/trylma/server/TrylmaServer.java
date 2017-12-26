@@ -10,12 +10,16 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import static com.example.trylma.controller.TrylmaStringProtocol.*;
+
 public class TrylmaServer {
 
     ServerSocket serverSocket;
     public static final int portNumber = 5555;
     TrylmaStringProtocol protocol;
     Game currentGame;
+    int currentPlayer=0;
+    int numberOfPlayers;
 
     BufferedReader inputLineFromStdIn = new BufferedReader(new InputStreamReader(System.in));
     String fromUser;
@@ -45,8 +49,10 @@ public class TrylmaServer {
         }
 
     }
+
     private void waitForClients(int numberOfPlayers) throws IOException{
         System.out.println("Server is waiting for clients");
+        this.numberOfPlayers = numberOfPlayers;
 
         int i=1;
         while (i <= numberOfPlayers) {
@@ -58,6 +64,8 @@ public class TrylmaServer {
         for (PlayerThread pt : clietnsThreadsList) {
             pt.start();
         }
+
+
     }
 
     public static void main(String[] args) throws Exception {
@@ -93,20 +101,26 @@ public class TrylmaServer {
                 objectOutput.add(objectOutputStream);
 
                 //send initial board state to connected client
-                objectOutputStream.writeObject(currentGame.getBoard());
+                objectOutputStream.writeObject(currentGame.getBoardOfTrylma());
 
                 while (true) {
+
                     String fromClient = input.readLine();
                     if (fromClient == null) {
                         return;
                     }
                     System.out.println("from client " + id + " " + fromClient);
+                    if (fromClient.equals(sendEndTurn())) {
+
+                    }
+
                 }
 
             } catch (IOException e) {
-
+                e.printStackTrace();
             }
         }
+
     }
 }
 

@@ -1,6 +1,7 @@
 package com.example.trylma.client;
 
 import com.example.trylma.model.AbstractPeg;
+import com.example.trylma.model.Board;
 import com.example.trylma.server.TrylmaServer;
 
 import javax.swing.*;
@@ -27,6 +28,7 @@ public class TrylmaClient {
     String hostName = "localhost";
     Frame frame;
     AbstractPeg gameBoard[][];  //dostaje od servera
+    Board boardOfTrylma;
 
 
 
@@ -46,6 +48,7 @@ public class TrylmaClient {
     private void run() throws IOException, ClassNotFoundException {
         // Make connection
         Socket socket = new Socket(hostName, TrylmaServer.portNumber);
+
         //Intitialize streams
         output = new PrintWriter(socket.getOutputStream(), true);
         input = new BufferedReader(
@@ -54,8 +57,10 @@ public class TrylmaClient {
         objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         objectInputStream = new ObjectInputStream(socket.getInputStream());
 
-        gameBoard = (AbstractPeg[][]) objectInputStream.readObject();
-        frame.panel.setBoardToDraw(gameBoard);
+//        gameBoard = (AbstractPeg[][]) objectInputStream.readObject();
+        boardOfTrylma = (Board) objectInputStream.readObject();
+
+        frame.panel.setBoardToDraw(boardOfTrylma);
         frame.panel.setBoardLoad(true);
         frame.panel.repaint();
 
@@ -83,74 +88,74 @@ public class TrylmaClient {
         /**
          * Create the application.
          */
-	public Frame() {
-            super("Chinese checkers");
-            initialize();
-        }
+        public Frame() {
+                super("Chinese checkers");
+                initialize();
+            }
 
         /**
          * Initialize the contents of the frame, which includes:
          * two menu buttons and panel with EndTrun's button
          */
-    private void initialize() {
-        setSize(X_SIZE, Y_SIZE);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(true);
+        private void initialize() {
+            setSize(X_SIZE, Y_SIZE);
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            setResizable(true);
 
-        /**
-         * Creating the "New Game" item, which gives an opportunity
-         * to choose the number of players.
-         */
-        JMenuBar menubar = new JMenuBar();
-        JMenuItem newGameButton = new JMenuItem("New Game");
-        newGameButton.setBackground(new Color(204, 204, 204));
-        newGameButton.setMnemonic(KeyEvent.VK_E);
-        newGameButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Object[] possibilities = {"2", "3", "4", "6"};
-                String s = (String)JOptionPane.showInputDialog(
-                        null,
-                        "Choose the number of players:\n",
-                        "Number of players",
-                        JOptionPane.PLAIN_MESSAGE,
-                        null,
-                        possibilities,
-                        "2");
+            /**
+             * Creating the "New Game" item, which gives an opportunity
+             * to choose the number of players.
+             */
+            JMenuBar menubar = new JMenuBar();
+            JMenuItem newGameButton = new JMenuItem("New Game");
+            newGameButton.setBackground(new Color(204, 204, 204));
+            newGameButton.setMnemonic(KeyEvent.VK_E);
+            newGameButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    Object[] possibilities = {"2", "3", "4", "6"};
+                    String s = (String)JOptionPane.showInputDialog(
+                            null,
+                            "Choose the number of players:\n",
+                            "Number of players",
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            possibilities,
+                            "2");
 
-                if ((s != null) && (s.length() > 0)) {
-                    return;
+                    if ((s != null) && (s.length() > 0)) {
+                        return;
+                    }
                 }
-            }
-        });
-        menubar.add(newGameButton);
+            });
+            menubar.add(newGameButton);
 
-        /**
-         * Creating the "Help" item, which gives users basic information
-         * about the application
-         */
+            /**
+             * Creating the "Help" item, which gives users basic information
+             * about the application
+             */
 
-        JMenuItem helpGameButton = new JMenuItem("Help");
-        helpGameButton.setMnemonic(KeyEvent.VK_E);
-        helpGameButton.setBackground(new Color(204, 204, 204));
-        helpGameButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Chinese checkers is a strategy board game of German origin,\n"
-                        +"which can be played by two, three, four, or six people.\n"
-                        +"The objective is to be first to race all of one's pieces across the hexagram-shaped board\n"
-                        + "into the corner of the star opposite one's starting corner�using single-step moves\n"
-                        + " or moves that jump over other pieces.\n", "Help", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
-        menubar.add(helpGameButton);
-        menubar.add(Box.createHorizontalGlue());
-        menubar.add(Box.createHorizontalGlue());
-        menubar.add(Box.createHorizontalGlue());
-        menubar.add(Box.createHorizontalGlue());
-        setJMenuBar(menubar);
+            JMenuItem helpGameButton = new JMenuItem("Help");
+            helpGameButton.setMnemonic(KeyEvent.VK_E);
+            helpGameButton.setBackground(new Color(204, 204, 204));
+            helpGameButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    JOptionPane.showMessageDialog(null, "Chinese checkers is a strategy board game of German origin,\n"
+                            +"which can be played by two, three, four, or six people.\n"
+                            +"The objective is to be first to race all of one's pieces across the hexagram-shaped board\n"
+                            + "into the corner of the star opposite one's starting corner�using single-step moves\n"
+                            + " or moves that jump over other pieces.\n", "Help", JOptionPane.INFORMATION_MESSAGE);
+                }
+            });
+            menubar.add(helpGameButton);
+            menubar.add(Box.createHorizontalGlue());
+            menubar.add(Box.createHorizontalGlue());
+            menubar.add(Box.createHorizontalGlue());
+            menubar.add(Box.createHorizontalGlue());
+            setJMenuBar(menubar);
 
-        panel = new Panel();
-        add(panel);
-    }
+            panel = new Panel();
+            add(panel);
+        }
 }
 
     class Panel extends JPanel {
@@ -158,7 +163,8 @@ public class TrylmaClient {
     MouseAdapter mouseAdapter;
 
     //TODO usunac
-    AbstractPeg[][] boardToDraw = null;
+//    AbstractPeg[][] boardToDraw = null;
+    Board boardToDraw;
     boolean isBoardLoad = false;
 
     /**
@@ -214,38 +220,38 @@ public class TrylmaClient {
         isBoardLoad = boardLoad;
     }
 
-    public void setBoardToDraw(AbstractPeg[][] board) {
+    public void setBoardToDraw(Board board) {
         boardToDraw = board;
     }
 
-    public void doPaint(Graphics graphics) {
-        try {
-            for(int i=0; i<17; i++) {
-                for(int j=0; j<13; j++) {
-                    boardToDraw[i][j].doDraw(graphics);
-                }
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void paint(Graphics graphics) {
-        super.paint(graphics);
-        if (isBoardLoad) {
-            for(int i=0; i<17; i++) {
-                for(int j=0; j<13; j++) {
-                    boardToDraw[i][j].doDraw(graphics);
-                }
-            }
-        }
-    }
+//    public void doPaint(Graphics graphics) {
+//        try {
+//            for(int i=0; i<17; i++) {
+//                for(int j=0; j<13; j++) {
+//                    boardToDraw[i][j].doDraw(graphics);
+//                }
+//            }
+//        } catch (NullPointerException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 //    public void paint(Graphics graphics) {
 //        super.paint(graphics);
-//        board.doDraw(graphics);
-//
+//        if (isBoardLoad) {
+//            for(int i=0; i<17; i++) {
+//                for(int j=0; j<13; j++) {
+//                    boardToDraw[i][j].doDraw(graphics);
+//                }
+//            }
+//        }
 //    }
+
+    public void paint(Graphics graphics) {
+        super.paint(graphics);
+        if (isBoardLoad)
+            boardToDraw.doDrawBoard(graphics);
+    }
 
     private void whenMouseClicked(MouseEvent e){
 		/*for(int i=0; i<17; i++) {
