@@ -1,9 +1,25 @@
+Błąd był bo przez ObjectOutputSteram wysyłałem obiekt typu List<AbstractPeg> teraz wysyłam tablicę
+AbstractPeg[] (jest mniej wygodnie ale działa)
+Wysyłane są wszystkie zmiany pegów
+
+Czyli teraz potrzeba:
+- metoda move() musi zwrócić te 2 pegi co zmienia albo null jak ruch jest niemożliwy
+- nowa metoda, która będzie wywoływana w serverze po akcji mouse pressed i zwróci pegi które mają
+    być podświetlone
+- trzeba ogarnąć żeby gracz mógł swoje pegi przesuwać (gracze mają takie samo ID jak ID pegów którymi grają
+
+
+Jak się połapiesz w tym to można podpiąć od razu, tylko trzeba będzie pokombinować bo:
+- po mousePressed trzeba wysłać te pegi do podświetlenia to konkretnego gracza
+- po mouseReleased trzeba zresetować podświetlenie u gracza i wysłać te obiekty z move do wszystkich graczy
+
+
+
+
 Pomysly:
 + Klasę TrylmaProtocol zrobić singletonem
 + Fabryki na pole board w klasie Game
 + Zamienić i,j na klase Punct
-
-
 
 
 - Olać pisanie bota jak braknie czasu
