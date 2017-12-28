@@ -111,7 +111,7 @@ public class Peg extends AbstractPeg implements Serializable{
     }
 
     public String toString() {
-        return "i=" + i + "j+" + j;
+        return "i=" + i + " j=" + j + " id=" + sectorID;
     }
 
 

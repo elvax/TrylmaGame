@@ -1,5 +1,6 @@
 package com.example.trylma.server;
 
+
 import com.example.trylma.controller.TrylmaStringProtocol;
 import com.example.trylma.model.AbstractPeg;
 import com.example.trylma.model.Game;
@@ -8,10 +9,7 @@ import com.example.trylma.model.Peg;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import static com.example.trylma.controller.TrylmaStringProtocol.*;
 
@@ -76,7 +74,7 @@ public class TrylmaServer {
 
     public static void main(String[] args) throws Exception {
         TrylmaServer server = new TrylmaServer();
-        server.waitForClients(2);
+        server.waitForClients(1);
     }
 
     private class PlayerThread extends Thread {
@@ -95,6 +93,8 @@ public class TrylmaServer {
 
         public void run() {
             try {
+                List<AbstractPeg> pegsToChange = new Vector<AbstractPeg>();
+
                 //Initalize streams
                 input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 output = new PrintWriter(socket.getOutputStream(), true);
@@ -119,18 +119,34 @@ public class TrylmaServer {
                             int x = protocol.getXmousePressed(fromClient);
                             int y = protocol.getYmousePressed(fromClient);
                             AbstractPeg pegClicked = currentGame.getClicked(x, y);
-                            System.out.println(currentGame.getClicked(x, y).toString());
+
+                            System.out.println("clicked: "+ currentGame.getClicked(x, y).toString());
 
                             fromClient = input.readLine();
                             //System.out.println("from client " + id + " " + fromClient);
                             if (fromClient.startsWith("RELEASED")) {
                                 int xD = protocol.getXmousePressed(fromClient);
                                 int yD = protocol.getYmousePressed(fromClient);
-                                //AbstractPeg pegDestiny = currentGame.getClicked(xD, yD);
+                                AbstractPeg pegDestiny = currentGame.getClicked(xD, yD);
                                 //System.out.println(currentGame.getClicked(xD, yD).toString());
-                                currentGame.printBoard();
+//                                currentGame.printBoard();
                                 currentGame.move(pegClicked, xD, yD);
-                                currentGame.printBoard();
+
+                                pegClicked.changeOwnerID(0);
+                                pegsToChange.add(new Peg(pegClicked.geti(), pegClicked.getj(), 0));
+
+                                pegDestiny.changeOwnerID(1);
+                                pegsToChange.add(new Peg(pegDestiny.geti(), pegDestiny.getj(), currentGame.getCurrentID()));
+
+                                for (AbstractPeg ap : pegsToChange) {
+                                    System.out.println(ap);
+                                }
+
+                                for (ObjectOutputStream objectOut : objectOutput) {
+                                    objectOut.writeObject(pegsToChange);
+                                }
+                                pegsToChange.clear();
+//                                currentGame.printBoard();
                             }
 
                         }

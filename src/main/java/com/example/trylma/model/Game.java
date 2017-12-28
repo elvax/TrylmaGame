@@ -33,7 +33,11 @@ public class Game {
     }
 
     public void setBoardForPlayers(int numberOfPlayers) {
-        if ( numberOfPlayers == 2 ) {
+        if (numberOfPlayers == 1) {
+            boardOfTrylma.fillSectorOne();
+
+            activeSectorsID.add(1);
+        } else if ( numberOfPlayers == 2 ) {
             boardOfTrylma.fillSectorOne();
             boardOfTrylma.fillSectorFour();
 

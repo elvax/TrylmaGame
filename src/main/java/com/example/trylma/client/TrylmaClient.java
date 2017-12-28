@@ -1,7 +1,9 @@
 package com.example.trylma.client;
 
+import com.example.trylma.controller.TrylmaStringProtocol;
 import com.example.trylma.model.AbstractPeg;
 import com.example.trylma.model.Board;
+import com.example.trylma.model.Peg;
 import com.example.trylma.server.TrylmaServer;
 
 import javax.swing.*;
@@ -9,6 +11,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.Socket;
+import java.util.List;
+import java.util.Vector;
 
 import static com.example.trylma.controller.TrylmaStringProtocol.*;
 
@@ -64,6 +68,23 @@ public class TrylmaClient {
             frame.panel.setBoardToDraw(boardOfTrylma);
             frame.panel.setBoardLoad(true);
             frame.panel.repaint();
+        TrylmaStringProtocol protocol = new TrylmaStringProtocol();
+
+
+        List<AbstractPeg> toChange;
+        while (true) {
+            toChange = (List<AbstractPeg>) objectInputStream.readObject();
+            for (AbstractPeg ap : toChange) {
+                System.out.println(ap);
+            }
+
+            frame.panel.updateBoard(toChange);
+//            frame.panel.updateBoardLiveTest();
+            boardOfTrylma.setImage();
+            frame.panel.repaint();
+            toChange.clear();
+
+        }
 
     }
 
@@ -212,6 +233,19 @@ public class TrylmaClient {
 
     }
 
+    public void updateBoard(List<AbstractPeg> list) {
+        System.out.println(list.size());
+        boardToDraw.updateBoard(list);
+//        boardToDraw.printBoard();
+    }
+
+        public void updateBoardLiveTest() {
+            List<AbstractPeg> list = new Vector<AbstractPeg>();
+            list.add(new Peg(12, 6, 1));
+            boardToDraw.updateBoard(list);
+
+            boardToDraw.printBoard();
+        }
     public boolean isBoardLoad() {
         return isBoardLoad;
     }

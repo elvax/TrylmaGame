@@ -158,6 +158,20 @@ public class Board implements Serializable{
         }
     }
 
+    public void updateBoard(List<AbstractPeg> list) {
+        for (AbstractPeg newPeg : list) {
+            for (int i = 0; i < I_BOARD_SIZE; i++) {
+                for (int j = 0; j < J_BOARD_SIZE; j++) {
+                    if (board[i][j].geti() == newPeg.geti()
+                            && board[i][j].getj() == newPeg.getj()) {
+                        board[i][j] = newPeg;
+                    }
+
+                }
+            }
+        }
+    }
+
     //red
     public void fillSectorOne(){
         for(int j=5; j<9; j++) {
