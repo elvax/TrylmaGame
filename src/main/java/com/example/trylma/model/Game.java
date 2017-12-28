@@ -111,6 +111,22 @@ public class Game {
 //        return false;
 //    }
 
+    public AbstractPeg findActive(int x, int y, int ID) {
+        AbstractPeg activePeg = null;
+        for(int i=0; i<17; i++) {
+ 			for(int j=0; j<13; j++) {
+ 				AbstractPeg p = boardOfTrylma.getPeg(i,j);
+ 				//System.out.println(p.getSectorID() + " " + ID);
+ 				if(p.isClicked(x,y) == true && p.getSectorID()==ID){
+ 					//System.out.println(i + " " + j + "klikniety");
+ 					activePeg = p;
+ 				}
+ 			}
+ 		}
+ 		return activePeg;
+    }
+
+
     public static void main(String[] args) {
         Game game = new Game();
 //        game.printBoard();
