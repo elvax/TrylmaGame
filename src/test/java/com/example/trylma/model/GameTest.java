@@ -23,9 +23,9 @@ public class GameTest {
     @Test
     public void moveTest() {
         AbstractPeg pegToMove = game.getPeg(13, 5);
-        AbstractPeg pegDestiny = game.getPeg(12, 6);
+        AbstractPeg pegDestiny = game.getPeg(12, 5);
 
-        game.move(pegToMove, pegDestiny.getxDraw(), pegDestiny.getyDraw());
-        assertEquals(1, game.getPeg(12,6).getSectorID());
+        game.move(pegToMove, pegDestiny.getxDraw()+15, pegDestiny.getyDraw()+15);
+        assertEquals(1, game.getPeg(12,5).getSectorID());
     }
 }
