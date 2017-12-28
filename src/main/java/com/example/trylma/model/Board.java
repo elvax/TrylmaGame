@@ -243,6 +243,16 @@ public class Board implements Serializable{
         board[9][11] = new Peg(9, 2, 6);
     }
 
+    public AbstractPeg getClicked(int x, int y) {
+        for (int i = 0; i < I_BOARD_SIZE; i++) {
+            for (int j = 0; j < J_BOARD_SIZE; j++) {
+                if (board[i][j].isClicked(x, y))
+                    return board[i][j];
+            }
+        }
+        return null;
+    }
+
     public AbstractPeg getPeg(int i, int j){
         return board[i][j];
     }
@@ -353,10 +363,16 @@ public class Board implements Serializable{
     }
 
 
+
     public void printBoard(){
         for(int o=0; o<17; o++){
             for(int k=0; k<13; k++){
-                System.out.print(board[o][k].getSectorID());
+                if (board[o][k].getSectorID() < 0) {
+                    System.out.print("-");
+                } else {
+                    System.out.print(board[o][k].getSectorID());
+                }
+
             }
             System.out.println("");
         }

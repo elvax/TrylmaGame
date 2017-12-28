@@ -126,6 +126,17 @@ public class Game {
  		return activePeg;
     }
 
+    public void move(AbstractPeg pegToMove, AbstractPeg pegDestiny) {
+        boardOfTrylma.move(pegToMove, pegDestiny.geti(), pegDestiny.getj());
+    }
+
+    public AbstractPeg getClicked(int x, int y) {
+        return boardOfTrylma.getClicked(x, y);
+    }
+
+    public void printBoard() {
+        boardOfTrylma.printBoard();
+    }
 
     public static void main(String[] args) {
         Game game = new Game();
