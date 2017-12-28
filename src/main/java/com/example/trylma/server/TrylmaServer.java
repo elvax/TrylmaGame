@@ -1,7 +1,9 @@
 package com.example.trylma.server;
 
 import com.example.trylma.controller.TrylmaStringProtocol;
+import com.example.trylma.model.AbstractPeg;
 import com.example.trylma.model.Game;
+import com.example.trylma.model.Peg;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -21,6 +23,7 @@ public class TrylmaServer {
     Game currentGame;
     int currentPlayer=0;
     int numberOfPlayers;
+    AbstractPeg activePeg;
 
     BufferedReader inputLineFromStdIn = new BufferedReader(new InputStreamReader(System.in));
     String fromUser;
@@ -110,8 +113,25 @@ public class TrylmaServer {
 
                     if (currentGame.getCurrentID() == this.id) {
                         String fromClient = input.readLine();
-
                         System.out.println("from client " + id + " " + fromClient);
+                        //wciśnięty : to ustawiam aktywny pionek i
+                        if (fromClient.equals(sendMousePressed(protocol.getXmousePressed(fromClient),protocol.getYmousePressed(fromClient)))){
+                            activePeg = currentGame.findActive(protocol.getXmousePressed(fromClient), protocol.getYmousePressed(fromClient),currentGame.getCurrentID());
+                            if(activePeg!=null){
+                                currentGame.getBoardOfTrylma().move((Peg)activePeg, protocol.getXmousePressed(fromClient), protocol.getYmousePressed(fromClient));
+                            }
+                        }
+                        //puszczony to nanoszę ruch metodą move, ktora sprawdza czy ruch jest ok jesli ok to nanosi zmiany
+                        // a jesli nie jest ok to ich nie nanosi do tablicy
+                        if (fromClient.equals("RELEASED (" + protocol.getXmousePressed(fromClient) + "," + protocol.getYmousePressed(fromClient) + ")")){
+                            if(activePeg!=null){
+                                currentGame.getBoardOfTrylma().move((Peg)activePeg, protocol.getXmousePressed(fromClient), protocol.getYmousePressed(fromClient));
+                            }
+                            //currentGame.getBoardOfTrylma().printBoard();
+                            // nie wiem myslalam ze w ten sposób naniosę zmiany do klientów ale chyba nie tak to sie robi
+                            // bo chociaz tablica sie zmienia to klient nawet po uzyciu petli(while w kliencie) jej nie dostaje
+                            objectOutputStream.writeObject(currentGame.getBoardOfTrylma());
+                        }
                         if (fromClient.equals(sendEndTurn())) {
                             currentGame.nextPlayer();
                         }
@@ -125,5 +145,6 @@ public class TrylmaServer {
         }
 
     }
+
 }
 

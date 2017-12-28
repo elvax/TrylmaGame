@@ -56,15 +56,14 @@ public class TrylmaClient {
         stdIn = new BufferedReader(new InputStreamReader(System.in));
         objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         objectInputStream = new ObjectInputStream(socket.getInputStream());
-
+        
 //        gameBoard = (AbstractPeg[][]) objectInputStream.readObject();
-        boardOfTrylma = (Board) objectInputStream.readObject();
-
-        boardOfTrylma.setImage();
-        frame.panel.setBoardToDraw(boardOfTrylma);
-        frame.panel.setBoardLoad(true);
-        frame.panel.repaint();
-
+            boardOfTrylma = (Board) objectInputStream.readObject();
+            boardOfTrylma.printBoard();
+            boardOfTrylma.setImage();
+            frame.panel.setBoardToDraw(boardOfTrylma);
+            frame.panel.setBoardLoad(true);
+            frame.panel.repaint();
 
     }
 
