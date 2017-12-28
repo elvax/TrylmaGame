@@ -132,20 +132,22 @@ public class TrylmaServer {
 //                                currentGame.printBoard();
                                 currentGame.move(pegClicked, xD, yD);
 
-                                //pegClicked.changeOwnerID(0);
-                                ///pegsToChange.add(new Peg(pegClicked.geti(), pegClicked.getj(), 0));
+                                pegClicked = new Peg(pegClicked.geti(), pegClicked.getj(), 0);
+                                pegsToChange.add(pegClicked);
 
-                                //pegDestiny.changeOwnerID(1);
-                                //pegsToChange.add(new Peg(pegDestiny.geti(), pegDestiny.getj(), currentGame.getCurrentID()));
+                                pegDestiny = new Peg(pegDestiny.geti(), pegDestiny.getj(), currentGame.getCurrentID());
+                                pegsToChange.add(pegDestiny);
 
-                                //for (AbstractPeg ap : pegsToChange) {
-                                //    System.out.println(ap);
-                                //}
-
-                                //for (ObjectOutputStream objectOut : objectOutput) {
-                                //    objectOut.writeObject(pegsToChange);
-                                //}
-                                //pegsToChange.clear();
+                                for (AbstractPeg ap : pegsToChange) {
+                                    System.out.println(ap);
+                                }
+                                AbstractPeg[] array = new AbstractPeg[2];
+                                array[0] = pegClicked;
+                                array[1] = pegDestiny;
+                                for (ObjectOutputStream objectOut : objectOutput) {
+                                    objectOut.writeObject(array);
+                                }
+                                pegsToChange.clear();
                                 currentGame.printBoard();
                             }
 

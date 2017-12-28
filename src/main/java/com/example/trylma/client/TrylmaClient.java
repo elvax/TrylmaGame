@@ -71,18 +71,17 @@ public class TrylmaClient {
         TrylmaStringProtocol protocol = new TrylmaStringProtocol();
 
 
-        List<AbstractPeg> toChange;
+        AbstractPeg[] toChange;
         while (true) {
-            toChange = (List<AbstractPeg>) objectInputStream.readObject();
+            toChange = (AbstractPeg[]) objectInputStream.readObject();
             for (AbstractPeg ap : toChange) {
                 System.out.println(ap);
             }
 
             frame.panel.updateBoard(toChange);
 //            frame.panel.updateBoardLiveTest();
-            boardOfTrylma.setImage();
+            frame.panel.boardToDraw.setImage();
             frame.panel.repaint();
-            toChange.clear();
 
         }
 
@@ -233,19 +232,19 @@ public class TrylmaClient {
 
     }
 
-    public void updateBoard(List<AbstractPeg> list) {
-        System.out.println(list.size());
+    public void updateBoard(AbstractPeg[] list ) {
+        System.out.println(list.length);
         boardToDraw.updateBoard(list);
 //        boardToDraw.printBoard();
     }
 
-        public void updateBoardLiveTest() {
-            List<AbstractPeg> list = new Vector<AbstractPeg>();
-            list.add(new Peg(12, 6, 1));
-            boardToDraw.updateBoard(list);
-
-            boardToDraw.printBoard();
-        }
+//        public void updateBoardLiveTest() {
+//            List<AbstractPeg> list = new Vector<AbstractPeg>();
+//            list.add(new Peg(12, 6, 1));
+//            boardToDraw.updateBoard(list);
+//
+//            boardToDraw.printBoard();
+//        }
     public boolean isBoardLoad() {
         return isBoardLoad;
     }

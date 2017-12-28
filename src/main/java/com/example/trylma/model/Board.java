@@ -158,7 +158,7 @@ public class Board implements Serializable{
         }
     }
 
-    public void updateBoard(List<AbstractPeg> list) {
+    public void updateBoard(AbstractPeg[] list) {
         for (AbstractPeg newPeg : list) {
             for (int i = 0; i < I_BOARD_SIZE; i++) {
                 for (int j = 0; j < J_BOARD_SIZE; j++) {
