@@ -138,6 +138,9 @@ public class Game {
         boardOfTrylma.printBoard();
     }
 
+    public AbstractPeg getPeg(int i, int j) {
+        return boardOfTrylma.getPeg(i, j);
+    }
     public static void main(String[] args) {
         Game game = new Game();
 //        game.printBoard();

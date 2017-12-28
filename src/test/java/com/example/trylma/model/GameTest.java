@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.util.Random;
 
+import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
 public class GameTest {
@@ -15,6 +16,16 @@ public class GameTest {
     @Before
     public void initialize() throws Exception {
         game = new Game();
+        game.setBoardForPlayers(6);
         assertNotNull(game);
+    }
+
+    @Test
+    public void moveTest() {
+        AbstractPeg pegToMove = game.getPeg(13, 5);
+        AbstractPeg pegDestiny = game.getPeg(12, 6);
+
+        game.move(pegToMove, pegDestiny);
+        assertEquals(1, game.getPeg(12,6).getSectorID());
     }
 }
