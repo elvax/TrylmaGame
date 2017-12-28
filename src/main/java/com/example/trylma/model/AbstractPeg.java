@@ -9,6 +9,8 @@ public abstract class AbstractPeg {
     abstract public int getSectorID();
     abstract public int geti();
     abstract public int getj();
+    abstract public int getxDraw();
+    abstract public int getyDraw();
     abstract public void setXY(int x, int y);
     abstract public void changeOwnerID(int newOwnerID);
     abstract public boolean isClicked(int x, int y);

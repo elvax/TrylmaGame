@@ -126,8 +126,8 @@ public class Game {
  		return activePeg;
     }
 
-    public void move(AbstractPeg pegToMove, AbstractPeg pegDestiny) {
-        boardOfTrylma.move(pegToMove, pegDestiny.geti(), pegDestiny.getj());
+    public void move(AbstractPeg pegToMove, int x, int y) {
+        boardOfTrylma.move(pegToMove, x, y);
     }
 
     public AbstractPeg getClicked(int x, int y) {

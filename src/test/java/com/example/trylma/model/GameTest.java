@@ -25,7 +25,7 @@ public class GameTest {
         AbstractPeg pegToMove = game.getPeg(13, 5);
         AbstractPeg pegDestiny = game.getPeg(12, 6);
 
-        game.move(pegToMove, pegDestiny);
+       // game.move(pegToMove, pegDestiny.getxDraw(), pegDestiny.getyDraw());
         assertEquals(1, game.getPeg(12,6).getSectorID());
     }
 }

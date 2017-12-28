@@ -122,13 +122,14 @@ public class TrylmaServer {
                             System.out.println(currentGame.getClicked(x, y).toString());
 
                             fromClient = input.readLine();
+                            //System.out.println("from client " + id + " " + fromClient);
                             if (fromClient.startsWith("RELEASED")) {
                                 int xD = protocol.getXmousePressed(fromClient);
                                 int yD = protocol.getYmousePressed(fromClient);
-                                AbstractPeg pegDestiny = currentGame.getClicked(xD, yD);
-                                System.out.println(currentGame.getClicked(xD, yD).toString());
+                                //AbstractPeg pegDestiny = currentGame.getClicked(xD, yD);
+                                //System.out.println(currentGame.getClicked(xD, yD).toString());
                                 currentGame.printBoard();
-                                currentGame.move(pegClicked, pegDestiny);
+                                currentGame.move(pegClicked, xD, yD);
                                 currentGame.printBoard();
                             }
 
