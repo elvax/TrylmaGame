@@ -47,6 +47,14 @@ public class Peg extends AbstractPeg implements Serializable{
         return yDraw;
     }
 
+    public int geti(){
+        return i;
+    }
+
+    public int getj(){
+        return j;
+    }
+
     public int getSectorID() {
         return sectorID;
     }
@@ -82,7 +90,7 @@ public class Peg extends AbstractPeg implements Serializable{
     }
 
     public boolean isClicked(int x, int y){
-        if (sectorID < 1)
+        if (sectorID < 0)
             return false;
         int x_c = this.xDraw + 15;
         int y_c = this.yDraw + 15;
