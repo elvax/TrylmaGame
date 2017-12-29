@@ -76,6 +76,8 @@ public class Peg extends AbstractPeg implements Serializable{
             image = ImageIO.read(new File("src/main/resources/orange.png"));
         }else if (sectorID == 6) {
             image = ImageIO.read(new File("src/main/resources/green.png"));
+        }else if (sectorID == 7) {
+            image = ImageIO.read(new File("src/main/resources/yellow.png"));
         }
     }
 
