@@ -235,7 +235,7 @@ public class TrylmaClient {
     public void updateBoard(AbstractPeg[] list ) {
         System.out.println(list.length);
         boardToDraw.updateBoard(list);
-//        boardToDraw.printBoard();
+       boardToDraw.printBoard();
     }
 
 //        public void updateBoardLiveTest() {
