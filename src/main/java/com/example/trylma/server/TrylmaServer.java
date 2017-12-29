@@ -113,7 +113,7 @@ public class TrylmaServer {
 
                     if (currentGame.getCurrentID() == this.id) {
                         String fromClient = input.readLine();
-                        System.out.println("from client " + id + " " + fromClient);
+                        //System.out.println("from client " + id + " " + fromClient);
 
                         if (fromClient.startsWith("PRESSED")) {
                             int x = protocol.getXmousePressed(fromClient);
@@ -130,7 +130,7 @@ public class TrylmaServer {
                                         //array2[i] = p;
                                         //System.out.println("ECH:" + p);
                                         array2[i]=new Peg(p.geti(),p.getj(),p.getSectorID());
-                                        System.out.println("ToSEND1: i="+ array2[i].geti() + " j= " + array2[i].getj() + " id=" + array2[i].getSectorID());
+                                        //System.out.println("ToSEND1: i="+ array2[i].geti() + " j= " + array2[i].getj() + " id=" + array2[i].getSectorID());
 
                                     }
                                     for (ObjectOutputStream objectOut : objectOutput) {
@@ -141,7 +141,7 @@ public class TrylmaServer {
                             }
                             fromClient = input.readLine();
                             if (fromClient.startsWith("RELEASED") && pegClicked!=null) {
-                                System.out.println("Clicked2: i="+ pegClicked.geti() + " j= " + pegClicked.getj());
+                                //System.out.println("Clicked2: i="+ pegClicked.geti() + " j= " + pegClicked.getj());
                                 currentGame.changePossibleMoves(pegsToChange);
                                 currentGame.printBoard();
                                 int xD = protocol.getXmousePressed(fromClient);
@@ -160,7 +160,7 @@ public class TrylmaServer {
                                     AbstractPeg[] array3 = new AbstractPeg[pegsToChange.size()];
                                     for(int i=0; i<pegsToChange.size(); i++){
                                         array3[i]=pegsToChange.get(i);
-                                        System.out.println("ToSEND2: i="+ array3[i].geti() + " j= " + array3[i].getj() + " id=" + array3[i].getSectorID());
+                                        //System.out.println("ToSEND2: i="+ array3[i].geti() + " j= " + array3[i].getj() + " id=" + array3[i].getSectorID());
                                     }
                                     for (ObjectOutputStream objectOut : objectOutput) {
                                         objectOut.writeObject(array3);

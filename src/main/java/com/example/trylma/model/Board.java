@@ -346,6 +346,7 @@ public class Board implements Serializable{
     public List<AbstractPeg> correctMoves(AbstractPeg p){
         List<AbstractPeg> moves = findEmptyNeighbours(p);
         List<AbstractPeg> notEmpty = findNotEmptyNeighbours(p);
+        List<AbstractPeg> correctmoves = new ArrayList<AbstractPeg>();
         for(int i=0; i < notEmpty.size(); i++){
             AbstractPeg neighbour = notEmpty.get(i);
             int j_move = -1;
@@ -378,6 +379,15 @@ public class Board implements Serializable{
             if(i_move!=-1 && j_move!=-1 && board[i_move][j_move].getSectorID()==0){
                 moves.add(board[i_move][j_move]);
             }
+            /*if(isInCorner(p)==true){
+                for(int k=0; k<moves.size(); k++){
+                    if(isInCorner(moves.get(k))==true){
+                        correctmoves.add(moves.get(k));
+                        System.out.println(moves.get(k));
+                    }
+                }
+                return correctmoves;
+            }*/
         }
         return moves;
     }
@@ -386,9 +396,9 @@ public class Board implements Serializable{
         List<AbstractPeg> moves = correctMoves(p);
         for(int i = 0; i < moves.size(); i++){
             AbstractPeg m = moves.get(i);
-            System.out.println(m);
+            //System.out.println(m);
             m.changeOwnerID(7);
-            System.out.println(m);
+            //System.out.println(m);
             board[m.geti()][m.getj()]=m;
             //printBoard();
         }
@@ -398,13 +408,45 @@ public class Board implements Serializable{
     public void changeIdPossibleMoves(List<AbstractPeg> list){
         for(int i = 0; i < list.size(); i++){
             AbstractPeg m = list.get(i);
-            System.out.println(m);
+            //System.out.println(m);
             m.changeOwnerID(0);
-            System.out.println(m);
+            //System.out.println(m);
             board[m.geti()][m.getj()]=m;
             //printBoard();
         }
     }
+
+    /*public boolean isInCorner(AbstractPeg p){
+        int id = p.getSectorID();
+        if(id==1 && p.geti()<4 || id==0 && p.geti()<4){
+            return true;
+        } else if(id==4 && p.geti()>12 || id==0 && p.geti()>12){
+            return true;
+        } else if(id==5 || id==0){
+            for(int j=0; j<4; j++) {
+                if(p.geti()==12 && p.getj()==j){ return true; }
+            }
+            for(int j=1; j<4; j++){
+                if(p.geti()==11 && p.getj()==j){ return true; }
+            }
+            for(int j=1; j<3; j++){
+                if(p.geti()==10 && p.getj()==j){ return true; }
+            }
+            if(p.geti()==9 && p.getj()==2){ return true; }
+        }else if(id==2 || id==0){
+            for(int j=9; j<13; j++) {
+                if(p.geti()==4 && p.getj()==j){ return true; }
+            }
+            for(int j=10; j<13; j++){
+                if(p.geti()==5 && p.getj()==j){ return true; }
+            }
+            for(int j=10; j<12; j++){
+                if(p.geti()==6 && p.getj()==j){ return true; }
+            }
+            if(p.geti()==7 && p.getj()==11){ return true; }
+        }
+        return false;
+    }*/
 
 
     public void printBoard(){
