@@ -283,9 +283,10 @@ public class Board implements Serializable{
         if (i == 0) { bi = i; }
         else if (i == I_BOARD_SIZE - 1) { ei = i; }
         if (j == 0) { bj = j; }
-        else if (j == J_BOARD_SIZE - 1) { bj = j; }
+        else if (j == J_BOARD_SIZE - 1) { ej = j; }
         for (int k = bi; k <= ei; k++) {
             for (int t = bj; t <= ej; t++) {
+                //System.out.println("k i t :" + k + " " + t);
                 if (((t == j - 1 && i % 2 == 0) && (k == i - 1 || k == i + 1)) || k == i && t == j) {}
                 else if ((t == j + 1 && i % 2 != 0) && (k == i + 1 || k == i - 1)) {}
                 else { neighbours.add(board[k][t]);
@@ -325,7 +326,8 @@ public class Board implements Serializable{
 
     //sprawdza czy ruch był poprawny, tzn czy jest w liscie mozliwych ruchów i jeśli jest zmienia identyfikatory
     // czyli nanosi ruch na planszę.
-    public void move(AbstractPeg p, int i, int j){
+    public List<AbstractPeg> move(AbstractPeg p, int i, int j){
+        List<AbstractPeg> pegs = new ArrayList<AbstractPeg>();
         List<AbstractPeg> neighbours = correctMoves(p);
         for(int t=0; t<neighbours.size(); t++){
             AbstractPeg temp = neighbours.get(t);
@@ -333,8 +335,12 @@ public class Board implements Serializable{
             if(temp.isClicked(i,j)==true && temp.getSectorID()==0){
                 board[temp.geti()][temp.getj()]=new Peg(temp.geti(),temp.getj(),p.getSectorID());
                 board[p.geti()][p.getj()]=new Peg(p.geti(),p.getj(),0);
+                pegs.add(board[p.geti()][p.getj()]);
+                pegs.add(board[temp.geti()][temp.getj()]);
+                return pegs;
             }
         }
+        return pegs;
     }
     //zwraca listę wszystkich możliwych ruchów tzn, sasiadów którzy mają id=0 uzupełnionych o skoki.
     public List<AbstractPeg> correctMoves(AbstractPeg p){
@@ -376,6 +382,29 @@ public class Board implements Serializable{
         return moves;
     }
 
+    public List<AbstractPeg> setPossibleMoves(AbstractPeg p){
+        List<AbstractPeg> moves = correctMoves(p);
+        for(int i = 0; i < moves.size(); i++){
+            AbstractPeg m = moves.get(i);
+            System.out.println(m);
+            m.changeOwnerID(7);
+            System.out.println(m);
+            board[m.geti()][m.getj()]=m;
+            //printBoard();
+        }
+        return moves;
+    }
+
+    public void changeIdPossibleMoves(List<AbstractPeg> list){
+        for(int i = 0; i < list.size(); i++){
+            AbstractPeg m = list.get(i);
+            System.out.println(m);
+            m.changeOwnerID(0);
+            System.out.println(m);
+            board[m.geti()][m.getj()]=m;
+            //printBoard();
+        }
+    }
 
 
     public void printBoard(){

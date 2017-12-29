@@ -93,7 +93,7 @@ public class TrylmaServer {
 
         public void run() {
             try {
-                List<AbstractPeg> pegsToChange = new Vector<AbstractPeg>();
+                List<AbstractPeg> pegsToChange = new ArrayList<AbstractPeg>();
 
                 //Initalize streams
                 input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -118,34 +118,53 @@ public class TrylmaServer {
                         if (fromClient.startsWith("PRESSED")) {
                             int x = protocol.getXmousePressed(fromClient);
                             int y = protocol.getYmousePressed(fromClient);
-                            AbstractPeg pegClicked = currentGame.getClicked(x, y);
+                            AbstractPeg pegClicked = currentGame.findActive(x, y, id);
+                            if(pegClicked!=null){
+                                List<AbstractPeg> possibilities = currentGame.setPossibleMoves(pegClicked);
+                                if(possibilities.size()>0){
+                                    AbstractPeg[] array2 = new AbstractPeg[possibilities.size()];
+                                    for(int i=0; i<possibilities.size(); i++){
+                                        AbstractPeg p = possibilities.get(i);
+                                        //pegsToChange.add(possibilities.get(i));
+                                        pegsToChange.add(p);
+                                        //array2[i] = p;
+                                        //System.out.println("ECH:" + p);
+                                        array2[i]=new Peg(p.geti(),p.getj(),p.getSectorID());
+                                        System.out.println("ToSEND1: i="+ array2[i].geti() + " j= " + array2[i].getj() + " id=" + array2[i].getSectorID());
 
-                            System.out.println("clicked: "+ currentGame.getClicked(x, y).toString());
+                                    }
+                                    for (ObjectOutputStream objectOut : objectOutput) {
+                                        objectOut.writeObject(array2);
+                                    }
+                                }
 
+                            }
                             fromClient = input.readLine();
-                            //System.out.println("from client " + id + " " + fromClient);
-                            if (fromClient.startsWith("RELEASED")) {
+                            if (fromClient.startsWith("RELEASED") && pegClicked!=null) {
+                                System.out.println("Clicked2: i="+ pegClicked.geti() + " j= " + pegClicked.getj());
+                                currentGame.changePossibleMoves(pegsToChange);
+                                currentGame.printBoard();
                                 int xD = protocol.getXmousePressed(fromClient);
                                 int yD = protocol.getYmousePressed(fromClient);
                                 AbstractPeg pegDestiny = currentGame.getClicked(xD, yD);
-                                //System.out.println(currentGame.getClicked(xD, yD).toString());
-//                                currentGame.printBoard();
-                                currentGame.move(pegClicked, xD, yD);
 
-                                pegClicked = new Peg(pegClicked.geti(), pegClicked.getj(), 0);
-                                pegsToChange.add(pegClicked);
+                                List<AbstractPeg> pegs = currentGame.move(pegClicked, xD, yD);
 
-                                pegDestiny = new Peg(pegDestiny.geti(), pegDestiny.getj(), currentGame.getCurrentID());
-                                pegsToChange.add(pegDestiny);
-
-                                for (AbstractPeg ap : pegsToChange) {
-                                    System.out.println(ap);
+                                if (pegs.size()==2) {
+                                    pegClicked = pegs.get(0);
+                                    pegsToChange.add(pegClicked);
+                                    pegDestiny = pegs.get(1);
+                                    pegsToChange.add(pegDestiny);
                                 }
-                                AbstractPeg[] array = new AbstractPeg[2];
-                                array[0] = pegClicked;
-                                array[1] = pegDestiny;
-                                for (ObjectOutputStream objectOut : objectOutput) {
-                                    objectOut.writeObject(array);
+                                if(pegsToChange.size()>0){
+                                    AbstractPeg[] array3 = new AbstractPeg[pegsToChange.size()];
+                                    for(int i=0; i<pegsToChange.size(); i++){
+                                        array3[i]=pegsToChange.get(i);
+                                        System.out.println("ToSEND2: i="+ array3[i].geti() + " j= " + array3[i].getj() + " id=" + array3[i].getSectorID());
+                                    }
+                                    for (ObjectOutputStream objectOut : objectOutput) {
+                                        objectOut.writeObject(array3);
+                                    }
                                 }
                                 pegsToChange.clear();
                                 currentGame.printBoard();
