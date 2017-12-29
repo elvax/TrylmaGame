@@ -117,25 +117,28 @@ public class Game {
 
     public AbstractPeg findActive(int x, int y, int ID) {
         AbstractPeg activePeg = null;
-        for(int i=0; i<17; i++) {
- 			for(int j=0; j<13; j++) {
- 				AbstractPeg p = boardOfTrylma.getPeg(i,j);
- 				//System.out.println(p.getSectorID() + " " + ID);
- 				if(p.isClicked(x,y) == true && p.getSectorID()==ID){
- 					//System.out.println(i + " " + j + "klikniety");
- 					activePeg = p;
- 				}
- 			}
- 		}
+        AbstractPeg p = getClicked(x,y);
+        if(p!=null && p.getSectorID()==ID){
+            //System.out.println(i + " " + j + "klikniety");
+            activePeg = p;
+        }
  		return activePeg;
     }
 
-    public void move(AbstractPeg pegToMove, int x, int y) {
-        boardOfTrylma.move(pegToMove, x, y);
+    public List<AbstractPeg> move(AbstractPeg pegToMove, int x, int y) {
+        return boardOfTrylma.move(pegToMove, x, y);
     }
 
     public AbstractPeg getClicked(int x, int y) {
         return boardOfTrylma.getClicked(x, y);
+    }
+
+    public List<AbstractPeg> setPossibleMoves(AbstractPeg p){
+        return boardOfTrylma.setPossibleMoves(p);
+    }
+
+    public void changePossibleMoves(List<AbstractPeg> list){
+        boardOfTrylma.changeIdPossibleMoves(list);
     }
 
     public void printBoard() {
