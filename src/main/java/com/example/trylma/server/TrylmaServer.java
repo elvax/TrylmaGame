@@ -74,7 +74,7 @@ public class TrylmaServer {
 
     public static void main(String[] args) throws Exception {
         TrylmaServer server = new TrylmaServer();
-        server.waitForClients(4);
+        server.waitForClients(1);
     }
 
     private class PlayerThread extends Thread {
