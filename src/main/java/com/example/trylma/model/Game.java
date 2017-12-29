@@ -103,6 +103,9 @@ public class Game {
     public Board getBoardOfTrylma(){
         return boardOfTrylma;
     }
+    public void setPegOfBoardOfTrylma(int i, int j, int Owner){
+        boardOfTrylma.setPeg(i,j,Owner);
+    }
 
 
 //    public boolean isClicked(int x, int y) {
@@ -143,6 +146,25 @@ public class Game {
 
     public void printBoard() {
         boardOfTrylma.printBoard();
+    }
+
+    //Sprawdza czy Gracz zapełnił cały przeciwległy róg.
+    public boolean isWinner(int PlayerID){
+        int sector=0;
+        if(PlayerID==1){ sector = 4; }
+        else if(PlayerID==4){ sector = 1; }
+        else if(PlayerID==6){ sector = 3; }
+        else if(PlayerID==3){ sector = 6; }
+        else if(PlayerID==5){ sector = 2; }
+        else if(PlayerID==2){ sector = 5; }
+        List<AbstractPeg> pegs = boardOfTrylma.getPegsOfSector(sector);
+        for(int i=0; i<pegs.size(); i++){
+            AbstractPeg p = pegs.get(i);
+            if(p.getSectorID()!=PlayerID){
+                return false;
+            }
+        }
+        return true;
     }
 
     public AbstractPeg getPeg(int i, int j) {
