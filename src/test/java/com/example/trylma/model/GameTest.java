@@ -5,6 +5,7 @@ import com.example.trylma.model.Peg;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
 import java.util.Random;
 
 import static junit.framework.TestCase.assertEquals;
@@ -28,4 +29,23 @@ public class GameTest {
         game.move(pegToMove, pegDestiny.getxDraw()+15, pegDestiny.getyDraw()+15);
         assertEquals(1, game.getPeg(12,5).getSectorID());
     }
+
+    @Test
+    public void isWinnerTest() {
+        int OwnerID = 6;
+        game = new Game();
+        Board board = game.getBoardOfTrylma();
+        List<AbstractPeg> list = board.getPegsOfSector(3);
+
+        for(int i=0; i< list.size(); i++){
+            AbstractPeg p = list.get(i);
+            game.setPegOfBoardOfTrylma(p.geti(),p.getj(),OwnerID);
+        }
+        game.printBoard();
+        boolean a = game.isWinner(OwnerID);
+        System.out.println(a);
+        assertEquals(true, a);
+    }
+
+
 }
