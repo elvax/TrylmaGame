@@ -254,7 +254,7 @@ public class Board implements Serializable{
         for (int j = 10; j < 12; j++) {
             board[10][j] = new Peg(10, j, 6);
         }
-        board[9][11] = new Peg(9, 2, 6);
+        board[9][11] = new Peg(9, 11, 6);
     }
 
     public AbstractPeg getClicked(int x, int y) {
@@ -327,11 +327,12 @@ public class Board implements Serializable{
     //sprawdza czy ruch był poprawny, tzn czy jest w liscie mozliwych ruchów i jeśli jest zmienia identyfikatory
     // czyli nanosi ruch na planszę.
     public List<AbstractPeg> move(AbstractPeg p, int i, int j){
+        System.out.println("MOVE" + p);
         List<AbstractPeg> pegs = new ArrayList<AbstractPeg>();
         List<AbstractPeg> neighbours = correctMoves(p);
         for(int t=0; t<neighbours.size(); t++){
             AbstractPeg temp = neighbours.get(t);
-            //System.out.println("Sasiad: " + temp.geti() + " " + temp.getj());
+            System.out.println("Sasiad: " + temp.geti() + " " + temp.getj());
             if(temp.isClicked(i,j)==true && temp.getSectorID()==0){
                 board[temp.geti()][temp.getj()]=new Peg(temp.geti(),temp.getj(),p.getSectorID());
                 board[p.geti()][p.getj()]=new Peg(p.geti(),p.getj(),0);
@@ -344,10 +345,12 @@ public class Board implements Serializable{
     }
     //zwraca listę wszystkich możliwych ruchów tzn, sasiadów którzy mają id=0 uzupełnionych o skoki.
     public List<AbstractPeg> correctMoves(AbstractPeg p){
+        System.out.println("CORRECT MOVE" + p);
         List<AbstractPeg> moves = findEmptyNeighbours(p);
         List<AbstractPeg> notEmpty = findNotEmptyNeighbours(p);
         List<AbstractPeg> correctmoves = new ArrayList<AbstractPeg>();
         for(int i=0; i < notEmpty.size(); i++){
+            System.out.println("CORRECT MOVE PĘTLA" + p);
             AbstractPeg neighbour = notEmpty.get(i);
             int j_move = -1;
             int i_move = -1;
@@ -379,15 +382,17 @@ public class Board implements Serializable{
             if(i_move!=-1 && j_move!=-1 && board[i_move][j_move].getSectorID()==0){
                 moves.add(board[i_move][j_move]);
             }
-            /*if(isInCorner(p)==true){
-                for(int k=0; k<moves.size(); k++){
-                    if(isInCorner(moves.get(k))==true){
-                        correctmoves.add(moves.get(k));
-                        System.out.println(moves.get(k));
-                    }
+        }
+        System.out.println("ISinCORNER" +isInCorner(p)+ " " +  p);
+        if(isInCorner(p)==true){
+            for(int k=0; k<moves.size(); k++){
+                System.out.println("ISinCORNER sasiad" +isInCorner(moves.get(k))+ " " +  moves.get(k));
+                if(isInCorner(moves.get(k))==true){
+                    correctmoves.add(moves.get(k));
+                    System.out.println(moves.get(k));
                 }
-                return correctmoves;
-            }*/
+            }
+            return correctmoves;
         }
         return moves;
     }
@@ -416,13 +421,15 @@ public class Board implements Serializable{
         }
     }
 
-    /*public boolean isInCorner(AbstractPeg p){
+    public boolean isInCorner(AbstractPeg p){
         int id = p.getSectorID();
-        if(id==1 && p.geti()<4 || id==0 && p.geti()<4){
+        if((id==1 && p.geti()<4) || (id==0 && p.geti()<4)){
             return true;
-        } else if(id==4 && p.geti()>12 || id==0 && p.geti()>12){
+        }
+        if((id==4 && p.geti()>12) || (id==0 && p.geti()>12)){
             return true;
-        } else if(id==5 || id==0){
+        }
+        if(id==5 || id==0){
             for(int j=0; j<4; j++) {
                 if(p.geti()==12 && p.getj()==j){ return true; }
             }
@@ -433,7 +440,8 @@ public class Board implements Serializable{
                 if(p.geti()==10 && p.getj()==j){ return true; }
             }
             if(p.geti()==9 && p.getj()==2){ return true; }
-        }else if(id==2 || id==0){
+        }
+        if(id==2 || id==0){
             for(int j=9; j<13; j++) {
                 if(p.geti()==4 && p.getj()==j){ return true; }
             }
@@ -445,8 +453,32 @@ public class Board implements Serializable{
             }
             if(p.geti()==7 && p.getj()==11){ return true; }
         }
+        if(id==3 || id==0){
+            for(int j=9; j<13; j++) {
+                if(p.geti()==12 && p.getj()==j){ return true; }
+            }
+            for(int j=10; j<13; j++){
+                if(p.geti()==11 && p.getj()==j){ return true; }
+            }
+            for(int j=10; j<12; j++){
+                if(p.geti()==10 && p.getj()==j){ return true; }
+            }
+            if(p.geti()==9 && p.getj()==11){ return true; }
+        }
+        if(id==6 || id==0) {
+            for (int j = 0; j < 4; j++) {
+                if (p.geti() == 4 && p.getj() == j) { return true; }
+            }
+            for (int j = 1; j < 4; j++) {
+                if (p.geti() == 5 && p.getj() == j) { return true; }
+            }
+            for (int j = 1; j < 3; j++) {
+                if (p.geti() == 6 && p.getj() == j) { return true; }
+            }
+            if (p.geti() == 7 && p.getj() == 2) { return true; }
+        }
         return false;
-    }*/
+    }
 
 
     public void printBoard(){

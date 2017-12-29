@@ -74,7 +74,7 @@ public class TrylmaServer {
 
     public static void main(String[] args) throws Exception {
         TrylmaServer server = new TrylmaServer();
-        server.waitForClients(1);
+        server.waitForClients(4);
     }
 
     private class PlayerThread extends Thread {
@@ -119,7 +119,9 @@ public class TrylmaServer {
                             int x = protocol.getXmousePressed(fromClient);
                             int y = protocol.getYmousePressed(fromClient);
                             AbstractPeg pegClicked = currentGame.findActive(x, y, id);
+                            System.out.println(pegClicked);
                             if(pegClicked!=null){
+                                System.out.println("PRESSED:" + pegClicked);
                                 List<AbstractPeg> possibilities = currentGame.setPossibleMoves(pegClicked);
                                 if(possibilities.size()>0){
                                     AbstractPeg[] array2 = new AbstractPeg[possibilities.size()];
@@ -143,7 +145,7 @@ public class TrylmaServer {
                             if (fromClient.startsWith("RELEASED") && pegClicked!=null) {
                                 //System.out.println("Clicked2: i="+ pegClicked.geti() + " j= " + pegClicked.getj());
                                 currentGame.changePossibleMoves(pegsToChange);
-                                currentGame.printBoard();
+                                //currentGame.printBoard();
                                 int xD = protocol.getXmousePressed(fromClient);
                                 int yD = protocol.getYmousePressed(fromClient);
                                 AbstractPeg pegDestiny = currentGame.getClicked(xD, yD);
@@ -167,7 +169,7 @@ public class TrylmaServer {
                                     }
                                 }
                                 pegsToChange.clear();
-                                currentGame.printBoard();
+                                //currentGame.printBoard();
                             }
 
                         }
