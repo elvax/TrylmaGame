@@ -83,21 +83,22 @@ public class Game {
     }
 
     public void setOrderOfMoves() {
-        int firstToMove = randomGenerator.nextInt(activeSectorsID.size());
-        Integer tmp = activeSectorsID.get(firstToMove);
-        activeSectorsID.remove(firstToMove);
-        activeSectorsID.add(0, tmp);
-
-        currentID = activeSectorsID.get(0);
+        index = randomGenerator.nextInt(activeSectorsID.size());
+        currentID = activeSectorsID.get(index);
     }
 
     public synchronized void nextPlayer() {
         if(++index >= activeSectorsID.size())
             index = 0;
+//        index = index+1 % activeSectorsID.size();
         currentID = activeSectorsID.get(index);
     }
     public synchronized int getCurrentID() {
         return currentID;
+    }
+
+    public int getIndex() {
+        return index;
     }
 
     public Board getBoardOfTrylma(){
