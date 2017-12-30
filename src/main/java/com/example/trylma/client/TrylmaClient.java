@@ -3,7 +3,6 @@ package com.example.trylma.client;
 import com.example.trylma.controller.TrylmaStringProtocol;
 import com.example.trylma.model.AbstractPeg;
 import com.example.trylma.model.Board;
-import com.example.trylma.model.Peg;
 import com.example.trylma.server.TrylmaServer;
 
 import javax.swing.*;
@@ -11,8 +10,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.Socket;
-import java.util.List;
-import java.util.Vector;
 
 import static com.example.trylma.controller.TrylmaStringProtocol.*;
 
@@ -21,19 +18,15 @@ import static com.example.trylma.controller.TrylmaStringProtocol.*;
  */
 public class TrylmaClient {
     private Socket socket;
-    protected BufferedReader input;
-    protected PrintWriter output;
-    protected ObjectOutputStream objectOutputStream;
-    protected ObjectInputStream objectInputStream;
+    private BufferedReader input;
+    private PrintWriter output;
+    private ObjectOutputStream objectOutputStream;
+    private ObjectInputStream objectInputStream;
 
-    String fromServer;
-    String fromUser;
     BufferedReader stdIn;
     String hostName = "localhost";
     Frame frame;
-    AbstractPeg gameBoard[][];  //dostaje od servera
     Board boardOfTrylma;
-
 
 
     public TrylmaClient() {
@@ -61,30 +54,17 @@ public class TrylmaClient {
         objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         objectInputStream = new ObjectInputStream(socket.getInputStream());
 
-//        gameBoard = (AbstractPeg[][]) objectInputStream.readObject();
-            boardOfTrylma = (Board) objectInputStream.readObject();
-            boardOfTrylma.printBoard();
-            boardOfTrylma.setImage();
-            frame.panel.setBoardToDraw(boardOfTrylma);
-            frame.panel.setBoardLoad(true);
-            frame.panel.repaint();
-        TrylmaStringProtocol protocol = new TrylmaStringProtocol();
+        // Read inital state of board and paint it
+        boardOfTrylma = (Board) objectInputStream.readObject();
+        frame.panel.setBoardToDraw(boardOfTrylma);
+        frame.panel.repaint();
 
-
-        AbstractPeg[] toChange;
         while (true) {
-            toChange = (AbstractPeg[]) objectInputStream.readObject();
-            for (AbstractPeg ap : toChange) {
-                System.out.println(ap);
-            }
+            AbstractPeg[] toChange = (AbstractPeg[]) objectInputStream.readObject();
 
             frame.panel.updateBoard(toChange);
-//            frame.panel.updateBoardLiveTest();
-            frame.panel.boardToDraw.setImage();
             frame.panel.repaint();
-
         }
-
     }
 
     public static void main(String[] args){
@@ -93,7 +73,6 @@ public class TrylmaClient {
             client.run();
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("tutaj ");
         }
 
 
@@ -111,7 +90,7 @@ public class TrylmaClient {
         public Frame() {
                 super("Chinese checkers");
                 initialize();
-            }
+        }
 
         /**
          * Initialize the contents of the frame, which includes:
@@ -182,8 +161,6 @@ public class TrylmaClient {
 
     MouseAdapter mouseAdapter;
 
-    //TODO usunac
-//    AbstractPeg[][] boardToDraw = null;
     Board boardToDraw;
     boolean isBoardLoad = false;
 
@@ -232,53 +209,21 @@ public class TrylmaClient {
 
     }
 
-    public void updateBoard(AbstractPeg[] list ) {
-        System.out.println(list.length);
+    public void updateBoard(AbstractPeg[] list ) throws IOException{
         boardToDraw.updateBoard(list);
-       boardToDraw.printBoard();
-    }
-
-//        public void updateBoardLiveTest() {
-//            List<AbstractPeg> list = new Vector<AbstractPeg>();
-//            list.add(new Peg(12, 6, 1));
-//            boardToDraw.updateBoard(list);
-//
-//            boardToDraw.printBoard();
-//        }
-    public boolean isBoardLoad() {
-        return isBoardLoad;
+        boardToDraw.setImage();
     }
 
     public void setBoardLoad(boolean boardLoad) {
         isBoardLoad = boardLoad;
     }
 
-    public void setBoardToDraw(Board board) {
+    public void setBoardToDraw(Board board) throws IOException{
         boardToDraw = board;
+        boardToDraw.setImage();
+        if (board != null)
+            isBoardLoad = true;
     }
-
-//    public void doPaint(Graphics graphics) {
-//        try {
-//            for(int i=0; i<17; i++) {
-//                for(int j=0; j<13; j++) {
-//                    boardToDraw[i][j].doDraw(graphics);
-//                }
-//            }
-//        } catch (NullPointerException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-//    public void paint(Graphics graphics) {
-//        super.paint(graphics);
-//        if (isBoardLoad) {
-//            for(int i=0; i<17; i++) {
-//                for(int j=0; j<13; j++) {
-//                    boardToDraw[i][j].doDraw(graphics);
-//                }
-//            }
-//        }
-//    }
 
     public void paint(Graphics graphics) {
         super.paint(graphics);
@@ -287,17 +232,7 @@ public class TrylmaClient {
     }
 
     private void whenMouseClicked(MouseEvent e){
-		/*for(int i=0; i<17; i++) {
-			for(int j=0; j<13; j++) {
-				Peg p = board.getPeg(i,j);
-				if(p.isClicked(e.getX(),e.getY()) == true){
-					System.out.println(i + " " + j + "kilikety" );
-				}
-			}
-		}*/
 
-        System.out.println(e.getX());
-        System.out.println(e.getY());
     }
 
     private void whenMouseReleased(MouseEvent e){
@@ -312,9 +247,7 @@ public class TrylmaClient {
         output.println(sendEndTurn());
     }
 
-    public MouseAdapter getMouseAdapter() {
-        return mouseAdapter;
-    }
+
 }
 
 
