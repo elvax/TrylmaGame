@@ -102,8 +102,12 @@ public class TrylmaServer {
                 objectOutputStream.writeObject(currentGame.getBoardOfTrylma());
 
                 List<AbstractPeg> pegsToChange = new ArrayList<AbstractPeg>();
+                Boolean permission;
                 while (true) {
                     if (currentGame.getCurrentID() == this.id) {
+                        permission = true;
+                        objectOutputStream.writeObject(permission);
+
                         String fromClient = input.readLine();
 
                         if (fromClient.startsWith("PRESSED")) {
@@ -165,6 +169,8 @@ public class TrylmaServer {
 
                         }
                         if (fromClient.equals(sendEndTurn())) {
+                            permission = false;
+                            objectOutputStream.writeObject(permission);
                             currentGame.nextPlayer();
                         }
                     }

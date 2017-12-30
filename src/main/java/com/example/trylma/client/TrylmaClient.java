@@ -27,6 +27,7 @@ public class TrylmaClient {
     String hostName = "localhost";
     Frame frame;
     Board boardOfTrylma;
+    boolean canSend = false;
 
 
     public TrylmaClient() {
@@ -60,10 +61,16 @@ public class TrylmaClient {
         frame.panel.repaint();
 
         while (true) {
-            AbstractPeg[] toChange = (AbstractPeg[]) objectInputStream.readObject();
+            Object fromServer = objectInputStream.readObject();
+            if (fromServer instanceof AbstractPeg[]) {
+                AbstractPeg[] toChange = (AbstractPeg[]) fromServer;
 
-            frame.panel.updateBoard(toChange);
-            frame.panel.repaint();
+                frame.panel.updateBoard(toChange);
+                frame.panel.repaint();
+            } else {
+                Boolean bool = (Boolean) fromServer;
+                canSend = bool;
+            }
         }
     }
 
@@ -236,15 +243,18 @@ public class TrylmaClient {
     }
 
     private void whenMouseReleased(MouseEvent e){
-        output.println("RELEASED (" + e.getX() + "," + e.getY() + ")");
+        if(canSend)
+           output.println("RELEASED (" + e.getX() + "," + e.getY() + ")");
     }
 
     private void whenMousePressed(MouseEvent e){
-        output.println(sendMousePressed(e.getX(),e.getY()));
+        if(canSend)
+           output.println(sendMousePressed(e.getX(),e.getY()));
     }
 
     private void whenEndTurnClicked() {
-        output.println(sendEndTurn());
+        if(canSend)
+            output.println(sendEndTurn());
     }
 
 
