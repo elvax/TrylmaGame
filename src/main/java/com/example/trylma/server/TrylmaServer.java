@@ -13,6 +13,7 @@ import java.util.*;
 
 import static com.example.trylma.controller.TrylmaStringProtocol.*;
 
+//TODO pozwalać na jeden ruch pionkiem
 public class TrylmaServer {
 
     ServerSocket serverSocket;
@@ -24,14 +25,12 @@ public class TrylmaServer {
     // List of clients connected to server
     private List<PlayerThread> clietnsThreadsList = new ArrayList<PlayerThread>();
 
-    // TODO new HashSet.. pewnie do konstrukora przenieść
-    // TODO trzeba bedzie przerobic na (KEY, VALUYE) gdzie key to IDclienta
     // sets of inputs and outputs for every client connected
     private HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
     private HashSet<BufferedReader> readers = new HashSet<BufferedReader>();
     private HashSet<ObjectOutputStream> objectOutput = new HashSet<ObjectOutputStream>();
 
-    // TODO rzucic wyjatek a nie lapac
+
     public TrylmaServer() {
         protocol = new TrylmaStringProtocol();
         currentGame = new Game();
@@ -63,9 +62,13 @@ public class TrylmaServer {
 
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         TrylmaServer server = new TrylmaServer();
-        server.waitForClients(3);
+        try {
+            server.waitForClients(2);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private class PlayerThread extends Thread {
@@ -111,12 +114,11 @@ public class TrylmaServer {
                         String fromClient = input.readLine();
 
                         if (fromClient.startsWith("PRESSED")) {
-                            int x = protocol.getXmousePressed(fromClient);
-                            int y = protocol.getYmousePressed(fromClient);
-                            AbstractPeg pegClicked = currentGame.findActive(x, y, id);
-                            System.out.println(pegClicked);
 
-                            System.out.println("PRESSED:" + pegClicked);
+                            AbstractPeg pegClicked = currentGame.findActive(protocol.getXmousePressed(fromClient),
+                                                                            protocol.getYmousePressed(fromClient),
+                                                                            id);
+
                             List<AbstractPeg> possibilities = currentGame.setPossibleMoves(pegClicked);
                             if(possibilities.size()>0){
                                 AbstractPeg[] array2 = new AbstractPeg[possibilities.size()];
@@ -130,9 +132,7 @@ public class TrylmaServer {
                                     //System.out.println("ToSEND1: i="+ array2[i].geti() + " j= " + array2[i].getj() + " id=" + array2[i].getSectorID());
 
                                 }
-                                for (ObjectOutputStream objectOut : objectOutput) {
-                                    objectOut.writeObject(array2);
-                                }
+                                objectOutputStream.writeObject(array2);
                             }
 
 
