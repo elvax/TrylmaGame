@@ -141,11 +141,11 @@ public class TrylmaServer {
                                 //System.out.println("Clicked2: i="+ pegClicked.geti() + " j= " + pegClicked.getj());
                                 currentGame.changePossibleMoves(pegsToChange);
                                 //currentGame.printBoard();
-                                int xD = protocol.getXmousePressed(fromClient);
-                                int yD = protocol.getYmousePressed(fromClient);
-                                AbstractPeg pegDestiny = currentGame.getClicked(xD, yD);
+                                AbstractPeg pegDestiny;
 
-                                List<AbstractPeg> pegs = currentGame.move(pegClicked, xD, yD);
+                                List<AbstractPeg> pegs = currentGame.move(pegClicked,
+                                                                          protocol.getXmousePressed(fromClient),
+                                                                          protocol.getYmousePressed(fromClient));
 
                                 if (pegs.size()==2) {
                                     pegClicked = pegs.get(0);
