@@ -65,7 +65,7 @@ public class TrylmaServer {
     public static void main(String[] args) {
         TrylmaServer server = new TrylmaServer();
         try {
-            server.waitForClients(3);
+            server.waitForClients(2);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -107,7 +107,7 @@ public class TrylmaServer {
                 List<AbstractPeg> pegsToChange = new ArrayList<AbstractPeg>();
                 Boolean permission;
                 while (true) {
-                    if (currentGame.getCurrentID() == this.id) {
+//                    if (currentGame.getCurrentID() == this.id) {
                         permission = true;
                         objectOutputStream.writeObject(permission);
 
@@ -154,11 +154,10 @@ public class TrylmaServer {
                                     pegsToChange.add(pegDestiny);
                                 }
                                 if(pegsToChange.size()>0){
+
                                     AbstractPeg[] array3 = new AbstractPeg[pegsToChange.size()];
-                                    for(int i=0; i<pegsToChange.size(); i++){
-                                        array3[i]=pegsToChange.get(i);
-                                        //System.out.println("ToSEND2: i="+ array3[i].geti() + " j= " + array3[i].getj() + " id=" + array3[i].getSectorID());
-                                    }
+                                    array3 = pegsToChange.toArray(array3);
+
                                     for (ObjectOutputStream objectOut : objectOutput) {
                                         objectOut.writeObject(array3);
                                     }
@@ -175,7 +174,7 @@ public class TrylmaServer {
                         }
                     }
 
-                }
+//                }
 
             } catch (IOException e) {
                 e.printStackTrace();
