@@ -1,20 +1,19 @@
-package com.example.trylma.com.example.trylma.model;
+package com.example.trylma.model;
 
 import com.example.trylma.model.Peg;
 import junit.framework.TestCase;
-import org.junit.Before;
 
 public class PegTest extends TestCase {
-    Peg p = null;
+    AbstractPeg p = null;
     int i = 8;
     int j = 8;
     int xDraw = 30;
     int yDraw = 35;
     int ownerID = 1;
 
-    @Before
-    public void setUp() throws Exception {
-        p = new Peg(i,j,ownerID);
+    protected void setUp() throws Exception {
+        PegGenerator generatorP = new SixCirclePegGenerator();
+        p = generatorP.generatePeg(i,j,ownerID);
         p.setXY(xDraw, yDraw);
         assertNotNull(p);
     }

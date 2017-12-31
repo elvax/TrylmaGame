@@ -9,7 +9,7 @@ import static junit.framework.TestCase.assertNotNull;
 public class StringProtocolTest {
     TrylmaStringProtocol protocol;
     @Before
-    public void initialize(){
+    public void initialize() throws Exception {
         protocol = new TrylmaStringProtocol();
     }
 
