@@ -67,7 +67,7 @@ public class TrylmaServer {
     public static void main(String[] args) {
         TrylmaServer server = new TrylmaServer();
         try {
-            server.waitForClients(2);
+            server.waitForClients(6);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -176,6 +176,18 @@ public class TrylmaServer {
                                     }
                                     pegsToChange.clear();
                                     //currentGame.printBoard();
+
+                                    if (currentGame.isWinner(this.id)) {
+                                        objectOutputStream.writeObject("You win");
+                                        currentGame.removePlayer(this.id);
+                                        socket.close();
+                                        input.close();
+                                        output.close();
+                                        objectOutputStream.close();
+                                        objectInputStream.close();
+                                        objectOutput.remove(this.objectOutputStream);
+                                        currentGame.nextPlayer();
+                                    }
                                 }
 
 
