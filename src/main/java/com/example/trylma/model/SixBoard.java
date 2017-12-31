@@ -3,6 +3,8 @@ package com.example.trylma.model;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 public class SixBoard extends Board {
@@ -391,7 +393,7 @@ public class SixBoard extends Board {
             AbstractPeg p = neighbours.get(i);
             if(p.getSectorID() != 0 && p.getSectorID() != -1){
                 notEmptyNeighbours.add(p);
-                //System.out.println("Sąsiad pełny: " + p.geti() + " " + p.getj());
+                System.out.println("Sąsiad pełny: " + p.geti() + " " + p.getj());
             }
         }
         return notEmptyNeighbours;
@@ -406,7 +408,7 @@ public class SixBoard extends Board {
         java.util.List<AbstractPeg> neighbours = correctMoves(p);
         for(int t=0; t<neighbours.size(); t++){
             AbstractPeg temp = neighbours.get(t);
-            System.out.println("Sasiad: " + temp.geti() + " " + temp.getj());
+            //System.out.println("Sasiad: " + temp.geti() + " " + temp.getj());
             if(temp.isClicked(i,j)==true && temp.getSectorID()==0){
                 board[temp.geti()][temp.getj()]=generator.generatePeg(temp.geti(),temp.getj(),p.getSectorID());
                 board[p.geti()][p.getj()]=generator.generatePeg(p.geti(),p.getj(),0);
@@ -419,7 +421,7 @@ public class SixBoard extends Board {
     }
     @Override
     //zwraca listę wszystkich możliwych ruchów tzn, sasiadów którzy mają id=0 uzupełnionych o skoki.
-    public java.util.List<AbstractPeg> correctMoves(AbstractPeg p){
+    /*public java.util.List<AbstractPeg> correctMoves(AbstractPeg p){
         System.out.println("CORRECT MOVE" + p);
         java.util.List<AbstractPeg> moves = findEmptyNeighbours(p);
         java.util.List<AbstractPeg> notEmpty = findNotEmptyNeighbours(p);
@@ -470,7 +472,78 @@ public class SixBoard extends Board {
             return correctmoves;
         }
         return moves;
+    }*/
+    public List<AbstractPeg> correctMoves(AbstractPeg p){
+        System.out.println("CORRECT MOVE FIRST PEG" + p);
+        List<AbstractPeg> moves = findEmptyNeighbours(p);
+        List<AbstractPeg> notEmpty = findNotEmptyNeighbours(p);
+        List<AbstractPeg> correctmoves = new ArrayList<AbstractPeg>();
+        //LinkedHashSet<AbstractPeg> leaps = new LinkedHashSet<AbstractPeg>();
+        //LinkedHashSet<AbstractPeg> leaps2 = new LinkedHashSet<AbstractPeg>();
+        List<AbstractPeg> leaps = new ArrayList<AbstractPeg>();
+        leaps.add(p);
+        //while(leaps.isEmpty()==false) {
+            //for (AbstractPeg h : leaps) {
+        for(int z=0; z<leaps.size(); z++){
+                AbstractPeg h = leaps.get(z);
+                System.out.println("CORRECT MOVE PĘTLA" + h);
+                notEmpty = findNotEmptyNeighbours(h);
+                for (int i = 0; i < notEmpty.size(); i++) {
+                    System.out.println("CORRECT MOVE PĘTLA2" + h);
+                    AbstractPeg neighbour = notEmpty.get(i);
+                    int j_move = -1;
+                    int i_move = -1;
+                    int i_neighbour = neighbour.geti();
+                    int j_neighbour = neighbour.getj();
+                    if (h.geti() < i_neighbour && h.geti() < I_BOARD_SIZE - 2) {
+                        i_move = h.geti() + 2;
+                    } else if (h.geti() > i_neighbour && h.geti() > 1) {
+                        i_move = h.geti() - 2;
+                    }
+                    if (h.getj() < j_neighbour && h.getj() < J_BOARD_SIZE - 1) {
+                        j_move = h.getj() + 1;
+                    } else if (h.getj() > j_neighbour && h.getj() > 0) {
+                        j_move = h.getj() - 1;
+                    }
+                    if (h.geti() % 2 != 0 && h.getj() == j_neighbour) {
+                        j_move = h.getj() + 1;
+                    } else if (h.geti() % 2 == 0 && h.getj() == j_neighbour) {
+                        j_move = h.getj() - 1;
+                    }
+                    if (h.geti() == i_neighbour) {
+                        i_move = h.geti();
+                        if (h.getj() <= j_neighbour && h.getj() < J_BOARD_SIZE - 2) {
+                            j_move = h.getj() + 2;
+                        } else if (h.getj() > j_neighbour && h.getj() > 1) {
+                            j_move = h.getj() - 2;
+                        }
+                    }
+                    if (i_move != -1 && j_move != -1 && board[i_move][j_move].getSectorID() == 0 && leaps.contains(board[i_move][j_move])==false) {
+                        moves.add(board[i_move][j_move]);
+                        System.out.println("LEAP" + board[i_move][j_move]);
+                        leaps.add(board[i_move][j_move]);
+                    }
+                }
+                //leaps.remove(h);
+            }
+        //}
+        System.out.println(leaps);
+
+        //System.out.println("ISinCORNER" +isInCorner(p)+ " " +  p);
+        if(isInCorner(p)==true){
+            for(int k=0; k<moves.size(); k++){
+                //System.out.println("ISinCORNER sasiad" +isInCorner(moves.get(k))+ " " +  moves.get(k));
+                if(isInCorner(moves.get(k))==true){
+                    correctmoves.add(moves.get(k));
+                    System.out.println(moves.get(k));
+                }
+            }
+            return correctmoves;
+        }
+        return moves;
     }
+
+
     @Override
     public java.util.List<AbstractPeg> setPossibleMoves(AbstractPeg p){
         java.util.List<AbstractPeg> moves = correctMoves(p);

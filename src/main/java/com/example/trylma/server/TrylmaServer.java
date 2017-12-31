@@ -34,7 +34,8 @@ public class TrylmaServer {
     public TrylmaServer() {
         protocol = new TrylmaStringProtocol();
         generatorB = new SixBoardGenerator();
-        generatorP = new SixSquarePegGenerator();
+        generatorP = new SixCirclePegGenerator();
+        //generatorP = new SixSquarePegGenerator();
         currentGame = new Game(generatorB, generatorP);
         try {
             serverSocket = new ServerSocket(portNumber);
