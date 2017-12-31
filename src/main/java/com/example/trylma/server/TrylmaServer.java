@@ -107,7 +107,13 @@ public class TrylmaServer {
                 List<AbstractPeg> pegsToChange = new ArrayList<AbstractPeg>();
                 Boolean permission;
                 while (true) {
-//                    if (currentGame.getCurrentID() == this.id) {
+                    if (currentGame.getCurrentID() == this.id) {
+
+                        String whosTurnIs = "Player" + currentGame.getCurrentID();
+                        for (ObjectOutputStream out : objectOutput) {
+                            out.writeObject(whosTurnIs);
+                        }
+
                         permission = true;
                         objectOutputStream.writeObject(permission);
 
@@ -174,7 +180,7 @@ public class TrylmaServer {
                         }
                     }
 
-//                }
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();

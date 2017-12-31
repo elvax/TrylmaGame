@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.net.ConnectException;
 import java.net.Socket;
 
 import static com.example.trylma.controller.TrylmaStringProtocol.*;
@@ -67,9 +68,12 @@ public class TrylmaClient {
 
                 frame.panel.updateBoard(toChange);
                 frame.panel.repaint();
-            } else {
+            } else if (fromServer instanceof Boolean) {
                 Boolean bool = (Boolean) fromServer;
                 canSend = bool;
+            } else if (fromServer instanceof String) {
+                String textFromServer = (String) fromServer;
+                frame.panel.whosTurnLabel.setText(textFromServer);
             }
         }
     }
@@ -78,6 +82,8 @@ public class TrylmaClient {
         TrylmaClient client = new TrylmaClient();
         try {
             client.run();
+        } catch (ConnectException ee) {
+            System.out.println("Can't connect");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -170,6 +176,7 @@ public class TrylmaClient {
 
     Board boardToDraw;
     boolean isBoardLoad = false;
+     JLabel whosTurnLabel;
 
     /**
      * Create a JPanel.
@@ -210,6 +217,11 @@ public class TrylmaClient {
         });
         endTurnButton.setBounds(320, 20, 100, 30);
         add(endTurnButton);
+
+        whosTurnLabel = new JLabel();
+        whosTurnLabel.setBounds(320, 55, 100, 30);
+        whosTurnLabel.setText("");
+        add(whosTurnLabel);
 
         addMouseListener(mouseAdapter);
 
