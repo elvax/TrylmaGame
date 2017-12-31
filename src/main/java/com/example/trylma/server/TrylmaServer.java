@@ -2,9 +2,7 @@ package com.example.trylma.server;
 
 
 import com.example.trylma.controller.TrylmaStringProtocol;
-import com.example.trylma.model.AbstractPeg;
-import com.example.trylma.model.Game;
-import com.example.trylma.model.Peg;
+import com.example.trylma.model.*;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -33,7 +31,8 @@ public class TrylmaServer {
 
     public TrylmaServer() {
         protocol = new TrylmaStringProtocol();
-        currentGame = new Game();
+        BoardGenerator generator = new SixBoardGenerator();
+        currentGame = new Game(generator);
         try {
             serverSocket = new ServerSocket(portNumber);
         } catch (IOException e) {

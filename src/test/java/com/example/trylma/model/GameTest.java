@@ -16,7 +16,9 @@ public class GameTest {
 
     @Before
     public void initialize() throws Exception {
-        game = new Game();
+        BoardGenerator generator = new SixBoardGenerator();
+        game = new Game(generator);
+        game.printBoard();
         game.setBoardForPlayers(6);
         assertNotNull(game);
     }
@@ -33,7 +35,8 @@ public class GameTest {
     @Test
     public void isWinnerTest() {
         int OwnerID = 6;
-        game = new Game();
+        BoardGenerator generator = new SixBoardGenerator();
+        game = new Game(generator);
         Board board = game.getBoardOfTrylma();
         List<AbstractPeg> list = board.getPegsOfSector(3);
 

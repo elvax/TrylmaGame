@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
-import static com.example.trylma.model.Board.DISTANCE_FROM_EDGES;
+import static com.example.trylma.model.SixBoard.DISTANCE_FROM_EDGES;
 
 /*
  * Every peg has his owner and imformations needed to draw itself

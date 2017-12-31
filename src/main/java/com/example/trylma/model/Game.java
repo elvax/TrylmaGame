@@ -25,8 +25,8 @@ public class Game {
      * method next to set next player
      */
 
-    public Game() {
-        boardOfTrylma = new Board();
+    public Game(BoardGenerator generator) {
+        boardOfTrylma = generator.generateBoard();
         randomGenerator = new Random();
         activeSectorsID =new ArrayList<Integer>();
         index = 0;
@@ -34,40 +34,40 @@ public class Game {
 
     public void setBoardForPlayers(int numberOfPlayers) {
         if (numberOfPlayers == 1) {
-            boardOfTrylma.fillSectorOne();
+            boardOfTrylma.fillSector(1);
 
             activeSectorsID.add(1);
         } else if ( numberOfPlayers == 2 ) {
-            boardOfTrylma.fillSectorOne();
-            boardOfTrylma.fillSectorFour();
+            boardOfTrylma.fillSector(1);
+            boardOfTrylma.fillSector(4);
 
             activeSectorsID.add(1);
             activeSectorsID.add(4);
         } else if (numberOfPlayers == 3) {
-            boardOfTrylma.fillSectorOne();
-            boardOfTrylma.fillSectorThree();
-            boardOfTrylma.fillSectorFive();
+            boardOfTrylma.fillSector(1);
+            boardOfTrylma.fillSector(3);
+            boardOfTrylma.fillSector(5);
 
             activeSectorsID.add(1);
             activeSectorsID.add(3);
             activeSectorsID.add(5);
         } else if (numberOfPlayers == 4) {
-            boardOfTrylma.fillSectorTwo();
-            boardOfTrylma.fillSectorThree();
-            boardOfTrylma.fillSectorFive();
-            boardOfTrylma.fillSectorSix();
+            boardOfTrylma.fillSector(2);
+            boardOfTrylma.fillSector(3);
+            boardOfTrylma.fillSector(5);
+            boardOfTrylma.fillSector(6);
 
             activeSectorsID.add(2);
             activeSectorsID.add(3);
             activeSectorsID.add(5);
             activeSectorsID.add(6);
         } else if (numberOfPlayers == 6) {
-            boardOfTrylma.fillSectorOne();
-            boardOfTrylma.fillSectorTwo();
-            boardOfTrylma.fillSectorThree();
-            boardOfTrylma.fillSectorFour();
-            boardOfTrylma.fillSectorFive();
-            boardOfTrylma.fillSectorSix();
+            boardOfTrylma.fillSector(1);
+            boardOfTrylma.fillSector(2);
+            boardOfTrylma.fillSector(3);
+            boardOfTrylma.fillSector(4);
+            boardOfTrylma.fillSector(5);
+            boardOfTrylma.fillSector(6);
 
             activeSectorsID.add(1);
             activeSectorsID.add(2);
@@ -172,7 +172,8 @@ public class Game {
         return boardOfTrylma.getPeg(i, j);
     }
     public static void main(String[] args) {
-        Game game = new Game();
+        BoardGenerator generator = new SixBoardGenerator();
+        Game game = new Game(generator);
 //        game.printBoard();
     }
 
