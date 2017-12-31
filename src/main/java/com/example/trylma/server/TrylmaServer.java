@@ -65,7 +65,7 @@ public class TrylmaServer {
     public static void main(String[] args) {
         TrylmaServer server = new TrylmaServer();
         try {
-            server.waitForClients(2);
+            server.waitForClients(3);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -118,24 +118,24 @@ public class TrylmaServer {
                             AbstractPeg pegClicked = currentGame.findActive(protocol.getXmousePressed(fromClient),
                                                                             protocol.getYmousePressed(fromClient),
                                                                             id);
+                            if(pegClicked!=null) {
+                                List<AbstractPeg> possibilities = currentGame.setPossibleMoves(pegClicked);
+                                if (possibilities.size() > 0) {
+                                    AbstractPeg[] array2 = new AbstractPeg[possibilities.size()];
+                                    for (int i = 0; i < possibilities.size(); i++) {
+                                        AbstractPeg p = possibilities.get(i);
+                                        //pegsToChange.add(possibilities.get(i));
+                                        pegsToChange.add(p);
+                                        //array2[i] = p;
+                                        //System.out.println("ECH:" + p);
+                                        array2[i] = new Peg(p.geti(), p.getj(), p.getSectorID());
+                                        //System.out.println("ToSEND1: i="+ array2[i].geti() + " j= " + array2[i].getj() + " id=" + array2[i].getSectorID());
 
-                            List<AbstractPeg> possibilities = currentGame.setPossibleMoves(pegClicked);
-                            if(possibilities.size()>0){
-                                AbstractPeg[] array2 = new AbstractPeg[possibilities.size()];
-                                for(int i=0; i<possibilities.size(); i++){
-                                    AbstractPeg p = possibilities.get(i);
-                                    //pegsToChange.add(possibilities.get(i));
-                                    pegsToChange.add(p);
-                                    //array2[i] = p;
-                                    //System.out.println("ECH:" + p);
-                                    array2[i]=new Peg(p.geti(),p.getj(),p.getSectorID());
-                                    //System.out.println("ToSEND1: i="+ array2[i].geti() + " j= " + array2[i].getj() + " id=" + array2[i].getSectorID());
-
+                                    }
+                                    objectOutputStream.writeObject(array2);
                                 }
-                                objectOutputStream.writeObject(array2);
+
                             }
-
-
                             fromClient = input.readLine();
                             if (fromClient.startsWith("RELEASED") && pegClicked!=null) {
                                 //System.out.println("Clicked2: i="+ pegClicked.geti() + " j= " + pegClicked.getj());
