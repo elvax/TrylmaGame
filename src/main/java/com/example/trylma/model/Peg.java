@@ -11,7 +11,7 @@ import static com.example.trylma.model.SixBoard.DISTANCE_FROM_EDGES;
 /*
  * Every peg has his owner and imformations needed to draw itself
  */
-public class Peg extends AbstractPeg implements Serializable{
+public class Peg extends AbstractPeg {
     int i;
     int j;
     int xDraw;
@@ -22,17 +22,20 @@ public class Peg extends AbstractPeg implements Serializable{
     final int size = 30;
     final int radius = 15;
 
-    public Peg(int i, int j, int sectorID) {
-            this.i = i;
-            this.j = j;
-            this.sectorID = sectorID;
+    //public Peg(){}
 
-            if (i % 2 == 0) {
-                setXY((j * 35) + DISTANCE_FROM_EDGES, (i * 35) + DISTANCE_FROM_EDGES);
-            } else {
-                setXY((j * 35) - 40/2 + DISTANCE_FROM_EDGES, (i * 35) + DISTANCE_FROM_EDGES);
-            }
+    public void generatePeg(int i, int j, int sectorID){
+        this.i = i;
+        this.j = j;
+        this.sectorID = sectorID;
+
+        if (i % 2 == 0) {
+            setXY((j * 35) + DISTANCE_FROM_EDGES, (i * 35) + DISTANCE_FROM_EDGES);
+        } else {
+            setXY((j * 35) - 40/2 + DISTANCE_FROM_EDGES, (i * 35) + DISTANCE_FROM_EDGES);
+        }
     }
+
 
     public void setXY(int x, int y) {
         xDraw = x;
