@@ -61,6 +61,10 @@ public class TrylmaClient {
         frame.panel.setBoardToDraw(boardOfTrylma);
         frame.panel.repaint();
 
+        // Read id of player and set title of frame
+        String title = (String) objectInputStream.readObject();
+        frame.setTitle(title);
+
         while (true) {
             Object fromServer = objectInputStream.readObject();
             if (fromServer instanceof AbstractPeg[]) {
@@ -101,7 +105,6 @@ public class TrylmaClient {
          * Create the application.
          */
         public Frame() {
-                super("Chinese checkers");
                 initialize();
         }
 

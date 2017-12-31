@@ -104,6 +104,8 @@ public class TrylmaServer {
                 //send initial board state to connected client
                 objectOutputStream.writeObject(currentGame.getBoardOfTrylma());
 
+                objectOutputStream.writeObject("Player " + Integer.toString(id));
+
                 List<AbstractPeg> pegsToChange = new ArrayList<AbstractPeg>();
                 Boolean permission;
                 while (true) {
