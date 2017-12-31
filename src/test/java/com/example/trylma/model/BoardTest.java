@@ -14,8 +14,9 @@ public class BoardTest {
 
     @Before
     public void initialize() throws Exception {
+        PegGenerator generatorP = new SixCirclePegGenerator();
         BoardGenerator generator = new SixBoardGenerator();
-        board = generator.generateBoard();
+        board = generator.generateBoard(generatorP);
         //board.printBoard();
         board.fillSector(1);
        // board.printBoard();

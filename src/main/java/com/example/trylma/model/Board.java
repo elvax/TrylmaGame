@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Board implements Serializable{
-    public abstract void generateBoard();
+    public abstract void generateBoard(PegGenerator P);
 
     public abstract void setImage() throws IOException;
 

@@ -17,7 +17,8 @@ public class GameTest {
     @Before
     public void initialize() throws Exception {
         BoardGenerator generator = new SixBoardGenerator();
-        game = new Game(generator);
+        PegGenerator generatorP = new SixCirclePegGenerator();
+        game = new Game(generator,generatorP);
         game.printBoard();
         game.setBoardForPlayers(6);
         assertNotNull(game);
@@ -35,8 +36,9 @@ public class GameTest {
     @Test
     public void isWinnerTest() {
         int OwnerID = 6;
+        PegGenerator generatorP = new SixCirclePegGenerator();
         BoardGenerator generator = new SixBoardGenerator();
-        game = new Game(generator);
+        game = new Game(generator, generatorP);
         Board board = game.getBoardOfTrylma();
         List<AbstractPeg> list = board.getPegsOfSector(3);
 

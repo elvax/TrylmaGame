@@ -19,6 +19,8 @@ public class TrylmaServer {
     TrylmaStringProtocol protocol;
     Game currentGame;
     int numberOfPlayers;
+    BoardGenerator generatorB;
+    PegGenerator generatorP;
 
     // List of clients connected to server
     private List<PlayerThread> clietnsThreadsList = new ArrayList<PlayerThread>();
@@ -31,8 +33,9 @@ public class TrylmaServer {
 
     public TrylmaServer() {
         protocol = new TrylmaStringProtocol();
-        BoardGenerator generator = new SixBoardGenerator();
-        currentGame = new Game(generator);
+        generatorB = new SixBoardGenerator();
+        generatorP = new SixSquarePegGenerator();
+        currentGame = new Game(generatorB, generatorP);
         try {
             serverSocket = new ServerSocket(portNumber);
         } catch (IOException e) {
@@ -128,7 +131,7 @@ public class TrylmaServer {
                                     pegsToChange.add(p);
                                     //array2[i] = p;
                                     //System.out.println("ECH:" + p);
-                                    array2[i]=new Peg(p.geti(),p.getj(),p.getSectorID());
+                                    array2[i]=generatorP.generatePeg(p.geti(),p.getj(),p.getSectorID());
                                     //System.out.println("ToSEND1: i="+ array2[i].geti() + " j= " + array2[i].getj() + " id=" + array2[i].getSectorID());
 
                                 }

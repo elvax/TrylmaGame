@@ -4,7 +4,7 @@ import com.example.trylma.model.Peg;
 import junit.framework.TestCase;
 
 public class PegTest extends TestCase {
-    Peg p = null;
+    AbstractPeg p = null;
     int i = 8;
     int j = 8;
     int xDraw = 30;
@@ -12,7 +12,8 @@ public class PegTest extends TestCase {
     int ownerID = 1;
 
     protected void setUp() throws Exception {
-        p = new Peg(i,j,ownerID);
+        PegGenerator generatorP = new SixCirclePegGenerator();
+        p = generatorP.generatePeg(i,j,ownerID);
         p.setXY(xDraw, yDraw);
         assertNotNull(p);
     }

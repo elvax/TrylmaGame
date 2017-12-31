@@ -25,8 +25,8 @@ public class Game {
      * method next to set next player
      */
 
-    public Game(BoardGenerator generator) {
-        boardOfTrylma = generator.generateBoard();
+    public Game(BoardGenerator generatorB, PegGenerator generatorP) {
+        boardOfTrylma = generatorB.generateBoard(generatorP);
         randomGenerator = new Random();
         activeSectorsID =new ArrayList<Integer>();
         index = 0;
@@ -130,8 +130,9 @@ public class Game {
         return boardOfTrylma.getPeg(i, j);
     }
     public static void main(String[] args) {
-        BoardGenerator generator = new SixBoardGenerator();
-        Game game = new Game(generator);
+        BoardGenerator generatorB = new SixBoardGenerator();
+        PegGenerator generatorP = new SixCirclePegGenerator();
+        Game game = new Game(generatorB, generatorP);
 //        game.printBoard();
     }
 
