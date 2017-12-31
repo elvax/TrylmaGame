@@ -4,14 +4,10 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 
 import static com.example.trylma.model.SixBoard.DISTANCE_FROM_EDGES;
 
-/*
- * Every peg has his owner and imformations needed to draw itself
- */
-public class Peg extends AbstractPeg {
+public class SixSquarePeg extends AbstractPeg {
     int i;
     int j;
     int xDraw;
@@ -62,25 +58,25 @@ public class Peg extends AbstractPeg {
         return sectorID;
     }
 
-    public void setImage() throws IOException{
+    public void setImage() throws IOException {
         if (sectorID == -1) {
 //            image = null;
         } else if (sectorID == 0) {
-            image = ImageIO.read(new File("src/main/resources/transparent.png"));
+            image = ImageIO.read(new File("src/main/resources/stransparent.png"));
         } else if (sectorID == 1) {
-            image = ImageIO.read(new File("src/main/resources/red.png"));
+            image = ImageIO.read(new File("src/main/resources/sred.png"));
         }else if (sectorID == 2) {
-            image = ImageIO.read(new File("src/main/resources/blue.png"));
+            image = ImageIO.read(new File("src/main/resources/sblue.png"));
         }else if (sectorID == 3) {
-            image = ImageIO.read(new File("src/main/resources/pink.png"));
+            image = ImageIO.read(new File("src/main/resources/spink.png"));
         }else if (sectorID == 4) {
-            image = ImageIO.read(new File("src/main/resources/yellow.png"));
+            image = ImageIO.read(new File("src/main/resources/syellow.png"));
         }else if (sectorID == 5) {
-            image = ImageIO.read(new File("src/main/resources/orange.png"));
+            image = ImageIO.read(new File("src/main/resources/sorange.png"));
         }else if (sectorID == 6) {
-            image = ImageIO.read(new File("src/main/resources/green.png"));
+            image = ImageIO.read(new File("src/main/resources/sgreen.png"));
         }else if (sectorID == 7) {
-            image = ImageIO.read(new File("src/main/resources/light.png"));
+            image = ImageIO.read(new File("src/main/resources/slight.png"));
         }
     }
 
@@ -97,11 +93,7 @@ public class Peg extends AbstractPeg {
     public boolean isClicked(int x, int y){
         if (sectorID < 0)
             return false;
-        int x_c = this.xDraw + 15;
-        int y_c = this.yDraw + 15;
-        int sqrt_radius = this.radius*this.radius;
-        int result = (x - x_c)*(x - x_c) + (y - y_c)*(y - y_c);
-        if( result <= sqrt_radius ){
+        if( x <= this.xDraw + 30 && x > this.xDraw && y <= this.yDraw + 30 && y > this.yDraw ){
             return true;
         }
         else{
@@ -121,3 +113,4 @@ public class Peg extends AbstractPeg {
 
 
 }
+

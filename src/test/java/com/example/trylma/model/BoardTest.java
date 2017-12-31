@@ -14,18 +14,23 @@ public class BoardTest {
 
     @Before
     public void initialize() throws Exception {
-        board = new Board();
-        board.fillSectorOne();
+        PegGenerator generatorP = new SixCirclePegGenerator();
+        BoardGenerator generator = new SixBoardGenerator();
+        board = generator.generateBoard(generatorP);
+        //board.printBoard();
+        board.fillSector(1);
+       // board.printBoard();
         assertNotNull(board);
     }
 
     @Test
     public void moveTest() {
         AbstractPeg pegToMove = board.getPeg(13, 5);
-        AbstractPeg pegDestiny = board.getPeg(12, 6);
+        AbstractPeg pegDestiny = board.getPeg(12, 5);
 
-        board.move(pegToMove, pegDestiny.getxDraw(), pegDestiny.getyDraw());
-        assertEquals(1, board.getPeg(12,6).getSectorID());
+        board.move(pegToMove, pegDestiny.getxDraw()+15, pegDestiny.getyDraw()+15);
+        assertEquals(1, board.getPeg(12,5).getSectorID());
+        //board.printBoard();
     }
 
 

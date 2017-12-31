@@ -2,8 +2,10 @@ package com.example.trylma.model;
 
 import java.awt.*;
 import java.io.IOException;
+import java.io.Serializable;
 
-public abstract class AbstractPeg {
+public abstract class AbstractPeg implements Serializable {
+    abstract public void generatePeg(int i, int j, int OwnerID);
     abstract public void doDraw(Graphics g);
     abstract public void setImage() throws IOException;
     abstract public int getSectorID();

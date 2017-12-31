@@ -2,9 +2,7 @@ package com.example.trylma.server;
 
 
 import com.example.trylma.controller.TrylmaStringProtocol;
-import com.example.trylma.model.AbstractPeg;
-import com.example.trylma.model.Game;
-import com.example.trylma.model.Peg;
+import com.example.trylma.model.*;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -21,6 +19,8 @@ public class TrylmaServer {
     TrylmaStringProtocol protocol;
     Game currentGame;
     int numberOfPlayers;
+    BoardGenerator generatorB;
+    PegGenerator generatorP;
 
     // List of clients connected to server
     private List<PlayerThread> clietnsThreadsList = new ArrayList<PlayerThread>();
@@ -33,7 +33,9 @@ public class TrylmaServer {
 
     public TrylmaServer() {
         protocol = new TrylmaStringProtocol();
-        currentGame = new Game();
+        generatorB = new SixBoardGenerator();
+        generatorP = new SixSquarePegGenerator();
+        currentGame = new Game(generatorB, generatorP);
         try {
             serverSocket = new ServerSocket(portNumber);
         } catch (IOException e) {
@@ -127,6 +129,7 @@ public class TrylmaServer {
                                                                             protocol.getYmousePressed(fromClient),
                                                                             id);
                             if(pegClicked!=null) {
+
                                 List<AbstractPeg> possibilities = currentGame.setPossibleMoves(pegClicked);
                                 if (possibilities.size() > 0) {
                                     AbstractPeg[] array2 = new AbstractPeg[possibilities.size()];
@@ -136,43 +139,45 @@ public class TrylmaServer {
                                         pegsToChange.add(p);
                                         //array2[i] = p;
                                         //System.out.println("ECH:" + p);
-                                        array2[i] = new Peg(p.geti(), p.getj(), p.getSectorID());
+                                        array2[i] = generatorP.generatePeg(p.geti(), p.getj(), p.getSectorID());
                                         //System.out.println("ToSEND1: i="+ array2[i].geti() + " j= " + array2[i].getj() + " id=" + array2[i].getSectorID());
 
                                     }
                                     objectOutputStream.writeObject(array2);
                                 }
 
+
                             }
-                            fromClient = input.readLine();
-                            if (fromClient.startsWith("RELEASED") && pegClicked!=null) {
-                                //System.out.println("Clicked2: i="+ pegClicked.geti() + " j= " + pegClicked.getj());
-                                currentGame.changePossibleMoves(pegsToChange);
-                                //currentGame.printBoard();
+                                fromClient = input.readLine();
+                                if (fromClient.startsWith("RELEASED") && pegClicked != null) {
+                                    //System.out.println("Clicked2: i="+ pegClicked.geti() + " j= " + pegClicked.getj());
+                                    currentGame.changePossibleMoves(pegsToChange);
+                                    //currentGame.printBoard();
                                 AbstractPeg pegDestiny;
 
                                 List<AbstractPeg> pegs = currentGame.move(pegClicked,
                                                                           protocol.getXmousePressed(fromClient),
                                                                           protocol.getYmousePressed(fromClient));
 
-                                if (pegs.size()==2) {
-                                    pegClicked = pegs.get(0);
-                                    pegsToChange.add(pegClicked);
-                                    pegDestiny = pegs.get(1);
-                                    pegsToChange.add(pegDestiny);
-                                }
-                                if(pegsToChange.size()>0){
+                                    if (pegs.size() == 2) {
+                                        pegClicked = pegs.get(0);
+                                        pegsToChange.add(pegClicked);
+                                        pegDestiny = pegs.get(1);
+                                        pegsToChange.add(pegDestiny);
+                                    }
+                                    if (pegsToChange.size() > 0) {
 
-                                    AbstractPeg[] array3 = new AbstractPeg[pegsToChange.size()];
+                                        AbstractPeg[] array3 = new AbstractPeg[pegsToChange.size()];
                                     array3 = pegsToChange.toArray(array3);
 
-                                    for (ObjectOutputStream objectOut : objectOutput) {
-                                        objectOut.writeObject(array3);
+                                        for (ObjectOutputStream objectOut : objectOutput) {
+                                            objectOut.writeObject(array3);
+                                        }
                                     }
+                                    pegsToChange.clear();
+                                    //currentGame.printBoard();
                                 }
-                                pegsToChange.clear();
-                                //currentGame.printBoard();
-                            }
+
 
                         }
                         if (fromClient.equals(sendEndTurn())) {
