@@ -36,6 +36,16 @@ public class Game {
         activeSectorsID = boardOfTrylma.setBoardForPlayers(numberOfPlayers);
     }
 
+    public boolean removePlayer(int id) {
+        for (int i = 0; i < activeSectorsID.size(); i++) {
+            if (activeSectorsID.get(i) == id) {
+                activeSectorsID.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<Integer> getActiveSectorsID() {
         return activeSectorsID;
     }
