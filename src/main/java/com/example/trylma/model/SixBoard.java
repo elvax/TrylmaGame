@@ -134,6 +134,54 @@ public class SixBoard extends Board {
         for(int j=7; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
     }
 
+    public List setBoardForPlayers(int numberOfPlayers) {
+        List<Integer> activeSectorsID = new ArrayList<Integer>();
+        if (numberOfPlayers == 1) {
+            fillSector(1);
+
+            activeSectorsID.add(1);
+        } else if ( numberOfPlayers == 2 ) {
+            fillSector(1);
+            fillSector(4);
+
+            activeSectorsID.add(1);
+            activeSectorsID.add(4);
+        } else if (numberOfPlayers == 3) {
+            fillSector(1);
+            fillSector(3);
+            fillSector(5);
+
+            activeSectorsID.add(1);
+            activeSectorsID.add(3);
+            activeSectorsID.add(5);
+        } else if (numberOfPlayers == 4) {
+            fillSector(2);
+            fillSector(3);
+            fillSector(5);
+            fillSector(6);
+
+            activeSectorsID.add(2);
+            activeSectorsID.add(3);
+            activeSectorsID.add(5);
+            activeSectorsID.add(6);
+        } else if (numberOfPlayers == 6) {
+            fillSector(1);
+            fillSector(2);
+            fillSector(3);
+            fillSector(4);
+            fillSector(5);
+            fillSector(6);
+
+            activeSectorsID.add(1);
+            activeSectorsID.add(2);
+            activeSectorsID.add(3);
+            activeSectorsID.add(4);
+            activeSectorsID.add(5);
+            activeSectorsID.add(6);
+        }
+        return activeSectorsID;
+    }
+
     private void setXYDraws() {
         for(int i=0; i<I_BOARD_SIZE; i++) {
             for(int j=0; j<J_BOARD_SIZE; j++) {

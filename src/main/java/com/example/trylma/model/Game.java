@@ -33,49 +33,7 @@ public class Game {
     }
 
     public void setBoardForPlayers(int numberOfPlayers) {
-        if (numberOfPlayers == 1) {
-            boardOfTrylma.fillSector(1);
-
-            activeSectorsID.add(1);
-        } else if ( numberOfPlayers == 2 ) {
-            boardOfTrylma.fillSector(1);
-            boardOfTrylma.fillSector(4);
-
-            activeSectorsID.add(1);
-            activeSectorsID.add(4);
-        } else if (numberOfPlayers == 3) {
-            boardOfTrylma.fillSector(1);
-            boardOfTrylma.fillSector(3);
-            boardOfTrylma.fillSector(5);
-
-            activeSectorsID.add(1);
-            activeSectorsID.add(3);
-            activeSectorsID.add(5);
-        } else if (numberOfPlayers == 4) {
-            boardOfTrylma.fillSector(2);
-            boardOfTrylma.fillSector(3);
-            boardOfTrylma.fillSector(5);
-            boardOfTrylma.fillSector(6);
-
-            activeSectorsID.add(2);
-            activeSectorsID.add(3);
-            activeSectorsID.add(5);
-            activeSectorsID.add(6);
-        } else if (numberOfPlayers == 6) {
-            boardOfTrylma.fillSector(1);
-            boardOfTrylma.fillSector(2);
-            boardOfTrylma.fillSector(3);
-            boardOfTrylma.fillSector(4);
-            boardOfTrylma.fillSector(5);
-            boardOfTrylma.fillSector(6);
-
-            activeSectorsID.add(1);
-            activeSectorsID.add(2);
-            activeSectorsID.add(3);
-            activeSectorsID.add(4);
-            activeSectorsID.add(5);
-            activeSectorsID.add(6);
-        }
+        activeSectorsID = boardOfTrylma.setBoardForPlayers(numberOfPlayers);
     }
 
     public List<Integer> getActiveSectorsID() {

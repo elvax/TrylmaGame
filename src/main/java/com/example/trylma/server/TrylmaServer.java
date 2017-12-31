@@ -36,6 +36,7 @@ public class TrylmaServer {
         try {
             serverSocket = new ServerSocket(portNumber);
         } catch (IOException e) {
+            System.out.println("tu");
             e.printStackTrace();
         }
 

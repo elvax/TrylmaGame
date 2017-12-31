@@ -11,6 +11,8 @@ public abstract class Board implements Serializable{
 
     public abstract void setImage() throws IOException;
 
+    public abstract List setBoardForPlayers(int numberOfPlayers);
+
     public abstract void doDrawBoard(Graphics g);
 
     public abstract void updateBoard(AbstractPeg[] list);
