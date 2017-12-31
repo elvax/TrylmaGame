@@ -25,6 +25,8 @@ public abstract class Board implements Serializable{
 
     public abstract List<AbstractPeg> move(AbstractPeg p, int i, int j);
 
+    public abstract List<AbstractPeg> move(AbstractPeg p, AbstractPeg d);
+
     public abstract List<AbstractPeg> correctMoves(AbstractPeg p);
 
     public abstract List<AbstractPeg> setPossibleMoves(AbstractPeg p);
@@ -32,6 +34,8 @@ public abstract class Board implements Serializable{
     public abstract void changeIdPossibleMoves(List<AbstractPeg> list);
 
     public abstract List<AbstractPeg> getPegsOfSector(int sectorID);
+
+    public abstract List<AbstractPeg> getPegsOfID(int id);
 
     public abstract void setPeg(int i, int j, int Owner);
 

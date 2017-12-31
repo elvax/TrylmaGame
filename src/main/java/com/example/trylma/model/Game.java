@@ -50,6 +50,14 @@ public class Game {
         return activeSectorsID;
     }
 
+    public AbstractPeg getRandomPeg(List<AbstractPeg> listOfPegs) {
+        return listOfPegs.get(randomGenerator.nextInt(listOfPegs.size()));
+    }
+
+    public List<AbstractPeg> getPegsOfID(int id) {
+        return boardOfTrylma.getPegsOfID(id);
+    }
+
     public void setOrderOfMoves() {
         index = randomGenerator.nextInt(activeSectorsID.size());
         currentID = activeSectorsID.get(index);
@@ -76,6 +84,10 @@ public class Game {
         boardOfTrylma.setPeg(i,j,Owner);
     }
 
+//    public List getAllPegs(int id) {
+//
+//    }
+
 
 //    public boolean isClicked(int x, int y) {
 //        for(int i=0; i<I_BOARD_SIZE; i++) {
@@ -99,6 +111,10 @@ public class Game {
 
     public List<AbstractPeg> move(AbstractPeg pegToMove, int x, int y) {
         return boardOfTrylma.move(pegToMove, x, y);
+    }
+
+    public List<AbstractPeg> move(AbstractPeg pegToMove, AbstractPeg pegDestiny) {
+        return boardOfTrylma.move(pegToMove, pegDestiny);
     }
 
     public AbstractPeg getClicked(int x, int y) {

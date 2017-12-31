@@ -227,6 +227,18 @@ public class SixBoard extends Board {
     }
 
     @Override
+    public List<AbstractPeg> getPegsOfID(int id) {
+        List<AbstractPeg> result = new ArrayList<AbstractPeg>();
+        for(int i=0; i<I_BOARD_SIZE; i++) {
+            for(int j=0; j<J_BOARD_SIZE; j++) {
+                if(board[i][j].getSectorID() == id)
+                    result.add(board[i][j]);
+            }
+        }
+        return result;
+    }
+
+    @Override
     public void fillSector(int i){
         if(i==1){
             fillSectorOne();
@@ -401,12 +413,12 @@ public class SixBoard extends Board {
     // czyli nanosi ruch na planszę.
     @Override
     public java.util.List<AbstractPeg> move(AbstractPeg p, int i, int j){
-        System.out.println("MOVE" + p);
+
         java.util.List<AbstractPeg> pegs = new ArrayList<AbstractPeg>();
         java.util.List<AbstractPeg> neighbours = correctMoves(p);
         for(int t=0; t<neighbours.size(); t++){
             AbstractPeg temp = neighbours.get(t);
-            System.out.println("Sasiad: " + temp.geti() + " " + temp.getj());
+
             if(temp.isClicked(i,j)==true && temp.getSectorID()==0){
                 board[temp.geti()][temp.getj()]=generator.generatePeg(temp.geti(),temp.getj(),p.getSectorID());
                 board[p.geti()][p.getj()]=generator.generatePeg(p.geti(),p.getj(),0);
@@ -417,15 +429,33 @@ public class SixBoard extends Board {
         }
         return pegs;
     }
+
+    @Override
+    public List<AbstractPeg> move(AbstractPeg p, AbstractPeg d) {
+        java.util.List<AbstractPeg> pegs = new ArrayList<AbstractPeg>();
+        java.util.List<AbstractPeg> neighbours = correctMoves(p);
+        for(int t=0; t<neighbours.size(); t++){
+            AbstractPeg temp = neighbours.get(t);
+            if(temp.equals(d)){
+                board[temp.geti()][temp.getj()]=generator.generatePeg(temp.geti(),temp.getj(),p.getSectorID());
+                board[p.geti()][p.getj()]=generator.generatePeg(p.geti(),p.getj(),0);
+                pegs.add(board[p.geti()][p.getj()]);
+                pegs.add(board[temp.geti()][temp.getj()]);
+                return pegs;
+            }
+        }
+        return pegs;
+    }
+
     @Override
     //zwraca listę wszystkich możliwych ruchów tzn, sasiadów którzy mają id=0 uzupełnionych o skoki.
     public java.util.List<AbstractPeg> correctMoves(AbstractPeg p){
-        System.out.println("CORRECT MOVE" + p);
+
         java.util.List<AbstractPeg> moves = findEmptyNeighbours(p);
         java.util.List<AbstractPeg> notEmpty = findNotEmptyNeighbours(p);
         java.util.List<AbstractPeg> correctmoves = new ArrayList<AbstractPeg>();
         for(int i=0; i < notEmpty.size(); i++){
-            System.out.println("CORRECT MOVE PĘTLA" + p);
+
             AbstractPeg neighbour = notEmpty.get(i);
             int j_move = -1;
             int i_move = -1;
@@ -458,13 +488,12 @@ public class SixBoard extends Board {
                 moves.add(board[i_move][j_move]);
             }
         }
-        System.out.println("ISinCORNER" +isInCorner(p)+ " " +  p);
+
         if(isInCorner(p)==true){
             for(int k=0; k<moves.size(); k++){
-                System.out.println("ISinCORNER sasiad" +isInCorner(moves.get(k))+ " " +  moves.get(k));
+
                 if(isInCorner(moves.get(k))==true){
                     correctmoves.add(moves.get(k));
-                    System.out.println(moves.get(k));
                 }
             }
             return correctmoves;

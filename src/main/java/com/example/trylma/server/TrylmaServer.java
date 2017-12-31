@@ -4,6 +4,7 @@ package com.example.trylma.server;
 import com.example.trylma.controller.TrylmaStringProtocol;
 import com.example.trylma.model.*;
 
+import javax.management.loading.PrivateMLet;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -64,10 +65,29 @@ public class TrylmaServer {
 
     }
 
+    private void waitForClientWithBot() throws IOException{
+        System.out.println("Server is waiting for clients");
+        currentGame.setBoardForPlayers(2);
+        currentGame.setOrderOfMoves();
+
+        PlayerThread player = new PlayerThread(serverSocket.accept(), 1);
+        BotThread bot = new BotThread(4);
+
+        player.start();
+        bot.start();
+
+        System.out.println("client and bot connected");
+
+        // Start client's threads
+
+
+    }
+
     public static void main(String[] args) {
         TrylmaServer server = new TrylmaServer();
         try {
-            server.waitForClients(6);
+//            server.waitForClients(2);
+            server.waitForClientWithBot();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -208,5 +228,64 @@ public class TrylmaServer {
 
     }
 
-}
+    private class BotThread extends Thread {
+        int id;
+
+        public BotThread( int id) {
+            this.id = id;
+        }
+
+        public void run() {
+            try {
+                List<AbstractPeg> pegsToChange = new ArrayList<AbstractPeg>();
+                while (true) {
+                    if (currentGame.getCurrentID() == this.id) {
+
+                        String whosTurnIs = "Bot" + currentGame.getCurrentID();
+                        for (ObjectOutputStream out : objectOutput) {
+                            out.writeObject(whosTurnIs);
+                        }
+                        List<AbstractPeg> possibilities;
+                        AbstractPeg pegClicked;
+                        do {
+                            pegClicked = currentGame.getRandomPeg(currentGame.getPegsOfID(this.id));
+                            System.out.println(pegClicked);
+                            possibilities = currentGame.setPossibleMoves(pegClicked);
+                            System.out.println(possibilities.size());
+                        } while (possibilities.size() < 1);
+                            currentGame.changePossibleMoves(pegsToChange);
+                            AbstractPeg pegDestiny = currentGame.getRandomPeg(possibilities);
+                            List<AbstractPeg> pegs = currentGame.move(pegClicked, pegDestiny);
+
+
+
+                        if (pegs.size() == 2) {
+                            pegClicked = pegs.get(0);
+                            pegsToChange.add(pegClicked);
+                            pegDestiny = pegs.get(1);
+                            pegsToChange.add(pegDestiny);
+                        }
+                        if (pegsToChange.size() > 0) {
+                            AbstractPeg[] array3 = new AbstractPeg[pegsToChange.size()];
+                            array3 = pegsToChange.toArray(array3);
+                            for (ObjectOutputStream objectOut : objectOutput) {
+                                objectOut.writeObject(array3);
+                            }
+                        }
+                        pegsToChange.clear();
+                        if (currentGame.isWinner(this.id)) {
+                            currentGame.removePlayer(this.id);
+                            currentGame.nextPlayer();
+                        }
+                        currentGame.nextPlayer();
+                        currentGame.printBoard();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        }
+
+    }
 
