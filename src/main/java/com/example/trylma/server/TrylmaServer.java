@@ -27,11 +27,6 @@ public class TrylmaServer {
     BoardGenerator generatorB;
     PegGenerator generatorP;
 
-    JFrame frame = new JFrame("Chatter");
-    JButton addBotButton = new JButton("Add bot");
-    JTextArea messageArea = new JTextArea(8,40);
-    JButton newGameButton = new JButton("New game");
-
     // List of clients connected to server
     private List<Thread> clietnsThreadsList = new ArrayList<Thread>();
 
@@ -42,20 +37,6 @@ public class TrylmaServer {
 
 
     public TrylmaServer() {
-        //GUI
-        messageArea.setEditable(false);
-        frame.getContentPane().add(addBotButton, "North");
-        frame.getContentPane().add(new JScrollPane(messageArea), "South");
-        frame.pack();
-
-        // Add Listeners
-        addBotButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Add bot");
-            }
-        });
-
-
         protocol = new TrylmaStringProtocol();
         generatorB = new SixBoardGenerator();
         generatorP = new SixCirclePegGenerator();
@@ -67,17 +48,6 @@ public class TrylmaServer {
             e.printStackTrace();
         }
 
-    }
-    private String getNumberOfPlayers() {
-        Object[] possibilities = {"2", "3", "4", "6"};
-        return (String) JOptionPane.showInputDialog(
-                null,
-                "Choose the number of players:\n",
-                "Number of players",
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                possibilities,
-                "2");
     }
     private void waitForPlayers(int numberOfPlayers) throws IOException {
         System.out.println("Server is waiting for clients");
@@ -100,7 +70,6 @@ public class TrylmaServer {
         // Wait for clients to connect
         for (Integer id : currentGame.getActiveSectorsID()) {
             clietnsThreadsList.add(new PlayerThread(serverSocket.accept(), id));
-            messageArea.append(clietnsThreadsList.get(clietnsThreadsList.size()-1).toString() + " connected\n");
         }
 
         System.out.println(numberOfPlayers + " clients connected");
@@ -132,10 +101,9 @@ public class TrylmaServer {
 
     public static void main(String[] args) {
         TrylmaServer server = new TrylmaServer();
-        server.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        server.frame.setVisible(true);
+
         try {
-            server.waitForClients(Integer.parseInt(server.getNumberOfPlayers()));
+            server.waitForClients(3);
 //            server.waitForClientWithBot();
         } catch (IOException e) {
             e.printStackTrace();
