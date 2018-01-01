@@ -525,9 +525,9 @@ public class SixBoard extends Board {
             AbstractPeg m = moves.get(i);
             //System.out.println(m);
             m.changeOwnerID(7);
-            //System.out.println(m);
+            System.out.println("NEWBOARD");
             board[m.geti()][m.getj()]=m;
-            //printBoard();
+            printBoard();
         }
         return moves;
     }
@@ -538,9 +538,9 @@ public class SixBoard extends Board {
             AbstractPeg m = list.get(i);
             //System.out.println(m);
             m.changeOwnerID(0);
-            //System.out.println(m);
-            board[m.geti()][m.getj()]=m;
-            //printBoard();
+            System.out.println("OLDBOARD");
+            this.board[m.geti()][m.getj()]=m;
+            printBoard();
         }
     }
 

@@ -250,16 +250,27 @@ public class TrylmaServer {
                         AbstractPeg pegClicked;
                         do {
                             pegClicked = currentGame.getRandomPeg(currentGame.getPegsOfID(this.id));
-                            System.out.println(pegClicked);
+
+                            //System.out.println("BOT CLICKED " + pegClicked);
                             possibilities = currentGame.setPossibleMoves(pegClicked);
-                            System.out.println(possibilities.size());
+                            //System.out.println("BOT POSIBILITIES: " + possibilities);
+                            //System.out.println("BOT SIZE POSIBILITIES: " + possibilities.size());
                         } while (possibilities.size() < 1);
+                        //System.out.println("BEFORE");
+                            //currentGame.printBoard();
+                            //System.out.println("BOT POSIBILITIES: " + possibilities);
+                            //System.out.println("BOT SIZE POSIBILITIES: " + possibilities.size());
+                            AbstractPeg[] array2 = new AbstractPeg[possibilities.size()];
+                            for (int i = 0; i < possibilities.size(); i++) {
+                                AbstractPeg p = possibilities.get(i);
+                                pegsToChange.add(p);
+                                array2[i] = generatorP.generatePeg(p.geti(), p.getj(), p.getSectorID());
+                            }
                             currentGame.changePossibleMoves(pegsToChange);
+                        //System.out.println("AFTER");
+                            //currentGame.printBoard();
                             AbstractPeg pegDestiny = currentGame.getRandomPeg(possibilities);
                             List<AbstractPeg> pegs = currentGame.move(pegClicked, pegDestiny);
-
-
-
                         if (pegs.size() == 2) {
                             pegClicked = pegs.get(0);
                             pegsToChange.add(pegClicked);
