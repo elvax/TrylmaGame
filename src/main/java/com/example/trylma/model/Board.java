@@ -28,7 +28,7 @@ public abstract class Board implements Serializable{
     public abstract void generateBoard(PegGenerator P);
     /**
      * Abstract method which sets the appropriate image of
-     * all pegs in the bord.
+     * all pegs in the board.
      * @throws IOException      If an input or output
      *                          exception occurred
      * @since                   1.0
@@ -169,4 +169,13 @@ public abstract class Board implements Serializable{
      * @since               1.0
      */
     public abstract void printBoard();
+    /**
+     * Abstract method which returns true if the correct corner
+     * is filled by the pegs of player.
+     *
+     * @param PlayerID            the number of player ID
+     * @return                    list all of pegs of the selected player
+     * @since                     1.0
+     */
+    public abstract boolean isWinner(int PlayerID);
 }

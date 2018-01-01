@@ -4,7 +4,15 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * The SixBoard class extends abstract Board class and contains all the basic methods,
+ * which the application needs to draw the board that has a shape of six-pointed star.
+ *
+ * @author      Sebastian Pabich
+ * @author      Maria Wita
+ * @version     1.0
+ * @since       1.0
+ */
 public class SixBoard extends Board {
     public static int I_BOARD_SIZE = 17;
     public static int J_BOARD_SIZE = 13;
@@ -12,11 +20,24 @@ public class SixBoard extends Board {
     public PegGenerator generator;
 
     private AbstractPeg[][] board;
-
+    /**
+     * Constructor initialize the board of pegs.
+     *
+     * @since               1.0
+     */
     public SixBoard() {
         board = new AbstractPeg[I_BOARD_SIZE][J_BOARD_SIZE];
     }
 
+    /**
+     * Factory method which generates a board which has a shape of six-pointed star
+     * with appropriate peg depending on the selection of {@link PegGenerator}
+     * and {@link BoardGenerator}.
+     *
+     * @param P             PegGenerator, which return the appropriate
+     *                      Peg to board.
+     * @since               1.0
+     */
     @Override
     public void generateBoard(PegGenerator P){
         this.generator = P;
@@ -25,7 +46,7 @@ public class SixBoard extends Board {
     }
 
     /**
-     * Fills board with Peg instances
+     * Method which fills the board with Pegs instances which will be used by players.
      *  ++++++0++++++
      *  ++++++00+++++
      *  +++++000+++++
@@ -44,12 +65,10 @@ public class SixBoard extends Board {
      *  ++++++00+++++
      *  ++++++0++++++
      * Where 0 means "0" was passed to ownerId
-     * and + means "-1" wass passed to sectorID
+     * and + means "-1" was passed to sectorID
      * in constructor
      */
     private void initalizeBoard() {
-        //board = new Peg[I_BOARD_SIZE][J_BOARD_SIZE];
-
         int i = 0;
         for(int j=0; j<6; j++) { board[i][j]=generator.generatePeg(i,j,-1); }
         board[i][6] = generator.generatePeg(i, 6, 0);
@@ -71,9 +90,7 @@ public class SixBoard extends Board {
         for(int j=9; j<13; j++) { board[i][j]=generator.generatePeg(i,j,-1); }
 
         i=4;
-        // for(int j=0; j<5; j++) { board[i][j]=new Peg(i,j,-1); }
         for(int j=0; j<13; j++) { board[i][j]=generator.generatePeg(i,j,0); }
-        // for(int j=9; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
 
         i=5;
         for(int j=0; j<1; j++) { board[i][j]=generator.generatePeg(i,j,-1); }
@@ -108,12 +125,9 @@ public class SixBoard extends Board {
         i=11;
         for(int j=0; j<1; j++) { board[i][j]=generator.generatePeg(i,j,-1); }
         for(int j=1; j<13; j++) { board[i][j]=generator.generatePeg(i,j,0); }
-        // for(int j=12; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
 
         i=12;
-        //  for(int j=0; j<1; j++) { board[i][j]=new Peg(i,j,-1); }
         for(int j=0; j<13; j++) { board[i][j]=generator.generatePeg(i,j,0); }
-        // for(int j=12; j<13; j++) { board[i][j]=new Peg(i,j,-1); }
 
         i=13;
         for(int j=0; j<5; j++) { board[i][j]=generator.generatePeg(i,j,-1); }
@@ -135,7 +149,16 @@ public class SixBoard extends Board {
         board[i][6] = generator.generatePeg(i, 6, 0);
         for(int j=7; j<13; j++) { board[i][j]=generator.generatePeg(i,j,-1); }
     }
-
+    /**
+     * Method which sets the board for players,
+     * fill the board which pegs with correct sector ID
+     * and returns the list of active sectors.
+     *
+     * @param numberOfPlayers      the number of players in game
+     * @return                     the list of the active sectors
+     *                             (sectors using in game)
+     * @since                      1.0
+     */
     public List setBoardForPlayers(int numberOfPlayers) {
         List<Integer> activeSectorsID = new ArrayList<Integer>();
         if (numberOfPlayers == 1) {
@@ -184,6 +207,13 @@ public class SixBoard extends Board {
         return activeSectorsID;
     }
 
+    /**
+     * Abstract method which sets the x and y coordinates of
+     * all pegs in the board.
+     * @throws IOException      If an input or output
+     *                          exception occurred
+     * @since                   1.0
+     */
     private void setXYDraws() {
         for(int i=0; i<I_BOARD_SIZE; i++) {
             for(int j=0; j<J_BOARD_SIZE; j++) {
@@ -195,6 +225,13 @@ public class SixBoard extends Board {
             }
         }
     }
+    /**
+     * Method which sets the appropriate image of all pegs in the board,
+     * which use the peg's function setImage().
+     * @throws IOException      If an input or output
+     *                          exception occurred
+     * @since                   1.0
+     */
     @Override
     public void setImage() throws IOException {
         for(int i=0; i<I_BOARD_SIZE; i++) {
@@ -203,6 +240,13 @@ public class SixBoard extends Board {
             }
         }
     }
+    /**
+     * Abstract method doDrawBoard draws a board with appropriate properties
+     * using the peg's doDraw function.
+     *
+     * @param g             graphics
+     * @since               1.0
+     */
     @Override
     public void doDrawBoard(Graphics g) {
         for(int i=0; i<I_BOARD_SIZE; i++) {
@@ -211,6 +255,14 @@ public class SixBoard extends Board {
             }
         }
     }
+    /**
+     * Method updates the Board by changing pawns on the board
+     * with pawns from the list.
+     *
+     * @param list          list of the pegs, which changed their properties,
+     *                      for example the OwnerID
+     * @since               1.0
+     */
     @Override
     public void updateBoard(AbstractPeg[] list) {
         for (AbstractPeg newPeg : list) {
@@ -226,6 +278,14 @@ public class SixBoard extends Board {
         }
     }
 
+    /**
+     * Method which returns all pegs that belongs to
+     * the selected player.
+     *
+     * @param id            the number of owner ID
+     * @return              list all of pegs of the selected player
+     * @since               1.0
+     */
     @Override
     public List<AbstractPeg> getPegsOfID(int id) {
         List<AbstractPeg> result = new ArrayList<AbstractPeg>();
@@ -237,7 +297,12 @@ public class SixBoard extends Board {
         }
         return result;
     }
-
+    /**
+     * Method which fill one of the sector of the board with correct pawns.
+     *
+     * @param i            the sector ID
+     * @since                1.0
+     */
     @Override
     public void fillSector(int i){
         if(i==1){
@@ -255,7 +320,12 @@ public class SixBoard extends Board {
         }
     }
 
-    //red
+    /**
+     * Method which fill the sector one with pawns
+     * and sets the OwnerID to 1.
+     *
+     * @since                1.0
+     */
     public void fillSectorOne(){
         for(int j=5; j<9; j++) {
             board[13][j]=generator.generatePeg(13,j,1);
@@ -270,7 +340,12 @@ public class SixBoard extends Board {
 
     }
 
-    //blue
+    /**
+     * Method which fill the sector two with pawns
+     * and sets the OwnerID to 2.
+     *
+     * @since                1.0
+     */
     public void fillSectorTwo(){
         for(int j=0; j<4; j++) {
             board[12][j]=generator.generatePeg(12,j,2);
@@ -283,7 +358,12 @@ public class SixBoard extends Board {
         }
         board[9][2]=generator.generatePeg(9,2,2);
     }
-    //pink
+    /**
+     * Method which fill the sector three with pawns
+     * and sets the OwnerID to 3.
+     *
+     * @since                1.0
+     */
     public void fillSectorThree(){
         for(int j=0; j<4; j++) {
             board[4][j]=generator.generatePeg(4,j,3);
@@ -297,7 +377,12 @@ public class SixBoard extends Board {
         board[7][2]=generator.generatePeg(7,2,3);
     }
 
-    //yellow
+    /**
+     * Method which fill the sector four with pawns
+     * and sets the OwnerID to 4.
+     *
+     * @since                1.0
+     */
     public void fillSectorFour(){
         for(int j=5; j<9; j++) {
             board[3][j]=generator.generatePeg(3,j,4);
@@ -311,7 +396,12 @@ public class SixBoard extends Board {
         board[0][6]=generator.generatePeg(0,6,4);
     }
 
-    //orange
+    /**
+     * Method which fill the sector five with pawns
+     * and sets the OwnerID to 5.
+     *
+     * @since                1.0
+     */
     public void fillSectorFive(){
 
         for(int j=9; j<13; j++) {
@@ -326,7 +416,12 @@ public class SixBoard extends Board {
         board[7][11]=generator.generatePeg(7,11,5);
     }
 
-    //green
+    /**
+     * Method which fill the sector six with pawns
+     * and sets the OwnerID to 6.
+     *
+     * @since                1.0
+     */
     public void fillSectorSix() {
         for (int j = 9; j < 13; j++) {
             board[12][j] = generator.generatePeg(12, j, 6);
@@ -340,6 +435,14 @@ public class SixBoard extends Board {
         board[9][11] =generator.generatePeg(9, 11, 6);
     }
 
+    /**
+     * Method getClicked returns the peg from the board which was clicked.
+     *
+     * @param x         the clicked x-coordinate in pixels
+     * @param y         the clicked y-coordinate in pixels.
+     * @return          peg from the board which was clicked.
+     * @since           1.0
+     */
     @Override
     public AbstractPeg getClicked(int x, int y) {
         for (int i = 0; i < I_BOARD_SIZE; i++) {
@@ -351,12 +454,27 @@ public class SixBoard extends Board {
         return null;
     }
 
+    /**
+     * Method which returns the peg which is in the i - row
+     * and j - column in the board.
+     *
+     * @param i             the row number
+     * @param j             the column number
+     * @return              peg from the board
+     * @since               1.0
+     */
     @Override
     public AbstractPeg getPeg(int i, int j){
         return board[i][j];
     }
 
-    //Metoda szukająca wszystkich sąsiadów tych zajętych i pustych
+    /**
+     * Method which return the list of all neighbours of the clicked peg.
+     *
+     * @param peg           the clicked peg which we want to move
+     * @return              peg's list of not empty neighbours
+     * @since               1.0
+     */
     public java.util.List<AbstractPeg> findNeighbours(AbstractPeg peg){
         java.util.List<AbstractPeg> neighbours = new ArrayList<AbstractPeg>();
         int i = peg.geti();
@@ -371,17 +489,22 @@ public class SixBoard extends Board {
         else if (j == J_BOARD_SIZE - 1) { ej = j; }
         for (int k = bi; k <= ei; k++) {
             for (int t = bj; t <= ej; t++) {
-                //System.out.println("k i t :" + k + " " + t);
                 if (((t == j - 1 && i % 2 == 0) && (k == i - 1 || k == i + 1)) || k == i && t == j) {}
                 else if ((t == j + 1 && i % 2 != 0) && (k == i + 1 || k == i - 1)) {}
                 else { neighbours.add(board[k][t]);
-                    //System.out.println("Sasiad :" + k + " " + t);
                 }
             }
         }
         return neighbours;
     }
-    //zwraca pustych sąsiadów czyli tych które mają ID 0 i może się tam przemieścić od razu
+    /**
+     * Method which return the list of neighbours of the clicked peg
+     * which are empty.
+     *
+     * @param peg           the clicked peg which we want to move
+     * @return              peg's list of empty neighbours
+     * @since               1.0
+     */
     public java.util.List<AbstractPeg> findEmptyNeighbours(AbstractPeg peg){
         java.util.List<AbstractPeg> neighbours = findNeighbours(peg);
         java.util.List<AbstractPeg> emptyNeighbours = new ArrayList<AbstractPeg>();
@@ -389,13 +512,19 @@ public class SixBoard extends Board {
             AbstractPeg p = neighbours.get(i);
             if(p.getSectorID() == 0){
                 emptyNeighbours.add(p);
-                //System.out.println("Sąsiad pusty: " + neighbours.get(i).geti() + " " + neighbours.get(i).getj());
             }
         }
         return emptyNeighbours;
     }
 
-    //zwraca sąsiadów którzy są zajęci tzn mają id rózny od 0 i -1, należą do jakiegoś gracza.
+    /**
+     * Method which return the list of neighbours of the clicked peg
+     * which are not empty.
+     *
+     * @param peg           the clicked peg which we want to move
+     * @return              peg's list of not empty neighbours
+     * @since               1.0
+     */
     public java.util.List<AbstractPeg> findNotEmptyNeighbours(AbstractPeg peg){
         java.util.List<AbstractPeg> neighbours = findNeighbours(peg);
         java.util.List<AbstractPeg> notEmptyNeighbours = new ArrayList<AbstractPeg>();
@@ -403,14 +532,22 @@ public class SixBoard extends Board {
             AbstractPeg p = neighbours.get(i);
             if(p.getSectorID() != 0 && p.getSectorID() != -1){
                 notEmptyNeighbours.add(p);
-                //System.out.println("Sąsiad pełny: " + p.geti() + " " + p.getj());
             }
         }
         return notEmptyNeighbours;
     }
 
-    //sprawdza czy ruch był poprawny, tzn czy jest w liscie mozliwych ruchów i jeśli jest zmienia identyfikatory
-    // czyli nanosi ruch na planszę.
+    /**
+     * Method which checks if the move on the board is correct
+     * and then returns two pegs that should be change or null,
+     * when the move was't correct.
+     *
+     * @param p             the clicked peg which we want to move
+     * @param i             the x - coordinate of the destiny peg
+     * @param j             the y - coordinate of the destiny peg
+     * @return              list of pegs that should be change
+     * @since               1.0
+     */
     @Override
     public java.util.List<AbstractPeg> move(AbstractPeg p, int i, int j){
 
@@ -418,7 +555,6 @@ public class SixBoard extends Board {
         java.util.List<AbstractPeg> neighbours = correctMoves(p);
         for(int t=0; t<neighbours.size(); t++){
             AbstractPeg temp = neighbours.get(t);
-
             if(temp.isClicked(i,j)==true && temp.getSectorID()==0){
                 board[temp.geti()][temp.getj()]=generator.generatePeg(temp.geti(),temp.getj(),p.getSectorID());
                 board[p.geti()][p.getj()]=generator.generatePeg(p.geti(),p.getj(),0);
@@ -430,6 +566,17 @@ public class SixBoard extends Board {
         return pegs;
     }
 
+    /**
+     * Method which checks if the move on the board is correct
+     * and then returns two pegs that should be change or null,
+     * when the move was't correct.
+     *
+     * @param p             the clicked peg which we want to move
+     * @param d             the destiny place(peg which sectorID=0),
+     *                      where we want to put the clicked peg
+     * @return              list of pegs that should be change
+     * @since               1.0
+     */
     @Override
     public List<AbstractPeg> move(AbstractPeg p, AbstractPeg d) {
         java.util.List<AbstractPeg> pegs = new ArrayList<AbstractPeg>();
@@ -446,24 +593,24 @@ public class SixBoard extends Board {
         }
         return pegs;
     }
-
+    /**
+     * Method which return the list of possible pegs that
+     * can be replace by the clicked peg.
+     *
+     * @param p             the clicked peg which we want to move
+     * @return              peg's list of possible moves
+     * @since               1.0
+     */
     public List<AbstractPeg> correctMoves(AbstractPeg p){
-//        System.out.println("CORRECT MOVE FIRST PEG" + p);
         List<AbstractPeg> moves = findEmptyNeighbours(p);
         List<AbstractPeg> notEmpty = findNotEmptyNeighbours(p);
         List<AbstractPeg> correctmoves = new ArrayList<AbstractPeg>();
-        //LinkedHashSet<AbstractPeg> leaps = new LinkedHashSet<AbstractPeg>();
-        //LinkedHashSet<AbstractPeg> leaps2 = new LinkedHashSet<AbstractPeg>();
         List<AbstractPeg> leaps = new ArrayList<AbstractPeg>();
         leaps.add(p);
-        //while(leaps.isEmpty()==false) {
-            //for (AbstractPeg h : leaps) {
         for(int z=0; z<leaps.size(); z++){
                 AbstractPeg h = leaps.get(z);
-//                System.out.println("CORRECT MOVE PeTLA" + h);
                 notEmpty = findNotEmptyNeighbours(h);
                 for (int i = 0; i < notEmpty.size(); i++) {
-//                    System.out.println("CORRECT MOVE PeTLA2" + h);
                     AbstractPeg neighbour = notEmpty.get(i);
                     int j_move = -1;
                     int i_move = -1;
@@ -494,22 +641,14 @@ public class SixBoard extends Board {
                     }
                     if (i_move != -1 && j_move != -1 && board[i_move][j_move].getSectorID() == 0 && leaps.contains(board[i_move][j_move])==false) {
                         moves.add(board[i_move][j_move]);
-//                        System.out.println("LEAP" + board[i_move][j_move]);
                         leaps.add(board[i_move][j_move]);
                     }
                 }
-                //leaps.remove(h);
-            }
-        //}
-//        System.out.println(leaps);
-
-        //System.out.println("ISinCORNER" +isInCorner(p)+ " " +  p);
+        }
         if(isInCorner(p)==true){
             for(int k=0; k<moves.size(); k++){
-                //System.out.println("ISinCORNER sasiad" +isInCorner(moves.get(k))+ " " +  moves.get(k));
                 if(isInCorner(moves.get(k))==true){
                     correctmoves.add(moves.get(k));
-//                    System.out.println(moves.get(k));
                 }
             }
             return correctmoves;
@@ -517,33 +656,48 @@ public class SixBoard extends Board {
         return moves;
     }
 
-
+    /**
+     * Method which return the list of possible pegs that
+     * can be replace by the clicked peg and change the sectorID of
+     * this pegs in the board to number which means possible moves.
+     *
+     * @param p             the clicked peg which we want to move
+     * @return              peg's list of possible moves
+     * @since               1.0
+     */
     @Override
     public java.util.List<AbstractPeg> setPossibleMoves(AbstractPeg p){
         java.util.List<AbstractPeg> moves = correctMoves(p);
         for(int i = 0; i < moves.size(); i++){
             AbstractPeg m = moves.get(i);
-            //System.out.println(m);
             m.changeOwnerID(7);
-            System.out.println("NEWBOARD");
             board[m.geti()][m.getj()]=m;
-            printBoard();
         }
         return moves;
     }
-
+    /**
+     * Method which change the sectorID of pegs in the board
+     * to number which means that they are empty.
+     *
+     * @param list          the list of pegs to change their sectorID
+     * @since               1.0
+     */
     @Override
     public void changeIdPossibleMoves(java.util.List<AbstractPeg> list){
         for(int i = 0; i < list.size(); i++){
             AbstractPeg m = list.get(i);
-            //System.out.println(m);
             m.changeOwnerID(0);
-            System.out.println("OLDBOARD");
             this.board[m.geti()][m.getj()]=m;
-            printBoard();
         }
     }
 
+    /**
+     * Method which check if the peg is in the opposite corner.
+     *
+     * @param p             the clicked peg which we want to move
+     * @return              true when is in the opposite corner  and false otherwise
+     * @since               1.0
+     */
     public boolean isInCorner(AbstractPeg p){
         int id = p.getSectorID();
         java.util.List<AbstractPeg> pegs = new ArrayList();
@@ -561,16 +715,6 @@ public class SixBoard extends Board {
                     return true;
                 }
             }
-            /*for(int j=0; j<4; j++) {
-                if(p.geti()==12 && p.getj()==j){ return true; }
-            }
-            for(int j=1; j<4; j++){
-                if(p.geti()==11 && p.getj()==j){ return true; }
-            }
-            for(int j=1; j<3; j++){
-                if(p.geti()==10 && p.getj()==j){ return true; }
-            }
-            if(p.geti()==9 && p.getj()==2){ return true; }*/
         }
         if(id==2 || id==0){
             pegs = getPegsOfSector(5);
@@ -580,16 +724,6 @@ public class SixBoard extends Board {
                     return true;
                 }
             }
-            /*for(int j=9; j<13; j++) {
-                if(p.geti()==4 && p.getj()==j){ return true; }
-            }
-            for(int j=10; j<13; j++){
-                if(p.geti()==5 && p.getj()==j){ return true; }
-            }
-            for(int j=10; j<12; j++){
-                if(p.geti()==6 && p.getj()==j){ return true; }
-            }
-            if(p.geti()==7 && p.getj()==11){ return true; }*/
         }
         if(id==3 || id==0){
             pegs = getPegsOfSector(6);
@@ -599,16 +733,6 @@ public class SixBoard extends Board {
                     return true;
                 }
             }
-            /*for(int j=9; j<13; j++) {
-                if(p.geti()==12 && p.getj()==j){ return true; }
-            }
-            for(int j=10; j<13; j++){
-                if(p.geti()==11 && p.getj()==j){ return true; }
-            }
-            for(int j=10; j<12; j++){
-                if(p.geti()==10 && p.getj()==j){ return true; }
-            }
-            if(p.geti()==9 && p.getj()==11){ return true; }*/
         }
         if(id==6 || id==0) {
             pegs = getPegsOfSector(3);
@@ -618,20 +742,16 @@ public class SixBoard extends Board {
                     return true;
                 }
             }
-            /*for (int j = 0; j < 4; j++) {
-                if (p.geti() == 4 && p.getj() == j) { return true; }
-            }
-            for (int j = 1; j < 4; j++) {
-                if (p.geti() == 5 && p.getj() == j) { return true; }
-            }
-            for (int j = 1; j < 3; j++) {
-                if (p.geti() == 6 && p.getj() == j) { return true; }
-            }
-            if (p.geti() == 7 && p.getj() == 2) { return true; }*/
         }
         return false;
     }
-
+    /**
+     * Method which returns all pegs that belongs to the sector.
+     *
+     * @param sectorID      the number of sector ID
+     * @return              list of pegs of the selected sector
+     * @since               1.0
+     */
     @Override
     public java.util.List<AbstractPeg> getPegsOfSector(int sectorID){
         List<AbstractPeg> pegs = new ArrayList<AbstractPeg>();
@@ -668,12 +788,23 @@ public class SixBoard extends Board {
         }
         return pegs;
     }
-
+    /**
+     * Method which sets peg with new properties in the board.
+     *
+     * @param i             the row number of peg in the board
+     * @param j             the column number of peg in the board
+     * @param Owner         the Owner ID of the peg
+     * @since               1.0
+     */
     @Override
     public void setPeg(int i, int j, int Owner){
         board[i][j]=generator.generatePeg(i,j,Owner);
     }
 
+    /**
+     * Method prints the board.
+     * @since               1.0
+     */
     @Override
     public void printBoard(){
         for(int o=0; o<17; o++){
@@ -686,6 +817,31 @@ public class SixBoard extends Board {
             }
             System.out.println("");
         }
+    }
+    /**
+     * Method which returns true if the player won the game.
+     *
+     * @param PlayerID            the number of player ID
+     * @return                    list all of pegs of the selected player
+     * @since                     1.0
+     */
+    @Override
+    public boolean isWinner(int PlayerID){
+        int sector=0;
+        if(PlayerID==1){ sector = 4; }
+        else if(PlayerID==4){ sector = 1; }
+        else if(PlayerID==6){ sector = 3; }
+        else if(PlayerID==3){ sector = 6; }
+        else if(PlayerID==5){ sector = 2; }
+        else if(PlayerID==2){ sector = 5; }
+        List<AbstractPeg> pegs = getPegsOfSector(sector);
+        for(int i=0; i<pegs.size(); i++){
+            AbstractPeg p = pegs.get(i);
+            if(p.getSectorID()!=PlayerID){
+                return false;
+            }
+        }
+        return true;
     }
 
 }
