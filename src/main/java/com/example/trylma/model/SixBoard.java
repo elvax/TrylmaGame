@@ -460,10 +460,10 @@ public class SixBoard extends Board {
             //for (AbstractPeg h : leaps) {
         for(int z=0; z<leaps.size(); z++){
                 AbstractPeg h = leaps.get(z);
-//                System.out.println("CORRECT MOVE PĘTLA" + h);
+//                System.out.println("CORRECT MOVE PeTLA" + h);
                 notEmpty = findNotEmptyNeighbours(h);
                 for (int i = 0; i < notEmpty.size(); i++) {
-//                    System.out.println("CORRECT MOVE PĘTLA2" + h);
+//                    System.out.println("CORRECT MOVE PeTLA2" + h);
                     AbstractPeg neighbour = notEmpty.get(i);
                     int j_move = -1;
                     int i_move = -1;

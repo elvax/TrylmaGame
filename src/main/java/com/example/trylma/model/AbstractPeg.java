@@ -5,12 +5,12 @@ import java.io.IOException;
 import java.io.Serializable;
 
 /**
- * The Abstract Peg class contains all the basic methods,
+ * The AbstractPeg class contains all the basic methods,
  * which the application needs to draw one peg in the game.
  *
  * @author      Sebastian Pabich
  * @author      Maria Wita
- * @version     %I%, %G%
+ * @version     1.0
  * @since       1.0
  */
 public abstract class AbstractPeg implements Serializable {
@@ -48,7 +48,7 @@ public abstract class AbstractPeg implements Serializable {
      * Abstract method getSectorID returns the sector number of the peg
      * which is the same as a number of the player to which it belongs.
      *
-     * @returns     OwnerID which is the same as the sectorID.
+     * @return     OwnerID which is the same as the sectorID.
      * @since       1.0
      */
     abstract public int getSectorID();
@@ -56,7 +56,7 @@ public abstract class AbstractPeg implements Serializable {
      * Abstract method geti returns the row number of the board in which
      * the peg is placed.
      *
-     * @returns     the row number of the board.
+     * @return     the row number of the board.
      * @since       1.0
      */
     abstract public int geti();
@@ -64,7 +64,7 @@ public abstract class AbstractPeg implements Serializable {
      * Abstract method getj returns the column number of the board in which
      * the peg is placed.
      *
-     * @returns     the column number of the board.
+     * @return     the column number of the board.
      * @since       1.0
      */
     abstract public int getj();
@@ -72,7 +72,7 @@ public abstract class AbstractPeg implements Serializable {
      * Abstract method getxDraw returns the x-coordinate of the northwest corner
      * of the destination peg in pixels.
      *
-     * @returns     the x-coordinate.
+     * @return     the x-coordinate.
      * @since       1.0
      */
     abstract public int getxDraw();
@@ -80,7 +80,7 @@ public abstract class AbstractPeg implements Serializable {
      * Abstract method getyDraw returns the y-coordinate of the northwest corner
      * of the destination peg in pixels.
      *
-     * @returns     the y-coordinate.
+     * @return     the y-coordinate.
      * @since       1.0
      */
     abstract public int getyDraw();
@@ -88,7 +88,9 @@ public abstract class AbstractPeg implements Serializable {
      * Abstract method setXY sets the x-coordinate and y-coordinate of the northwest
      * corner of the destination peg in pixels.
      *
-     * @since       1.0
+     * @param x         the x-coordinate in pixels
+     * @param y         the y-coordinate in pixels.
+     * @since           1.0
      */
     abstract public void setXY(int x, int y);
     /**

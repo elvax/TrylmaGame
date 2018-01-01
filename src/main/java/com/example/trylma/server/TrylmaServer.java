@@ -263,8 +263,6 @@ public class TrylmaServer {
                                         currentGame.nextPlayer();
                                     }
                                 }
-
-
                         }
                         if (fromClient.equals(sendEndTurn())) {
                             permission = false;
