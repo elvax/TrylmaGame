@@ -448,7 +448,7 @@ public class SixBoard extends Board {
     }
 
     public List<AbstractPeg> correctMoves(AbstractPeg p){
-        System.out.println("CORRECT MOVE FIRST PEG" + p);
+//        System.out.println("CORRECT MOVE FIRST PEG" + p);
         List<AbstractPeg> moves = findEmptyNeighbours(p);
         List<AbstractPeg> notEmpty = findNotEmptyNeighbours(p);
         List<AbstractPeg> correctmoves = new ArrayList<AbstractPeg>();
@@ -460,10 +460,10 @@ public class SixBoard extends Board {
             //for (AbstractPeg h : leaps) {
         for(int z=0; z<leaps.size(); z++){
                 AbstractPeg h = leaps.get(z);
-                System.out.println("CORRECT MOVE PĘTLA" + h);
+//                System.out.println("CORRECT MOVE PĘTLA" + h);
                 notEmpty = findNotEmptyNeighbours(h);
                 for (int i = 0; i < notEmpty.size(); i++) {
-                    System.out.println("CORRECT MOVE PĘTLA2" + h);
+//                    System.out.println("CORRECT MOVE PĘTLA2" + h);
                     AbstractPeg neighbour = notEmpty.get(i);
                     int j_move = -1;
                     int i_move = -1;
@@ -494,14 +494,14 @@ public class SixBoard extends Board {
                     }
                     if (i_move != -1 && j_move != -1 && board[i_move][j_move].getSectorID() == 0 && leaps.contains(board[i_move][j_move])==false) {
                         moves.add(board[i_move][j_move]);
-                        System.out.println("LEAP" + board[i_move][j_move]);
+//                        System.out.println("LEAP" + board[i_move][j_move]);
                         leaps.add(board[i_move][j_move]);
                     }
                 }
                 //leaps.remove(h);
             }
         //}
-        System.out.println(leaps);
+//        System.out.println(leaps);
 
         //System.out.println("ISinCORNER" +isInCorner(p)+ " " +  p);
         if(isInCorner(p)==true){
@@ -509,7 +509,7 @@ public class SixBoard extends Board {
                 //System.out.println("ISinCORNER sasiad" +isInCorner(moves.get(k))+ " " +  moves.get(k));
                 if(isInCorner(moves.get(k))==true){
                     correctmoves.add(moves.get(k));
-                    System.out.println(moves.get(k));
+//                    System.out.println(moves.get(k));
                 }
             }
             return correctmoves;
