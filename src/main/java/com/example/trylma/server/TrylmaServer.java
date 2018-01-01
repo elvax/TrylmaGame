@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.security.PublicKey;
 import java.util.*;
 
 import static com.example.trylma.controller.TrylmaStringProtocol.*;
@@ -29,9 +30,10 @@ public class TrylmaServer {
     JFrame frame = new JFrame("Chatter");
     JButton addBotButton = new JButton("Add bot");
     JTextArea messageArea = new JTextArea(8,40);
+    JButton newGameButton = new JButton("New game");
 
     // List of clients connected to server
-    private List<PlayerThread> clietnsThreadsList = new ArrayList<PlayerThread>();
+    private List<Thread> clietnsThreadsList = new ArrayList<Thread>();
 
     // sets of inputs and outputs for every client connected
     private HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
@@ -43,7 +45,7 @@ public class TrylmaServer {
         //GUI
         messageArea.setEditable(false);
         frame.getContentPane().add(addBotButton, "North");
-        frame.getContentPane().add(new JScrollPane(messageArea), "Center");
+        frame.getContentPane().add(new JScrollPane(messageArea), "South");
         frame.pack();
 
         // Add Listeners
@@ -66,7 +68,29 @@ public class TrylmaServer {
         }
 
     }
+    private String getNumberOfPlayers() {
+        Object[] possibilities = {"2", "3", "4", "6"};
+        return (String) JOptionPane.showInputDialog(
+                null,
+                "Choose the number of players:\n",
+                "Number of players",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                possibilities,
+                "2");
+    }
+    private void waitForPlayers(int numberOfPlayers) throws IOException {
+        System.out.println("Server is waiting for clients");
+        this.numberOfPlayers = numberOfPlayers;
+        currentGame.setBoardForPlayers(numberOfPlayers);
+        currentGame.setOrderOfMoves();
 
+        do {
+            clietnsThreadsList.add(new PlayerThread(serverSocket.accept(), currentGame.getCurrentID()));
+            currentGame.nextPlayer();
+        } while (false);
+
+    }
     private void waitForClients(int numberOfPlayers) throws IOException{
         System.out.println("Server is waiting for clients");
         this.numberOfPlayers = numberOfPlayers;
@@ -76,12 +100,13 @@ public class TrylmaServer {
         // Wait for clients to connect
         for (Integer id : currentGame.getActiveSectorsID()) {
             clietnsThreadsList.add(new PlayerThread(serverSocket.accept(), id));
+            messageArea.append(clietnsThreadsList.get(clietnsThreadsList.size()-1).toString() + " connected\n");
         }
 
         System.out.println(numberOfPlayers + " clients connected");
 
         // Start client's threads
-        for (PlayerThread pt : clietnsThreadsList) {
+        for (Thread pt : clietnsThreadsList) {
             pt.start();
         }
 
@@ -110,8 +135,8 @@ public class TrylmaServer {
         server.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         server.frame.setVisible(true);
         try {
-//            server.waitForClients(2);
-            server.waitForClientWithBot();
+            server.waitForClients(Integer.parseInt(server.getNumberOfPlayers()));
+//            server.waitForClientWithBot();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -128,6 +153,11 @@ public class TrylmaServer {
         public PlayerThread(Socket socket, int id) {
             this.socket = socket;
             this.id = id;
+        }
+
+        @Override
+        public String toString() {
+            return "Palyer " + id;
         }
 
         private void initializeStreams() throws IOException{
