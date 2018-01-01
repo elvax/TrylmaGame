@@ -5,6 +5,9 @@ import com.example.trylma.controller.TrylmaStringProtocol;
 import com.example.trylma.model.*;
 
 import javax.management.loading.PrivateMLet;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -23,6 +26,10 @@ public class TrylmaServer {
     BoardGenerator generatorB;
     PegGenerator generatorP;
 
+    JFrame frame = new JFrame("Chatter");
+    JButton addBotButton = new JButton("Add bot");
+    JTextArea messageArea = new JTextArea(8,40);
+
     // List of clients connected to server
     private List<PlayerThread> clietnsThreadsList = new ArrayList<PlayerThread>();
 
@@ -33,6 +40,20 @@ public class TrylmaServer {
 
 
     public TrylmaServer() {
+        //GUI
+        messageArea.setEditable(false);
+        frame.getContentPane().add(addBotButton, "North");
+        frame.getContentPane().add(new JScrollPane(messageArea), "Center");
+        frame.pack();
+
+        // Add Listeners
+        addBotButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Add bot");
+            }
+        });
+
+
         protocol = new TrylmaStringProtocol();
         generatorB = new SixBoardGenerator();
         generatorP = new SixCirclePegGenerator();
@@ -86,6 +107,8 @@ public class TrylmaServer {
 
     public static void main(String[] args) {
         TrylmaServer server = new TrylmaServer();
+        server.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        server.frame.setVisible(true);
         try {
 //            server.waitForClients(2);
             server.waitForClientWithBot();
@@ -250,11 +273,9 @@ public class TrylmaServer {
                         AbstractPeg pegClicked;
                         do {
                             pegClicked = currentGame.getRandomPeg(currentGame.getPegsOfID(this.id));
-
-                            //System.out.println("BOT CLICKED " + pegClicked);
+                            System.out.println("peg clicked " + pegClicked);
                             possibilities = currentGame.setPossibleMoves(pegClicked);
-                            //System.out.println("BOT POSIBILITIES: " + possibilities);
-                            //System.out.println("BOT SIZE POSIBILITIES: " + possibilities.size());
+                            System.out.println(possibilities.size());
                         } while (possibilities.size() < 1);
                         //System.out.println("BEFORE");
                             //currentGame.printBoard();
@@ -267,10 +288,12 @@ public class TrylmaServer {
                                 array2[i] = generatorP.generatePeg(p.geti(), p.getj(), p.getSectorID());
                             }
                             currentGame.changePossibleMoves(pegsToChange);
-                        //System.out.println("AFTER");
-                            //currentGame.printBoard();
                             AbstractPeg pegDestiny = currentGame.getRandomPeg(possibilities);
+                            System.out.println("peg destiny " + pegDestiny);
                             List<AbstractPeg> pegs = currentGame.move(pegClicked, pegDestiny);
+
+
+
                         if (pegs.size() == 2) {
                             pegClicked = pegs.get(0);
                             pegsToChange.add(pegClicked);
