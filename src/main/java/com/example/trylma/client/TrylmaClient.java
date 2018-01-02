@@ -35,7 +35,11 @@ public class TrylmaClient {
     Board boardOfTrylma;
     boolean canSend = false;
 
-
+    /**
+     * Constructor starts client's GUI
+     *
+     * @since       1.0
+     */
     public TrylmaClient() {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -48,11 +52,23 @@ public class TrylmaClient {
             }
         });
     }
+
+    /**
+     * Method initializes streams needed for connection with server
+     *
+     * @since       1.0
+     */
     private void initializeStreams() throws IOException{
         output = new PrintWriter(socket.getOutputStream(), true);
         objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         objectInputStream = new ObjectInputStream(socket.getInputStream());
     }
+
+    /**
+     * Connects to the server then enters the processing loop
+     *
+     * @since       1.0
+     */
     private void run() throws IOException, ClassNotFoundException {
         // Make connection
         socket = new Socket(hostName, TrylmaServer.portNumber);
@@ -69,6 +85,7 @@ public class TrylmaClient {
         String title = (String) objectInputStream.readObject();
         frame.setTitle(title);
 
+        //Process all objects from server
         while (true) {
             Object fromServer = objectInputStream.readObject();
             if (fromServer instanceof AbstractPeg[]) {
@@ -85,6 +102,11 @@ public class TrylmaClient {
         }
     }
 
+    /**
+     * Runs the client as an application with frame
+     *
+     * @since       1.0
+     */
     public static void main(String[] args){
         TrylmaClient client = new TrylmaClient();
         try {
@@ -94,10 +116,14 @@ public class TrylmaClient {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
-    class Frame extends JFrame{
+
+    /**
+     * This class is responsible for GUI frame
+     *
+     * @since       1.0
+     */
+    private class Frame extends JFrame{
 
         Panel panel;
 
@@ -109,7 +135,7 @@ public class TrylmaClient {
         JMenuItem helpGameButton;
 
         /**
-         * Create the application.
+         * Create the frame of application.
          */
         public Frame() {
                 initialize();
@@ -157,9 +183,14 @@ public class TrylmaClient {
             menubar.add(gameMenu);
             setJMenuBar(menubar);
         }
-}
+    }
 
-    class Panel extends JPanel {
+    /**
+     * This class creates all content of GUI frame
+     *
+     * @since       1.0
+     */
+    private class Panel extends JPanel {
 
         MouseAdapter mouseAdapter;
         JButton endTurnButton;
@@ -169,7 +200,7 @@ public class TrylmaClient {
         boolean isBoardLoad = false;
 
         /**
-         * Create a JPanel.
+         * Create a Panel.
          */
         public Panel() {
             initialize();
@@ -215,15 +246,26 @@ public class TrylmaClient {
             add(whosTurnLabel);
         }
 
+        /**
+         * Method receives array with pegs that were changed on the
+         * server side. Method updates client's state of board with
+         * given pegs
+         *
+         * @param list          array of changed AbstractPegs
+         * @since               1.0
+         */
         public void updateBoard(AbstractPeg[] list ) throws IOException{
             boardToDraw.updateBoard(list);
             boardToDraw.setImage();
         }
 
-        public void setBoardLoad(boolean boardLoad) {
-            isBoardLoad = boardLoad;
-        }
-
+        /**
+         * Method receives board from the server which
+         * will be later painted
+         *
+         * @param board         board from the server
+         * @since               1.0
+         */
         public void setBoardToDraw(Board board) throws IOException{
             boardToDraw = board;
             boardToDraw.setImage();
@@ -231,26 +273,61 @@ public class TrylmaClient {
                 isBoardLoad = true;
         }
 
+        /**
+         * Method paints board if only it was loaded
+         *
+         * @param graphics      Graphics
+         * @since               1.0
+         */
         public void paint(Graphics graphics) {
             super.paint(graphics);
             if (isBoardLoad)
                 boardToDraw.doDrawBoard(graphics);
         }
 
+        /**
+         * Method invoked on mouse action clicked
+         *
+         * @param e             mouse event
+         * @since               1.0
+         */
         private void whenMouseClicked(MouseEvent e){
 
         }
 
+        /**
+         * Method invoked on mouse action released
+         * Sends information to server according to protocol
+         * {@link com.example.trylma.controller.TrylmaStringProtocol}.
+         *
+         * @param e             mouse event
+         * @since               1.0
+         */
         private void whenMouseReleased(MouseEvent e){
             if(canSend)
                output.println(sendMouseReleased(e.getX(),e.getY()));
         }
 
+        /**
+         * Method invoked on mouse action pressed
+         * Sends information to server according to protocol
+         * {@link com.example.trylma.controller.TrylmaStringProtocol}.
+         *
+         * @param e             mouse event
+         * @since               1.0
+         */
         private void whenMousePressed(MouseEvent e){
             if(canSend)
                output.println(sendMousePressed(e.getX(),e.getY()));
         }
 
+        /**
+         * Method invoked after click on endTurnButton
+         * Sends information to server according to protocol
+         * {@link com.example.trylma.controller.TrylmaStringProtocol}.
+         *
+         * @since               1.0
+         */
         private void whenEndTurnClicked() {
             if(canSend)
                 output.println(sendEndTurn());
