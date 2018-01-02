@@ -137,7 +137,7 @@ public class Game {
      * @return      the current board of game
      * @since       1.0
      */
-    public Board getBoardOfTrylma(){
+    public synchronized Board getBoardOfTrylma(){
         return boardOfTrylma;
     }
 
