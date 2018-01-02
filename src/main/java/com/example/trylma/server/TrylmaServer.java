@@ -171,66 +171,51 @@ public class TrylmaServer {
                                                                             protocol.getYmousePressed(fromClient),
                                                                             id);
                             if(pegClicked!=null) {
-
                                 List<AbstractPeg> possibilities = currentGame.setPossibleMoves(pegClicked);
                                 if (possibilities.size() > 0) {
                                     AbstractPeg[] array2 = new AbstractPeg[possibilities.size()];
                                     for (int i = 0; i < possibilities.size(); i++) {
                                         AbstractPeg p = possibilities.get(i);
-                                        //pegsToChange.add(possibilities.get(i));
                                         pegsToChange.add(p);
-                                        //array2[i] = p;
-                                        //System.out.println("ECH:" + p);
                                         array2[i] = generatorP.generatePeg(p.geti(), p.getj(), p.getSectorID());
-                                        //System.out.println("ToSEND1: i="+ array2[i].geti() + " j= " + array2[i].getj() + " id=" + array2[i].getSectorID());
-
                                     }
                                     objectOutputStream.writeObject(array2);
                                 }
-
-
                             }
-                                fromClient = input.readLine();
-                                if (fromClient.startsWith("RELEASED") && pegClicked != null) {
-                                    //System.out.println("Clicked2: i="+ pegClicked.geti() + " j= " + pegClicked.getj());
-                                    currentGame.changePossibleMoves(pegsToChange);
-                                    //currentGame.printBoard();
-                                AbstractPeg pegDestiny;
-
+                            fromClient = input.readLine();
+                            if (fromClient.startsWith("RELEASED") && pegClicked != null) {
+                                currentGame.changePossibleMoves(pegsToChange);
                                 List<AbstractPeg> pegs = currentGame.move(pegClicked,
-                                                                          protocol.getXmousePressed(fromClient),
-                                                                          protocol.getYmousePressed(fromClient));
+                                                                              protocol.getXmousePressed(fromClient),
+                                                                              protocol.getYmousePressed(fromClient));
 
-                                    if (pegs.size() == 2) {
-                                        pegClicked = pegs.get(0);
-                                        pegsToChange.add(pegClicked);
-                                        pegDestiny = pegs.get(1);
-                                        pegsToChange.add(pegDestiny);
-                                    }
-                                    if (pegsToChange.size() > 0) {
-
-                                        AbstractPeg[] array3 = new AbstractPeg[pegsToChange.size()];
-                                    array3 = pegsToChange.toArray(array3);
-
-                                        for (ObjectOutputStream objectOut : objectOutput) {
-                                            objectOut.writeObject(array3);
-                                        }
-                                    }
-                                    pegsToChange.clear();
-                                    //currentGame.printBoard();
-
-                                    if (currentGame.isWinner(this.id)) {
-                                        objectOutputStream.writeObject("You win");
-                                        currentGame.removePlayer(this.id);
-                                        socket.close();
-                                        input.close();
-                                        output.close();
-                                        objectOutputStream.close();
-                                        objectInputStream.close();
-                                        objectOutput.remove(this.objectOutputStream);
-                                        currentGame.nextPlayer();
-                                    }
+                                if (pegs.size() == 2) {
+                                    pegsToChange.add(pegs.get(0));
+                                    pegsToChange.add(pegs.get(1));
                                 }
+                                if (pegsToChange.size() > 0) {
+                                    AbstractPeg[] array3 = new AbstractPeg[pegsToChange.size()];
+                                    array3 = pegsToChange.toArray(array3);
+                                    for (ObjectOutputStream objectOut : objectOutput) { objectOut.writeObject(array3); }
+                                }
+                                pegsToChange.clear();
+                                if (currentGame.isWinner(this.id)) {
+                                    objectOutputStream.writeObject("You win");
+                                    currentGame.removePlayer(this.id);
+                                    socket.close();
+                                    input.close();
+                                    output.close();
+                                    objectOutputStream.close();
+                                    objectInputStream.close();
+                                    objectOutput.remove(this.objectOutputStream);
+                                    currentGame.nextPlayer();
+                                }
+                                if (pegs.size() == 2){
+                                    currentGame.nextPlayer();
+                                    permission = false;
+                                    objectOutputStream.writeObject(permission);
+                                }
+                            }
                         }
                         if (fromClient.equals(sendEndTurn())) {
                             permission = false;
