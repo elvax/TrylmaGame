@@ -5,7 +5,14 @@ import junit.framework.TestCase;
 import java.io.IOException;
 
 import static org.junit.Assert.*;
-
+/**
+ * The SixSquarePegTest class checks the correctness of the methods
+ * needed to draw a square peg for the board, which is a six-pointed star.
+ * @author      Sebastian Pabich
+ * @author      Maria Wita
+ * @version     1.0
+ * @since       1.0
+ */
 public class SixSquarePegTest extends TestCase {
     AbstractPeg p = null;
     int i = 8;

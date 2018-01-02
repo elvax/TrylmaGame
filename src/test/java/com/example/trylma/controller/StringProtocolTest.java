@@ -8,6 +8,16 @@ import static junit.framework.Assert.assertNull;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
+/**
+ * StringProtocolTest checks the correctness of the methods
+ * included in the TrylmaStringProtocol.
+ *
+ * @author      Sebastian Pabich
+ * @author      Maria Wita
+ * @version     1.0
+ * @since       1.0
+ */
+
 public class StringProtocolTest {
     TrylmaStringProtocol protocol;
 

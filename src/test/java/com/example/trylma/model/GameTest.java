@@ -12,6 +12,15 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
 
+/**
+ * GameTest checks the correctness of the methods
+ * included in the Game class.
+ *
+ * @author      Sebastian Pabich
+ * @author      Maria Wita
+ * @version     1.0
+ * @since       1.0
+ */
 public class GameTest {
     Game game;
 

@@ -9,7 +9,15 @@ import java.util.Vector;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
-
+/**
+ * SixBoardTest checks the correctness of the methods
+ * included in the SixBoard class.
+ *
+ * @author      Sebastian Pabich
+ * @author      Maria Wita
+ * @version     1.0
+ * @since       1.0
+ */
 public class SixBoardTest {
     Board board;
     PegGenerator generatorP;
