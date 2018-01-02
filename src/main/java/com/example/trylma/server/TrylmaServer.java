@@ -4,14 +4,9 @@ package com.example.trylma.server;
 import com.example.trylma.controller.TrylmaStringProtocol;
 import com.example.trylma.model.*;
 
-import javax.management.loading.PrivateMLet;
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.security.PublicKey;
 import java.util.*;
 
 import static com.example.trylma.controller.TrylmaStringProtocol.*;
@@ -168,8 +163,8 @@ public class TrylmaServer {
 
                         if (fromClient.startsWith("PRESSED")) {
 
-                            AbstractPeg pegClicked = currentGame.findActive(protocol.getXmousePressed(fromClient),
-                                                                            protocol.getYmousePressed(fromClient),
+                            AbstractPeg pegClicked = currentGame.findActive(protocol.getXmouse(fromClient),
+                                                                            protocol.getYmouse(fromClient),
                                                                             id);
                             if(pegClicked!=null) {
                                 List<AbstractPeg> possibilities = currentGame.setPossibleMoves(pegClicked);
@@ -187,8 +182,8 @@ public class TrylmaServer {
                             if (fromClient.startsWith("RELEASED") && pegClicked != null) {
                                 currentGame.changePossibleMoves(pegsToChange);
                                 List<AbstractPeg> pegs = currentGame.move(pegClicked,
-                                                                              protocol.getXmousePressed(fromClient),
-                                                                              protocol.getYmousePressed(fromClient));
+                                                                              protocol.getXmouse(fromClient),
+                                                                              protocol.getYmouse(fromClient));
 
                                 if (pegs.size() == 2) {
                                     pegsToChange.add(pegs.get(0));
