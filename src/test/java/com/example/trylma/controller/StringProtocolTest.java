@@ -2,12 +2,15 @@ package com.example.trylma.controller;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.theories.suppliers.TestedOn;
 
+import static junit.framework.Assert.assertNull;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
 public class StringProtocolTest {
     TrylmaStringProtocol protocol;
+
     @Before
     public void initialize() throws Exception {
         protocol = TrylmaStringProtocol.getInstance();
@@ -25,6 +28,12 @@ public class StringProtocolTest {
         String message = "PRESSED (123,456)";
         int result = protocol.getYmouse(message);
         assertEquals(456,result);
+    }
+
+    @Test
+    public void getInstanceTest() {
+        TrylmaStringProtocol tmp = TrylmaStringProtocol.getInstance();
+        assertNotNull(tmp);
     }
 
 }
