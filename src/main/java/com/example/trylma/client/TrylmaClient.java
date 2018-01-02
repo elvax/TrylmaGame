@@ -104,6 +104,10 @@ public class TrylmaClient {
         private final int X_SIZE = 500;
         private final int Y_SIZE = 650;
 
+        JMenuBar menubar;
+        JMenu gameMenu;
+        JMenuItem helpGameButton;
+
         /**
          * Create the application.
          */
@@ -116,43 +120,27 @@ public class TrylmaClient {
          * two menu buttons and panel with EndTrun's button
          */
         private void initialize() {
+
             setSize(X_SIZE, Y_SIZE);
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             setResizable(false);
+
+            panel = new Panel();
+            add(panel);
 
             /**
              * Creating the "New Game" item, which gives an opportunity
              * to choose the number of players.
              */
-            JMenuBar menubar = new JMenuBar();
-            JMenuItem newGameButton = new JMenuItem("New Game");
-            newGameButton.setBackground(new Color(204, 204, 204));
-            newGameButton.setMnemonic(KeyEvent.VK_E);
-            newGameButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    Object[] possibilities = {"2", "3", "4", "6"};
-                    String s = (String)JOptionPane.showInputDialog(
-                            null,
-                            "Choose the number of players:\n",
-                            "Number of players",
-                            JOptionPane.PLAIN_MESSAGE,
-                            null,
-                            possibilities,
-                            "2");
+            menubar = new JMenuBar();
 
-                    if ((s != null) && (s.length() > 0)) {
-                        return;
-                    }
-                }
-            });
-            menubar.add(newGameButton);
+            gameMenu = new JMenu("Game");
 
             /**
              * Creating the "Help" item, which gives users basic information
              * about the application
              */
-
-            JMenuItem helpGameButton = new JMenuItem("Help");
+            helpGameButton = new JMenuItem("Help");
             helpGameButton.setMnemonic(KeyEvent.VK_E);
             helpGameButton.setBackground(new Color(204, 204, 204));
             helpGameButton.addActionListener(new ActionListener() {
@@ -160,123 +148,116 @@ public class TrylmaClient {
                     JOptionPane.showMessageDialog(null, "Chinese checkers is a strategy board game of German origin,\n"
                             +"which can be played by two, three, four, or six people.\n"
                             +"The objective is to be first to race all of one's pieces across the hexagram-shaped board\n"
-                            + "into the corner of the star opposite one's starting corner�using single-step moves\n"
+                            + "into the corner of the star opposite one's starting corner using single-step moves\n"
                             + " or moves that jump over other pieces.\n", "Help", JOptionPane.INFORMATION_MESSAGE);
                 }
             });
-            menubar.add(helpGameButton);
-            menubar.add(Box.createHorizontalGlue());
-            menubar.add(Box.createHorizontalGlue());
-            menubar.add(Box.createHorizontalGlue());
-            menubar.add(Box.createHorizontalGlue());
-            setJMenuBar(menubar);
 
-            panel = new Panel();
-            add(panel);
+            gameMenu.add(helpGameButton);
+            menubar.add(gameMenu);
+            setJMenuBar(menubar);
         }
 }
 
     class Panel extends JPanel {
 
-    MouseAdapter mouseAdapter;
+        MouseAdapter mouseAdapter;
+        JButton endTurnButton;
+        JLabel whosTurnLabel;
 
-    Board boardToDraw;
-    boolean isBoardLoad = false;
-     JLabel whosTurnLabel;
+        Board boardToDraw;
+        boolean isBoardLoad = false;
 
-    /**
-     * Create a JPanel.
-     */
-    public Panel() {
-        initialize();
+        /**
+         * Create a JPanel.
+         */
+        public Panel() {
+            initialize();
+        }
+
+        /**
+         * Initialize the contents of the frame, which includes
+         * EndTrun's button and the board and MouseListener.
+         */
+        private void initialize() {
+            setLayout(null);
+            setBackground(Color.LIGHT_GRAY);
+
+            mouseAdapter = new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    whenMouseClicked(e);
+                }
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    whenMousePressed(e);
+                }
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    whenMouseReleased(e);
+                }
+            };
+            addMouseListener(mouseAdapter);
+
+
+            endTurnButton = new JButton("End Turn");
+            endTurnButton.setBounds(320, 20, 100, 30);
+            endTurnButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    whenEndTurnClicked();
+                }
+            });
+            add(endTurnButton);
+
+            whosTurnLabel = new JLabel();
+            whosTurnLabel.setBounds(320, 55, 100, 30);
+            whosTurnLabel.setText("");
+            add(whosTurnLabel);
+        }
+
+        public void updateBoard(AbstractPeg[] list ) throws IOException{
+            boardToDraw.updateBoard(list);
+            boardToDraw.setImage();
+        }
+
+        public void setBoardLoad(boolean boardLoad) {
+            isBoardLoad = boardLoad;
+        }
+
+        public void setBoardToDraw(Board board) throws IOException{
+            boardToDraw = board;
+            boardToDraw.setImage();
+            if (board != null)
+                isBoardLoad = true;
+        }
+
+        public void paint(Graphics graphics) {
+            super.paint(graphics);
+            if (isBoardLoad)
+                boardToDraw.doDrawBoard(graphics);
+        }
+
+        private void whenMouseClicked(MouseEvent e){
+
+        }
+
+        private void whenMouseReleased(MouseEvent e){
+            if(canSend)
+               output.println(sendMouseReleased(e.getX(),e.getY()));
+        }
+
+        private void whenMousePressed(MouseEvent e){
+            if(canSend)
+               output.println(sendMousePressed(e.getX(),e.getY()));
+        }
+
+        private void whenEndTurnClicked() {
+            if(canSend)
+                output.println(sendEndTurn());
+        }
+
+
     }
-
-    /**
-     * Initialize the contents of the frame, which includes
-     * EndTrun's button and the board and MouseListener.
-     */
-    private void initialize() {
-        setLayout(null);
-        setBackground(Color.LIGHT_GRAY);
-
-        mouseAdapter = new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                whenMouseClicked(e);
-            }
-            @Override
-            public void mousePressed(MouseEvent e) {
-                whenMousePressed(e);
-            }
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                whenMouseReleased(e);
-            }
-        };
-
-
-        JButton endTurnButton = new JButton("End Turn");
-        endTurnButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                whenEndTurnClicked();
-            }
-        });
-        endTurnButton.setBounds(320, 20, 100, 30);
-        add(endTurnButton);
-
-        whosTurnLabel = new JLabel();
-        whosTurnLabel.setBounds(320, 55, 100, 30);
-        whosTurnLabel.setText("");
-        add(whosTurnLabel);
-
-        addMouseListener(mouseAdapter);
-
-
-    }
-
-    public void updateBoard(AbstractPeg[] list ) throws IOException{
-        boardToDraw.updateBoard(list);
-        boardToDraw.setImage();
-    }
-
-    public void setBoardLoad(boolean boardLoad) {
-        isBoardLoad = boardLoad;
-    }
-
-    public void setBoardToDraw(Board board) throws IOException{
-        boardToDraw = board;
-        boardToDraw.setImage();
-        if (board != null)
-            isBoardLoad = true;
-    }
-
-    public void paint(Graphics graphics) {
-        super.paint(graphics);
-        if (isBoardLoad)
-            boardToDraw.doDrawBoard(graphics);
-    }
-
-    private void whenMouseClicked(MouseEvent e){
-
-    }
-
-    private void whenMouseReleased(MouseEvent e){
-        if(canSend)
-           output.println("RELEASED (" + e.getX() + "," + e.getY() + ")");
-    }
-
-    private void whenMousePressed(MouseEvent e){
-        if(canSend)
-           output.println(sendMousePressed(e.getX(),e.getY()));
-    }
-
-    private void whenEndTurnClicked() {
-        if(canSend)
-            output.println(sendEndTurn());
-    }
-
-
-}
 
 
 }
