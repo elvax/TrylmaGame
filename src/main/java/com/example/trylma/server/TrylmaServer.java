@@ -141,6 +141,10 @@ public class TrylmaServer {
             objectOutput.add(objectOutputStream);
         }
 
+        private void sendPermissionToMove(Boolean permission) throws IOException{
+            objectOutputStream.writeObject(permission);
+        }
+
         public void run() {
             try {
                 initializeStreams();
@@ -159,9 +163,7 @@ public class TrylmaServer {
                         for (ObjectOutputStream out : objectOutput) {
                             out.writeObject(whosTurnIs);
                         }
-
-                        permission = true;
-                        objectOutputStream.writeObject(permission);
+                        sendPermissionToMove(true);
 
                         String fromClient = input.readLine();
 
@@ -212,14 +214,12 @@ public class TrylmaServer {
                                 }
                                 if (pegs.size() == 2){
                                     currentGame.nextPlayer();
-                                    permission = false;
-                                    objectOutputStream.writeObject(permission);
+                                    sendPermissionToMove(false);
                                 }
                             }
                         }
                         if (fromClient.equals(sendEndTurn())) {
-                            permission = false;
-                            objectOutputStream.writeObject(permission);
+                            sendPermissionToMove(false);
                             currentGame.nextPlayer();
                         }
                     }
