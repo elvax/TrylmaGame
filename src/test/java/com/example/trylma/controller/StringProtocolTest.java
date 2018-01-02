@@ -16,14 +16,14 @@ public class StringProtocolTest {
     @Test
     public void getXmousePressedTest() {
         String message = "PRESSED (123,456)";
-        int result = protocol.getXmousePressed(message);
+        int result = protocol.getXmouse(message);
         assertEquals(123,result);
     }
 
     @Test
     public void getYmousePressedTest() {
         String message = "PRESSED (123,456)";
-        int result = protocol.getYmousePressed(message);
+        int result = protocol.getYmouse(message);
         assertEquals(456,result);
     }
 
