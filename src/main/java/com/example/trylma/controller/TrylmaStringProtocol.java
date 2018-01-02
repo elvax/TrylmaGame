@@ -19,6 +19,11 @@ public class TrylmaStringProtocol {
     private TrylmaStringProtocol() {
     }
 
+    /**
+     * Get a single instance of type ReportBuilder
+     *
+     * @return A single instance
+     */
     public static TrylmaStringProtocol getInstance() {
         if (instance == null) {
             synchronized (TrylmaStringProtocol.class) {
@@ -27,6 +32,10 @@ public class TrylmaStringProtocol {
             }
         }
         return instance;
+    }
+
+    public static void resetInstance() {
+        instance = null;
     }
 
     public static String sendMousePressed(int x, int y) {
