@@ -46,24 +46,39 @@ public class GameTest {
             AbstractPeg p = list.get(i);
             game.setPegOfBoardOfTrylma(p.geti(),p.getj(),OwnerID);
         }
-        game.printBoard();
         boolean a = game.isWinner(OwnerID);
-        System.out.println(a);
         assertEquals(true, a);
     }
 
 
     @Test
     public void setBoardForPlayers() {
+        BoardGenerator generator = new SixBoardGenerator();
+        PegGenerator generatorP = new SixCirclePegGenerator();
+        game = new Game(generator,generatorP);
+        game.setBoardForPlayers(6);
+        List<Integer> list = game.getActiveSectorsID();
+        assertEquals(6,list.size());
     }
 
     @Test
     public void getRandomPeg() {
+        BoardGenerator generator = new SixBoardGenerator();
+        PegGenerator generatorP = new SixCirclePegGenerator();
+        game = new Game(generator,generatorP);
+        Board board = game.getBoardOfTrylma();
+        List<AbstractPeg> list = board.correctMoves(board.getPeg(3,6));
+        assertNotNull(game.getRandomPeg(list));
     }
 
     @Test
     public void getPegsOfID() {
-
+        BoardGenerator generator = new SixBoardGenerator();
+        PegGenerator generatorP = new SixCirclePegGenerator();
+        game = new Game(generator,generatorP);
+        game.setBoardForPlayers(2);
+        List<AbstractPeg> list = game.getPegsOfID(1);
+        assertEquals(10,list.size());
     }
 
     @Test
@@ -74,48 +89,70 @@ public class GameTest {
 
     @Test
     public void setPegOfBoardOfTrylma() {
-    }
-
-    @Test
-    public void findActive() {
+        BoardGenerator generator = new SixBoardGenerator();
+        PegGenerator generatorP = new SixCirclePegGenerator();
+        game = new Game(generator,generatorP);
+        game.setBoardForPlayers(6);
+        assertNotNull(game.getBoardOfTrylma());
+        for(int i=1; i<7; i++){
+            List<AbstractPeg> list = game.getPegsOfID(i);
+            assertEquals(10,list.size());
+        }
     }
 
     @Test
     public void getClicked() {
+        BoardGenerator generator = new SixBoardGenerator();
+        PegGenerator generatorP = new SixCirclePegGenerator();
+        game = new Game(generator,generatorP);
+        assertNotNull(game.getClicked(game.getPeg(7,7).getxDraw()+15,game.getPeg(7,7).getyDraw()+15));
     }
 
     @Test
     public void setPossibleMoves() {
-        /*BoardGenerator generator = new SixBoardGenerator();
+        BoardGenerator generator = new SixBoardGenerator();
         PegGenerator generatorP = new SixCirclePegGenerator();
         game = new Game(generator,generatorP);
         Board board = game.getBoardOfTrylma();
         List<AbstractPeg> list = board.correctMoves(board.getPeg(3,6));
         board.setPossibleMoves(board.getPeg(3,6));
         board = game.getBoardOfTrylma();
-        board.setPossibleMoves(board.getPeg(3,6));
         for(int i=0;i<list.size();i++){
             AbstractPeg p = list.get(i);
             assertEquals(7,board.getPeg(p.geti(),p.getj()).getSectorID());
         }
-        board.changeIdPossibleMoves(list);*/
+        board.changeIdPossibleMoves(list);
     }
 
     @Test
     public void changePossibleMoves() {
-        /*Board board = game.getBoardOfTrylma();
-        board.fillSector(4);
+        BoardGenerator generator = new SixBoardGenerator();
+        PegGenerator generatorP = new SixCirclePegGenerator();
+        game = new Game(generator,generatorP);
+        Board board = game.getBoardOfTrylma();
         List<AbstractPeg> list = board.correctMoves(board.getPeg(3,6));
         board.setPossibleMoves(board.getPeg(3,6));
         board.changeIdPossibleMoves(list);
+        board = game.getBoardOfTrylma();
         for(int i=0;i<list.size();i++){
             AbstractPeg p = list.get(i);
             assertEquals(0,board.getPeg(p.geti(),p.getj()).getSectorID());
-        }*/
+        }
+        board.changeIdPossibleMoves(list);
     }
 
     @Test
     public void getPeg() {
         assertNotNull(game.getPeg(7,7));
+    }
+
+    @Test
+    public void getActiveSectorsID() {
+        BoardGenerator generator = new SixBoardGenerator();
+        PegGenerator generatorP = new SixCirclePegGenerator();
+        game = new Game(generator,generatorP);
+        game.setBoardForPlayers(3);
+        List<Integer> list = game.getActiveSectorsID();
+        assertEquals(3,list.size());
     }
 }

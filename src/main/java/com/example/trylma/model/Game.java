@@ -41,8 +41,6 @@ public class Game {
      * setBoardForPlayers(int numberOfPlayers).
      *
      * @param numberOfPlayers      the number of players in game
-     * @return                     the list of the active sectors
-     *                             (sectors using in game)
      * @since                      1.0
      */
     public void setBoardForPlayers(int numberOfPlayers) {

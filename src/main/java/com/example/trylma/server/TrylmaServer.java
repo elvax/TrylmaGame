@@ -267,8 +267,6 @@ public class TrylmaServer {
                             System.out.println("peg destiny " + pegDestiny);
                             List<AbstractPeg> pegs = currentGame.move(pegClicked, pegDestiny);
 
-
-
                         if (pegs.size() == 2) {
                             pegClicked = pegs.get(0);
                             pegsToChange.add(pegClicked);
