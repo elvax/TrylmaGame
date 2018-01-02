@@ -69,6 +69,7 @@ public class TrylmaServer {
 
         System.out.println(numberOfPlayers + " clients connected");
 
+
         // Start client's threads
         for (Thread pt : clietnsThreadsList) {
             pt.start();
@@ -113,9 +114,10 @@ public class TrylmaServer {
         ObjectInputStream objectInputStream;
         ObjectOutputStream objectOutputStream;
 
-        public PlayerThread(Socket socket, int id) {
+        public PlayerThread(Socket socket, int id) throws IOException{
             this.socket = socket;
             this.id = id;
+            initializeStreams();
         }
 
         @Override
@@ -142,7 +144,7 @@ public class TrylmaServer {
 
         public void run() {
             try {
-                initializeStreams();
+
 
                 //send initial board state to connected client
                 objectOutputStream.writeObject(currentGame.getBoardOfTrylma());

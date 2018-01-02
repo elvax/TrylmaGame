@@ -32,7 +32,7 @@ public class TrylmaClient {
     BufferedReader stdIn;
     String hostName = "localhost";
     Frame frame;
-    Board boardOfTrylma;
+//    Board boardOfTrylma;
     boolean canSend = false;
 
     /**
@@ -41,16 +41,8 @@ public class TrylmaClient {
      * @since       1.0
      */
     public TrylmaClient() {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    frame = new Frame();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        frame = new Frame();
+        frame.setVisible(true);
     }
 
     /**
@@ -77,7 +69,7 @@ public class TrylmaClient {
         initializeStreams();
 
         // Read inital state of board and paint it
-        boardOfTrylma = (Board) objectInputStream.readObject();
+        Board boardOfTrylma = (Board) objectInputStream.readObject();
         frame.panel.setBoardToDraw(boardOfTrylma);
         frame.panel.repaint();
 
@@ -267,10 +259,13 @@ public class TrylmaClient {
          * @since               1.0
          */
         public void setBoardToDraw(Board board) throws IOException{
-            boardToDraw = board;
-            boardToDraw.setImage();
-            if (board != null)
+            if (board != null) {
+                boardToDraw = board;
+                boardToDraw.setImage();
+
                 isBoardLoad = true;
+            }
+
         }
 
         /**
