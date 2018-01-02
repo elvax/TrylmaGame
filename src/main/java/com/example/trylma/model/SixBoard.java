@@ -2,6 +2,7 @@ package com.example.trylma.model;
 
 import java.awt.*;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -13,7 +14,7 @@ import java.util.List;
  * @version     1.0
  * @since       1.0
  */
-public class SixBoard extends Board {
+public class SixBoard extends Board implements Serializable {
     public static int I_BOARD_SIZE = 17;
     public static int J_BOARD_SIZE = 13;
     public static final int DISTANCE_FROM_EDGES = 10;
