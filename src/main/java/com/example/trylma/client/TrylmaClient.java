@@ -1,6 +1,5 @@
 package com.example.trylma.client;
 
-import com.example.trylma.controller.TrylmaStringProtocol;
 import com.example.trylma.model.AbstractPeg;
 import com.example.trylma.model.Board;
 import com.example.trylma.server.TrylmaServer;
@@ -15,11 +14,17 @@ import java.net.Socket;
 import static com.example.trylma.controller.TrylmaStringProtocol.*;
 
 /**
+ * This class is client side of the project. Both sends input
+ * from the user and receive information from the server. Displays
+ * that information in GUI
  *
+ * @author      Sebastian Pabich
+ * @author      Maria Wita
+ * @version     1.0
+ * @since       1.0
  */
 public class TrylmaClient {
     private Socket socket;
-    private BufferedReader input;
     private PrintWriter output;
     private ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream;
@@ -43,18 +48,17 @@ public class TrylmaClient {
             }
         });
     }
-
-    private void run() throws IOException, ClassNotFoundException {
-        // Make connection
-        Socket socket = new Socket(hostName, TrylmaServer.portNumber);
-
-        //Intitialize streams
+    private void initializeStreams() throws IOException{
         output = new PrintWriter(socket.getOutputStream(), true);
-        input = new BufferedReader(
-                new InputStreamReader(socket.getInputStream()));
-        stdIn = new BufferedReader(new InputStreamReader(System.in));
         objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         objectInputStream = new ObjectInputStream(socket.getInputStream());
+    }
+    private void run() throws IOException, ClassNotFoundException {
+        // Make connection
+        socket = new Socket(hostName, TrylmaServer.portNumber);
+
+        //Intitialize streams
+        initializeStreams();
 
         // Read inital state of board and paint it
         boardOfTrylma = (Board) objectInputStream.readObject();
@@ -73,8 +77,7 @@ public class TrylmaClient {
                 frame.panel.updateBoard(toChange);
                 frame.panel.repaint();
             } else if (fromServer instanceof Boolean) {
-                Boolean bool = (Boolean) fromServer;
-                canSend = bool;
+                canSend = (Boolean) fromServer;
             } else if (fromServer instanceof String) {
                 String textFromServer = (String) fromServer;
                 frame.panel.whosTurnLabel.setText(textFromServer);
@@ -94,12 +97,12 @@ public class TrylmaClient {
 
 
     }
-    class Frame extends JFrame {
+    class Frame extends JFrame{
 
         Panel panel;
 
-        private final int X_SIZE = 700;
-        private final int Y_SIZE = 700;
+        private final int X_SIZE = 500;
+        private final int Y_SIZE = 650;
 
         /**
          * Create the application.
@@ -115,7 +118,7 @@ public class TrylmaClient {
         private void initialize() {
             setSize(X_SIZE, Y_SIZE);
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            setResizable(true);
+            setResizable(false);
 
             /**
              * Creating the "New Game" item, which gives an opportunity
