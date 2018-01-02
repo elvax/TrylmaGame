@@ -10,6 +10,7 @@ import java.util.Random;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.assertTrue;
 
 public class GameTest {
     Game game;
@@ -19,7 +20,6 @@ public class GameTest {
         BoardGenerator generator = new SixBoardGenerator();
         PegGenerator generatorP = new SixCirclePegGenerator();
         game = new Game(generator,generatorP);
-        game.printBoard();
         game.setBoardForPlayers(6);
         assertNotNull(game);
     }
@@ -53,4 +53,69 @@ public class GameTest {
     }
 
 
+    @Test
+    public void setBoardForPlayers() {
+    }
+
+    @Test
+    public void getRandomPeg() {
+    }
+
+    @Test
+    public void getPegsOfID() {
+
+    }
+
+    @Test
+    public void getBoardOfTrylma() {
+        assertNotNull(game.getBoardOfTrylma());
+        assertTrue(game.getBoardOfTrylma() instanceof Board);
+    }
+
+    @Test
+    public void setPegOfBoardOfTrylma() {
+    }
+
+    @Test
+    public void findActive() {
+    }
+
+    @Test
+    public void getClicked() {
+    }
+
+    @Test
+    public void setPossibleMoves() {
+        /*BoardGenerator generator = new SixBoardGenerator();
+        PegGenerator generatorP = new SixCirclePegGenerator();
+        game = new Game(generator,generatorP);
+        Board board = game.getBoardOfTrylma();
+        List<AbstractPeg> list = board.correctMoves(board.getPeg(3,6));
+        board.setPossibleMoves(board.getPeg(3,6));
+        board = game.getBoardOfTrylma();
+        board.setPossibleMoves(board.getPeg(3,6));
+        for(int i=0;i<list.size();i++){
+            AbstractPeg p = list.get(i);
+            assertEquals(7,board.getPeg(p.geti(),p.getj()).getSectorID());
+        }
+        board.changeIdPossibleMoves(list);*/
+    }
+
+    @Test
+    public void changePossibleMoves() {
+        /*Board board = game.getBoardOfTrylma();
+        board.fillSector(4);
+        List<AbstractPeg> list = board.correctMoves(board.getPeg(3,6));
+        board.setPossibleMoves(board.getPeg(3,6));
+        board.changeIdPossibleMoves(list);
+        for(int i=0;i<list.size();i++){
+            AbstractPeg p = list.get(i);
+            assertEquals(0,board.getPeg(p.geti(),p.getj()).getSectorID());
+        }*/
+    }
+
+    @Test
+    public void getPeg() {
+        assertNotNull(game.getPeg(7,7));
+    }
 }

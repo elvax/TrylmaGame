@@ -1,11 +1,12 @@
 package com.example.trylma.model;
 
-import com.example.trylma.model.Peg;
 import junit.framework.TestCase;
 
 import java.io.IOException;
 
-public class PegTest extends TestCase {
+import static org.junit.Assert.*;
+
+public class SixSquarePegTest extends TestCase {
     AbstractPeg p = null;
     int i = 8;
     int j = 8;
@@ -14,7 +15,7 @@ public class PegTest extends TestCase {
     int ownerID = 1;
 
     protected void setUp() throws Exception {
-        PegGenerator generatorP = new SixCirclePegGenerator();
+        PegGenerator generatorP = new SixSquarePegGenerator();
         p = generatorP.generatePeg(i,j,ownerID);
         p.setXY(xDraw, yDraw);
         assertNotNull(p);
@@ -28,7 +29,7 @@ public class PegTest extends TestCase {
     }
 
     public void testGeneratePeg() {
-        PegGenerator generatorP = new SixCirclePegGenerator();
+        PegGenerator generatorP = new SixSquarePegGenerator();
         p = generatorP.generatePeg(i,j,ownerID);
         p.setXY(xDraw, yDraw);
         assertNotNull(p);
@@ -72,4 +73,5 @@ public class PegTest extends TestCase {
         p.changeOwnerID(1);
         assertEquals(1,p.getSectorID());
     }
+
 }
