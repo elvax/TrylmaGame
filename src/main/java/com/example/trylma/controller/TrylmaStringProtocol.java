@@ -57,6 +57,19 @@ public class TrylmaStringProtocol {
     }
 
     /**
+     * Method constructs string with information "released" and
+     * x,y coordinates
+     *
+     * @param x             the x - coordinate x from mouse event released
+     * @param y             the y - coordinate y from mouse event released
+     * @return              string "released" with x,y coordinates
+     * @since               1.0
+     */
+    public static String sendMouseReleased(int x, int y) {
+        return "RELEASED (" + x + "," + y + ")";
+    }
+
+    /**
      * Sends endturn string
      *
      * @return              string "endturn"
