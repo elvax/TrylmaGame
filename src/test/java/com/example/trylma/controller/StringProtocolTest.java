@@ -10,7 +10,7 @@ public class StringProtocolTest {
     TrylmaStringProtocol protocol;
     @Before
     public void initialize() throws Exception {
-        protocol = new TrylmaStringProtocol();
+        protocol = TrylmaStringProtocol.getInstance();
     }
 
     @Test

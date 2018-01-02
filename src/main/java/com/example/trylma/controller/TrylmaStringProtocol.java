@@ -8,14 +8,25 @@ import java.util.regex.Pattern;
 
 // TODO klasa ma być singletonem
 public class TrylmaStringProtocol {
+    private static TrylmaStringProtocol instance;
+
     private static int xPressed, yPressed;
     private String regex = "(\\d+),(\\d+)";
     String regex2 = "(\\d+),(\\d+)\\d";
     private Pattern pattern;
     private Matcher m;
 
-    public TrylmaStringProtocol() {
+    private TrylmaStringProtocol() {
+    }
 
+    public static TrylmaStringProtocol getInstance() {
+        if (instance == null) {
+            synchronized (TrylmaStringProtocol.class) {
+                if (instance == null)
+                    instance = new TrylmaStringProtocol();
+            }
+        }
+        return instance;
     }
 
     public static String sendMousePressed(int x, int y) {

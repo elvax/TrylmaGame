@@ -37,7 +37,7 @@ public class TrylmaServer {
 
 
     public TrylmaServer() {
-        protocol = new TrylmaStringProtocol();
+        protocol = TrylmaStringProtocol.getInstance();
         generatorB = new SixBoardGenerator();
         generatorP = new SixCirclePegGenerator();
         //generatorP = new SixSquarePegGenerator();
@@ -103,7 +103,7 @@ public class TrylmaServer {
         TrylmaServer server = new TrylmaServer();
 
         try {
-            server.waitForClients(3);
+            server.waitForClients(2);
 //            server.waitForClientWithBot();
         } catch (IOException e) {
             e.printStackTrace();
@@ -155,7 +155,6 @@ public class TrylmaServer {
                 objectOutputStream.writeObject("Player " + Integer.toString(id));
 
                 List<AbstractPeg> pegsToChange = new ArrayList<AbstractPeg>();
-                Boolean permission;
                 while (true) {
                     if (currentGame.getCurrentID() == this.id) {
 
