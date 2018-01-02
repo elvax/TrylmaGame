@@ -11,7 +11,16 @@ import java.util.*;
 
 import static com.example.trylma.controller.TrylmaStringProtocol.*;
 
-//TODO pozwalać na jeden ruch pionkiem
+/**
+ * This class is server side of the project. Accepts
+ * given number of clients, runs game and exchanges
+ * information with clients
+ *
+ * @author      Sebastian Pabich
+ * @author      Maria Wita
+ * @version     1.0
+ * @since       1.0
+ */
 public class TrylmaServer {
 
     ServerSocket serverSocket;
@@ -30,7 +39,12 @@ public class TrylmaServer {
     private HashSet<BufferedReader> readers = new HashSet<BufferedReader>();
     private HashSet<ObjectOutputStream> objectOutput = new HashSet<ObjectOutputStream>();
 
-
+    /**
+     * Gets instance of TrylmaStringProtocol, generates
+     * board and pegs amd opens serversocket
+     *
+     * @since       1.0
+     */
     public TrylmaServer() {
         protocol = TrylmaStringProtocol.getInstance();
         generatorB = new SixBoardGenerator();
@@ -56,6 +70,14 @@ public class TrylmaServer {
         } while (false);
 
     }
+
+    /**
+     * Waits for clients and spawns PlayerThread for dealing with singe
+     * client
+     *
+     * @param numberOfPlayers   number of expected clients to join game
+     * @since                   1.0
+     */
     private void waitForClients(int numberOfPlayers) throws IOException{
         System.out.println("Server is waiting for clients");
         this.numberOfPlayers = numberOfPlayers;
