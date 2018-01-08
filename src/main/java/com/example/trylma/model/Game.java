@@ -45,6 +45,8 @@ public class Game {
      */
     public void setBoardForPlayers(int numberOfPlayers) {
         activeSectorsID = boardOfTrylma.setBoardForPlayers(numberOfPlayers);
+        index = 0;
+        currentID = activeSectorsID.get(index);
     }
     /**
      * Method checks if the Player can be remove from the game
