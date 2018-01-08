@@ -1,15 +1,19 @@
 package com.example.trylma.server;
 
-
 import com.example.trylma.controller.TrylmaStringProtocol;
 import com.example.trylma.model.*;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
 
 import static com.example.trylma.controller.TrylmaStringProtocol.*;
+
+//TODO poprawic tun bota
 
 /**
  * This class is server side of the project. Accepts
@@ -31,6 +35,11 @@ public class TrylmaServer {
     BoardGenerator generatorB;
     PegGenerator generatorP;
 
+    JFrame frame = new JFrame("Chatter");
+    JButton gameWithBotButton = new JButton("Game with bot");
+    JTextArea messageArea = new JTextArea(8,40);
+    JButton newGameButton = new JButton("New game");
+
     // List of clients connected to server
     private List<Thread> clietnsThreadsList = new ArrayList<Thread>();
 
@@ -45,12 +54,35 @@ public class TrylmaServer {
      *
      * @since       1.0
      */
-    public TrylmaServer() {
+    public TrylmaServer(){
+        //GUI
+        messageArea.setEditable(false);
+        frame.getContentPane().add(gameWithBotButton, "North");
+        frame.getContentPane().add(newGameButton, "Center");
+        frame.getContentPane().add(new JScrollPane(messageArea), "South");
+
+        frame.pack();
+
+        // Add Listeners
+        gameWithBotButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                whenGameWithBotButtonClicked();
+            }
+        });
+
+        newGameButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                whenNewGameButtonClicked();
+            }
+        });
+
+
         protocol = TrylmaStringProtocol.getInstance();
         generatorB = new SixBoardGenerator();
         generatorP = new SixCirclePegGenerator();
         //generatorP = new SixSquarePegGenerator();
         currentGame = new Game(generatorB, generatorP);
+
         try {
             serverSocket = new ServerSocket(portNumber);
         } catch (IOException e) {
@@ -58,6 +90,55 @@ public class TrylmaServer {
         }
 
     }
+    private String getNumberOfPlayers() {
+        Object[] possibilities = {"2", "3", "4", "6"};
+        return (String) JOptionPane.showInputDialog(
+                null,
+                "Choose the number of players:\n",
+                "Number of players",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                possibilities,
+                "2");
+    }
+
+    private void whenNewGameButtonClicked() {
+        try {
+            waitForClients(Integer.parseInt(getNumberOfPlayers()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void whenGameWithBotButtonClicked(){
+        try {
+            currentGame.setBoardForPlayers(2);
+
+            PlayerThread player = new PlayerThread(serverSocket.accept(), 1);
+            messageArea.append(player.toString() + " connected\n");
+
+            BotThread bot = new BotThread(4);
+            messageArea.append(bot.toString() + " connected\n");
+
+            clietnsThreadsList.add(player);
+            clietnsThreadsList.add(bot);
+
+            for (Thread pt : clietnsThreadsList) {
+                pt.start();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * @deprecated
+     * @param numberOfPlayers
+     * @throws IOException
+     */
     private void waitForPlayers(int numberOfPlayers) throws IOException {
         System.out.println("Server is waiting for clients");
         this.numberOfPlayers = numberOfPlayers;
@@ -79,7 +160,7 @@ public class TrylmaServer {
      * @since                   1.0
      */
     private void waitForClients(int numberOfPlayers) throws IOException{
-        System.out.println("Server is waiting for clients");
+//        messageArea.append("Server is waiting for clients");
         this.numberOfPlayers = numberOfPlayers;
         currentGame.setBoardForPlayers(numberOfPlayers);
         currentGame.setOrderOfMoves();
@@ -87,10 +168,8 @@ public class TrylmaServer {
         // Wait for clients to connect
         for (Integer id : currentGame.getActiveSectorsID()) {
             clietnsThreadsList.add(new PlayerThread(serverSocket.accept(), id));
+            messageArea.append(clietnsThreadsList.get(clietnsThreadsList.size()-1).toString() + " connected\n");
         }
-
-        System.out.println(numberOfPlayers + " clients connected");
-
 
         // Start client's threads
         for (Thread pt : clietnsThreadsList) {
@@ -102,7 +181,7 @@ public class TrylmaServer {
     private void waitForClientWithBot() throws IOException{
         System.out.println("Server is waiting for clients");
         currentGame.setBoardForPlayers(2);
-        currentGame.setOrderOfMoves();
+//        currentGame.setOrderOfMoves();
 
         PlayerThread player = new PlayerThread(serverSocket.accept(), 1);
         BotThread bot = new BotThread(4);
@@ -119,13 +198,8 @@ public class TrylmaServer {
 
     public static void main(String[] args) {
         TrylmaServer server = new TrylmaServer();
-
-        try {
-            server.waitForClients(2);
-//            server.waitForClientWithBot();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        server.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        server.frame.setVisible(true);
     }
 
     private class PlayerThread extends Thread {
@@ -166,21 +240,23 @@ public class TrylmaServer {
 
         public void run() {
             try {
-
-
                 //send initial board state to connected client
                 objectOutputStream.writeObject(currentGame.getBoardOfTrylma());
 
-                objectOutputStream.writeObject("Player " + Integer.toString(id));
+                objectOutputStream.writeObject("Player " + Integer.toString(this.id));
 
                 List<AbstractPeg> pegsToChange = new ArrayList<AbstractPeg>();
                 while (true) {
                     if (currentGame.getCurrentID() == this.id) {
 
-                        String whosTurnIs = "Player" + currentGame.getCurrentID();
-                        for (ObjectOutputStream out : objectOutput) {
-                            out.writeObject(whosTurnIs);
-                        }
+//                        String whosTurnIs = "Player" + currentGame.getCurrentID();
+//                        Message whosTurnnToSend = new Message(whosTurnIs);
+//                        for (ObjectOutputStream out : objectOutput) {
+//                            out.writeObject(whosTurnnToSend);
+//                        }
+
+//                        Message permissionToSend = new Message(true);
+//                        objectOutputStream.writeObject(permissionToSend);
                         sendPermissionToMove(true);
 
                         String fromClient = input.readLine();
@@ -264,22 +340,13 @@ public class TrylmaServer {
                 while (true) {
                     if (currentGame.getCurrentID() == this.id) {
 
-                        String whosTurnIs = "Bot" + currentGame.getCurrentID();
-                        for (ObjectOutputStream out : objectOutput) {
-                            out.writeObject(whosTurnIs);
-                        }
                         List<AbstractPeg> possibilities;
                         AbstractPeg pegClicked;
                         do {
                             pegClicked = currentGame.getRandomPeg(currentGame.getPegsOfID(this.id));
-                            System.out.println("peg clicked " + pegClicked);
                             possibilities = currentGame.setPossibleMoves(pegClicked);
                             System.out.println(possibilities.size());
                         } while (possibilities.size() < 1);
-                        //System.out.println("BEFORE");
-                            //currentGame.printBoard();
-                            //System.out.println("BOT POSIBILITIES: " + possibilities);
-                            //System.out.println("BOT SIZE POSIBILITIES: " + possibilities.size());
                             AbstractPeg[] array2 = new AbstractPeg[possibilities.size()];
                             for (int i = 0; i < possibilities.size(); i++) {
                                 AbstractPeg p = possibilities.get(i);
@@ -288,7 +355,6 @@ public class TrylmaServer {
                             }
                             currentGame.changePossibleMoves(pegsToChange);
                             AbstractPeg pegDestiny = currentGame.getRandomPeg(possibilities);
-                            System.out.println("peg destiny " + pegDestiny);
                             List<AbstractPeg> pegs = currentGame.move(pegClicked, pegDestiny);
 
                         if (pegs.size() == 2) {
@@ -317,7 +383,15 @@ public class TrylmaServer {
                 e.printStackTrace();
             }
         }
+
+        @Override
+        public String toString() {
+            return "Bot " + Integer.toString(this.id);
         }
 
     }
+
+
+
+}
 
