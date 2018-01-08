@@ -28,13 +28,12 @@ import static com.example.trylma.model.SixBoard.DISTANCE_FROM_EDGES;
  * @since       1.0
  */
 
-public class Peg extends AbstractPeg {
+public class Peg extends AbstractPeg implements Serializable {
     int i;
     int j;
     int xDraw;
     int yDraw;
     private Image image;
-    boolean isDraw;
     int sectorID;
     final int size = 30;
     final int radius = 15;
