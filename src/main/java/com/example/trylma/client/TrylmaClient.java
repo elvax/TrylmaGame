@@ -73,13 +73,15 @@ public class TrylmaClient {
         frame.panel.setBoardToDraw(boardOfTrylma);
         frame.panel.repaint();
 
-        // Read id of player and set title of frame
+//         Read id of player and set title of frame
         String title = (String) objectInputStream.readObject();
         frame.setTitle(title);
 
         //Process all objects from server
         while (true) {
+
             Object fromServer = objectInputStream.readObject();
+
             if (fromServer instanceof AbstractPeg[]) {
                 AbstractPeg[] toChange = (AbstractPeg[]) fromServer;
 
@@ -87,9 +89,14 @@ public class TrylmaClient {
                 frame.panel.repaint();
             } else if (fromServer instanceof Boolean) {
                 canSend = (Boolean) fromServer;
+                if (canSend) {
+                    frame.panel.whosTurnLabel.setText("Your Turn");
+                } else {
+                    frame.panel.whosTurnLabel.setText("");
+                }
             } else if (fromServer instanceof String) {
-                String textFromServer = (String) fromServer;
-                frame.panel.whosTurnLabel.setText(textFromServer);
+                String text = (String) fromServer;
+                frame.panel.whosTurnLabel.setText(text);
             }
         }
     }
@@ -204,7 +211,7 @@ public class TrylmaClient {
          */
         private void initialize() {
             setLayout(null);
-            setBackground(Color.LIGHT_GRAY);
+            setBackground(Color.DARK_GRAY);
 
             mouseAdapter = new MouseAdapter() {
                 @Override
@@ -234,6 +241,7 @@ public class TrylmaClient {
 
             whosTurnLabel = new JLabel();
             whosTurnLabel.setBounds(320, 55, 100, 30);
+            whosTurnLabel.setForeground(Color.WHITE);
             whosTurnLabel.setText("");
             add(whosTurnLabel);
         }
